@@ -12,6 +12,7 @@ import Truck
 
 from HashTable import ChainingHashTable
 from Package import Package
+
 # gay
 # Reading Address CSV
 with open('CSV_FILES/WGUPS_Address_Table.csv') as csv_file_address:
@@ -63,21 +64,35 @@ with open('CSV_FILES/WGUPS_Distance_Table.csv') as csv_file_distance:
     # listOfRoutesUsingNN.append(index)
     # print("List of cur ", listOfRoutesUsingNN)
 
-with open('CSV_FILES/WGUPS_Package_File.csv') as test:
-    CSV_Package = csv.reader(test)
+with open('CSV_FILES/WGUPS_Package_File.csv') as csv_file_package:
+    CSV_Package = csv.reader(csv_file_package)
     CSV_Package = list(CSV_Package)
-    # for row in CSV_Package:
-    #     print(row)
-    # print(CSV_Package[0][])
 
-# def distance(x, y):
-#     d = CSV_Distance[x][y]
-#     if d == '':
-#         d = CSV_Distance[y][x]
-#     print(d)
-#     return float(d)
-#
-#
-# print(distance(6, 2))
 
-# with open('CSV_FILES/WGUPS_Distance_Table.csv') as df:
+
+myHash = ChainingHashTable()
+def loadPackageData(fileName):
+    with open(fileName, encoding='utf-8-sig') as packageData:
+        PO = csv.reader(packageData, delimiter=',')
+
+        for package in PO:
+            ID = int(package[0])
+            address = package[1]
+            city = package[2]
+            state = package[3]
+            zip = package[4]
+            deadline = package[5]
+            weight = package[6]
+            status = package[7]
+
+            package = package
+
+            myHash.insert(ID,package)
+
+
+loadPackageData('CSV_FILES/WGUPS_Package_File.csv')
+
+for i in range(len(myHash.table) + 1):
+    print("Package ID: {} {}".format(i+1, myHash.search(i+1)))
+
+print("yo", myHash.search(1))
