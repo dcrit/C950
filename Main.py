@@ -28,15 +28,15 @@ with open('CSV_FILES/WGUPS_Distance_Table.csv', encoding="utf-8-sig") as csv_fil
     CSV_Distance = csv.reader(csv_file_distance)
     CSV_Distance = list(CSV_Distance)
 
-    rows = len(CSV_Distance)
-    cols = len(CSV_Distance[0])
+    # rows = len(CSV_Distance)
+    # cols = len(CSV_Distance[0])
 
     # row = 0
     # col = 0
     # index = 0
 
-    listOfCurrentRoute = []
-    listOfRoutesUsingNN = []
+    # listOfCurrentRoute = []
+    # listOfRoutesUsingNN = []
 
     # while (col <= cols):
 
@@ -69,10 +69,6 @@ with open('CSV_FILES/WGUPS_Distance_Table.csv', encoding="utf-8-sig") as csv_fil
 with open('CSV_FILES/WGUPS_Package_File.csv', encoding='utf-8-sig') as csv_file_package:
     CSV_Package = csv.reader(csv_file_package)
     CSV_Package = list(CSV_Package)
-    # my_dict = dict()
-    # for index, value in enumerate(CSV_Package):
-    #     my_dict[index + 1] = value
-    # print("my dict", my_dict)
 
 myHash = ChainingHashTable()
 
@@ -122,33 +118,41 @@ def distance_in_between(x_value, y_value):
     print("Distance ", distance)
 
 
-if myHash.search(5):
-    print("Match", myHash.search(5))
-    keyAddress = myHash.search(5)
-    print("Key Address", keyAddress[1])
-print("yo", myHash.search(1))
-
-
 def delivery_process(truck):
-    empty_list = []
+
     current_address = truck.address
-    listOfCurrentRoute = []
-    row = 0
-    col = 0
+
+    empty_list = []
+    column_distant_list = []
+
+    truck_milage = None
     index = 0
 
+
+
+    # Adding row 0 to a list
+    row_distant_list = CSV_Distance.pop(0)
+
+    # Adding column 0 to column_distant_list
     for column in CSV_Distance:
-        listOfCurrentRoute.append(column[col])
+        column_distant_list.append(column[0])
 
+    # Extending row_distant_list list with column_distant_list
+    row_distant_list.extend(column_distant_list)
 
-    #listOfCurrentRoute = ['0' if i.strip() == '' else i for i in listOfCurrentRoute]
-    listOfCurrentRoute = [ele.lstrip('0') for ele in listOfCurrentRoute]
-    cleaned_list = [ele for ele in listOfCurrentRoute if ele.strip()]
-    # index = listOfCurrentRoute.index(min(listOfCurrentRoute))
-    index = cleaned_list.index(min(cleaned_list)) + 1
+    # Removing empty spaces and moving data to 'cleaned list'
+    cleaned_list = [ele for ele in row_distant_list if ele.strip()]
+
+    # Finding the index of the second smallest number
+    for item in cleaned_list[1:]:
+        if truck_milage is None or truck_milage > item:
+            truck_milage = item
+            index = cleaned_list.index(item)
+    print("Index ", index)
+    print("Second lowest num ", truck_milage)
+
     print("List Of Current Route ", cleaned_list)
 
-    print("Index ", index)
     print("Current Address ", current_address)
 
     for packageID in truck.packages:
@@ -159,3 +163,17 @@ def delivery_process(truck):
 
 
 delivery_process(loadTruck1)
+distance_in_between(0, 1)
+
+# Garbage Code
+# index = listOfCurrentRoute.index(min(listOfCurrentRoute))
+# listOfCurrentRoute = ['0' if i.strip() == '' else i for i in listOfCurrentRoute]
+# if myHash.search(5):
+#     print("Match", myHash.search(5))
+#     keyAddress = myHash.search(5)
+#     print("Key Address", keyAddress[1])
+# print("yo", myHash.search(1))
+# my_dict = dict()
+# for index, value in enumerate(CSV_Package):
+#     my_dict[index + 1] = value
+# print("my dict", my_dict)
