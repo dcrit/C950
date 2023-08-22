@@ -119,16 +119,17 @@ def distance_in_between(x_value, y_value):
 
 
 def delivery_process(truck):
-
     current_address = truck.address
 
     empty_list = []
     column_distant_list = []
 
-    truck_milage = None
+    shortest_route = 0
+    truck_mileage = 0
     index = 0
 
-
+    sm = float('inf')
+    ssm = float('inf')
 
     # Adding row 0 to a list
     row_distant_list = CSV_Distance.pop(0)
@@ -144,12 +145,29 @@ def delivery_process(truck):
     cleaned_list = [ele for ele in row_distant_list if ele.strip()]
 
     # Finding the index of the second smallest number
+
     for item in cleaned_list[1:]:
-        if truck_milage is None or truck_milage > item:
-            truck_milage = item
+        if shortest_route == 0 or shortest_route > item:
+            shortest_route = item
             index = cleaned_list.index(item)
+
+    # WORKING HERE!!!!!!!!!
+    selmt = min(cleaned_list)
+    cleaned_list.pop(cleaned_list.index(selmt))
+    sselmt = min(cleaned_list)
+    truck_mileage = float(sselmt)
+
+
+    print("ASDA DAD AS D ", truck_mileage)
+    # for num in cleaned_list:
+    #     if num <= sm:
+    #         sm, ssm = num, sm
+    #     elif num < ssm:
+    #         ssm = num
+
     print("Index ", index)
-    print("Second lowest num ", truck_milage)
+    print("Second lowest num ", shortest_route)
+    print("Truck Mileage ", truck_mileage)
 
     print("List Of Current Route ", cleaned_list)
 
