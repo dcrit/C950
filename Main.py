@@ -4,6 +4,7 @@
 
 import csv
 import datetime
+import re
 
 import HashTable
 
@@ -27,7 +28,6 @@ with open('CSV_FILES/WGUPS_Address_Table.csv', encoding="utf-8-sig") as csv_file
 with open('CSV_FILES/WGUPS_Distance_Table.csv', encoding="utf-8-sig") as csv_file_distance:
     CSV_Distance = csv.reader(csv_file_distance)
     CSV_Distance = list(CSV_Distance)
-
 
 with open('CSV_FILES/WGUPS_Package_File.csv', encoding='utf-8-sig') as csv_file_package:
     CSV_Package = csv.reader(csv_file_package)
@@ -79,30 +79,68 @@ def distance_in_between(x_value, y_value):
     print("Distance ", distance)
 
 
-def delivery_process(truck):
+def gay_aids(haystack, needle):
+    temp = set(needle)
+    res = [i for i, val in enumerate(haystack) if val in temp]
+    print("Gay Aids ", res)
 
+
+
+def delivery_process(truck):
     current_address = truck.address
 
     empty_list = []
     column_distant_list = []
-    addresses_for_packages = []
+    package_keys = []
+    list_of_delivery_addresses = []
+    list_of_all_addresses = []
 
     truck_mileage = 0.0
     shortest_route = 0
     index = 0
     count = 0
+    keys = []
+    values = []
 
     for packageID in truck.packages:
         package_list = myHash.search(packageID)
-        addresses_for_packages.append(package_list[0])
+        package_keys.append(package_list[0])
+        keys.append(package_list[0])
         empty_list.append(package_list)
+        list_of_delivery_addresses.append(package_list[1])
+        values.append(package_list[1])
 
+    dictionary = dict(zip(keys, values))
+    print("Dict ", dictionary)
+    print("Address for first package ", empty_list[0][1])
+    print("Addresses for current load ", list_of_delivery_addresses)
     print("Here ", empty_list)
-    del empty_list[0]
+    # del empty_list[0]
     print("Here ", empty_list)
     print("Inside package list", empty_list)
-    print("Addresses ", addresses_for_packages)
-    # for address_index in CSV_Address:
+    print("Package keys ", package_keys)
+    for col in CSV_Address:
+        list_of_all_addresses.append(col[1])
+
+    # WORKING HERE!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+    # for item in list_of_all_addresses:
+    #     for item in list_of_delivery_addresses:
+    #         balls = list_of_all_addresses.index(item)
+    #         checked.append(balls)
+    # Holy Fuck it works!!!!!!!!!!!!!
+    z = [0 for i in range(len(list_of_delivery_addresses))]
+    for i, j in enumerate(list_of_delivery_addresses):
+        for k, l in enumerate(list_of_all_addresses):
+            if j == l:
+                z[i] = k
+                break
+    print("SUPPPRET GAY ", z)
+    print("List of all addresses ", list_of_all_addresses)
+    print("Current Address ", current_address)
 
     while count == 0:
         count += 1
@@ -118,7 +156,6 @@ def delivery_process(truck):
 
         # Removing empty spaces and moving data to 'cleaned list'
         cleaned_list = [ele for ele in row_distant_list if ele.strip()]
-
 
         # Finding the index of the second-smallest number
         for item in cleaned_list[1:]:
@@ -138,6 +175,8 @@ def delivery_process(truck):
 
 
 delivery_process(loadTruck1)
+test_list1 = [5, 7, 8, 9, 10, 11]
+test_list2 = [8, 10, 11]
 
 # Garbage Code
 # index = listOfCurrentRoute.index(min(listOfCurrentRoute))
