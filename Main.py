@@ -85,7 +85,6 @@ def gay_aids(haystack, needle):
     print("Gay Aids ", res)
 
 
-
 def delivery_process(truck):
     current_address = truck.address
 
@@ -111,36 +110,22 @@ def delivery_process(truck):
         values.append(package_list[1])
 
     dictionary = dict(zip(keys, values))
-    print("Dict ", dictionary)
+    # print("Dict ", dictionary)
     print("Address for first package ", empty_list[0][1])
     print("Addresses for current load ", list_of_delivery_addresses)
-    print("Here ", empty_list)
+    # print("Here ", empty_list)
     # del empty_list[0]
-    print("Here ", empty_list)
-    print("Inside package list", empty_list)
+    # print("Here ", empty_list)
+    # print("Inside package list", empty_list)
     print("Package keys ", package_keys)
     for col in CSV_Address:
         list_of_all_addresses.append(col[1])
 
-    # WORKING HERE!!!!!!!!!!!!!!!!!!!!
-
-
-
-
-    # for item in list_of_all_addresses:
-    #     for item in list_of_delivery_addresses:
-    #         balls = list_of_all_addresses.index(item)
-    #         checked.append(balls)
-    # Holy Fuck it works!!!!!!!!!!!!!
-    z = [0 for i in range(len(list_of_delivery_addresses))]
-    for i, j in enumerate(list_of_delivery_addresses):
-        for k, l in enumerate(list_of_all_addresses):
-            if j == l:
-                z[i] = k
-                break
-    print("SUPPPRET GAY ", z)
     print("List of all addresses ", list_of_all_addresses)
     print("Current Address ", current_address)
+
+    dumb = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
+    print("Dumb ", dumb)
 
     while count == 0:
         count += 1
@@ -165,7 +150,7 @@ def delivery_process(truck):
                 mileage = float(shortest_route)
 
         truck_mileage += mileage
-        print("Mileage ", truck_mileage)
+        # print("Mileage ", truck_mileage)
         # print("Index ", index)
         # print("Second lowest num ", shortest_route)
         # print("Truck Mileage ", truck_mileage)
@@ -238,3 +223,19 @@ test_list2 = [8, 10, 11]
 #
 # listOfRoutesUsingNN.append(index)
 # print("List of cur ", listOfRoutesUsingNN)
+
+# Holy Fuck it works!!!!!!!!!!!!!
+# z = [0 for i in range(len(list_of_delivery_addresses))]
+# for i, j in enumerate(list_of_delivery_addresses):
+#     for k, l in enumerate(list_of_all_addresses):
+#         if j == l:
+#             z[i] = k
+#             break
+# print("SUPPPRET GAY ", z)
+
+# list_3 = []
+# for r in range(len(list_of_delivery_addresses)):
+#     for j in range(len(list_of_all_addresses)):
+#         if list_of_delivery_addresses[r] == list_of_all_addresses[j]:
+#             list_3.append(j)
+# print("List 3 ", list_3)
