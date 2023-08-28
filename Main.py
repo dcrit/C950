@@ -79,11 +79,6 @@ def distance_in_between(x_value, y_value):
     print("Distance ", distance)
 
 
-def gay_aids(haystack, needle):
-    temp = set(needle)
-    res = [i for i, val in enumerate(haystack) if val in temp]
-    print("Gay Aids ", res)
-
 
 def delivery_process(truck):
     current_address = truck.address
@@ -98,6 +93,9 @@ def delivery_process(truck):
     shortest_route = 0
     index = 0
     count = 0
+
+    index_for_current_position = 0
+
     keys = []
     values = []
 
@@ -111,12 +109,12 @@ def delivery_process(truck):
 
     dictionary = dict(zip(keys, values))
     # print("Dict ", dictionary)
+
     print("Address for first package ", empty_list[0][1])
     print("Addresses for current load ", list_of_delivery_addresses)
-    # print("Here ", empty_list)
+
     # del empty_list[0]
-    # print("Here ", empty_list)
-    # print("Inside package list", empty_list)
+
     print("Package keys ", package_keys)
     for col in CSV_Address:
         list_of_all_addresses.append(col[1])
@@ -124,18 +122,25 @@ def delivery_process(truck):
     print("List of all addresses ", list_of_all_addresses)
     print("Current Address ", current_address)
 
+
+    for t in list_of_all_addresses:
+        if t == current_address:
+            index_for_current_position = list_of_all_addresses.index(t)
+
+    print("Super gay ", index_for_current_position)
     dumb = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
     print("Dumb ", dumb)
 
     while count == 0:
         count += 1
         # Adding row 0 to a list
-        row_distant_list = CSV_Distance.pop(index)
+        row_distant_list = CSV_Distance.pop(index_for_current_position)
+        print("Checking row of current index position ", row_distant_list)
 
         # Adding column 0 to column_distant_list
         for column in CSV_Distance:
-            column_distant_list.append(column[0])
-
+            column_distant_list.append(column[index_for_current_position])
+        print("Checking index list from current position ", column_distant_list)
         # Extending row_distant_list list with column_distant_list
         row_distant_list.extend(column_distant_list)
 
@@ -150,11 +155,11 @@ def delivery_process(truck):
                 mileage = float(shortest_route)
 
         truck_mileage += mileage
-        # print("Mileage ", truck_mileage)
-        # print("Index ", index)
-        # print("Second lowest num ", shortest_route)
-        # print("Truck Mileage ", truck_mileage)
-        #
+        print("Mileage ", truck_mileage)
+        print("Index ", index)
+        print("Second lowest num ", shortest_route)
+        print("Truck Mileage ", truck_mileage)
+
         # print("List Of Current Route ", cleaned_list)
         # print("Current Address ", current_address)
 
