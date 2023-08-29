@@ -134,14 +134,16 @@ def delivery_process(truck):
 
         count += 1
         # Adding row from current position index
-        # This was all I had to do to read rows FML!!!!!!!!!!!!!!!!!!!!
-        faf = CSV_Distance[4]
-        print("FMNL ", faf)
-        row_distant_list = CSV_Distance.pop(25)
+        # This was all I had to do to read rows FML!!!!!!!!!!!!!!!!!!
+        row_distant_list = CSV_Distance[20]
         print("row distnat ", row_distant_list)
         # Adding column from current position index
+
         for column in CSV_Distance:
-            column_distant_list.append(column[0])
+            column_distant_list.append(column[20])
+
+        # Removing extra zero
+        column_distant_list.remove('0')
 
         print("Column list distance ", column_distant_list)
 
