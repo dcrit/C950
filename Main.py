@@ -94,6 +94,7 @@ def delivery_process(truck):
     list_of_all_addresses = []
 
     truck_mileage = 0.0
+
     shortest_route = 0
     index = 0
     count = 0
@@ -130,29 +131,31 @@ def delivery_process(truck):
     print("Dumb ", dumb)
 
 
-    while count <= 1:
+    while count < 6:
 
-        count += 1
+        print("Count = ", count)
+
         # Adding row from current position index
         # This was all I had to do to read rows FML!!!!!!!!!!!!!!!!!!
-        row_distant_list = CSV_Distance[20]
-        print("row distnat ", row_distant_list)
+        row_distant_list = CSV_Distance[index_for_current_position]
+        print("row distance ", row_distant_list)
         # Adding column from current position index
 
+        print("Index = ", index_for_current_position)
         for column in CSV_Distance:
-            column_distant_list.append(column[20])
+            print("Column = ", column)
+            column_distant_list.append(column[index_for_current_position])
 
         # Removing extra zero
         column_distant_list.remove('0')
 
-        print("Column list distance ", column_distant_list)
-
         # Extending row_distant_list list with column_distant_list
         row_distant_list.extend(column_distant_list)
 
-        print("Row list distance ", row_distant_list)
         # Removing empty spaces and moving data to 'cleaned list'
         cleaned_list = [ele for ele in row_distant_list if ele.strip()]
+
+        cleaned_list.clear()
         row_distant_list.clear()
         column_distant_list.clear()
 
@@ -165,7 +168,6 @@ def delivery_process(truck):
                 mileage = float(shortest_route)
 
 
-        print("ASDADSAS ", cleaned_list)
         print("Shortest Route ", shortest_route)
         truck_mileage += mileage
         print("Truck Mileage ", truck_mileage)
@@ -176,7 +178,7 @@ def delivery_process(truck):
         del(list_of_delivery_addresses[index_deletor])
         index_deletor+=1
 
-
+        count += 1
 
 
         # print("List Of Current Route ", cleaned_list)
