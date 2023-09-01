@@ -126,9 +126,8 @@ def delivery_process(truck):
         if t == current_address:
             index_for_current_position = list_of_all_addresses.index(t)
 
-    print("Super gay ", index_for_current_position)
     dumb = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
-    print("Dumb ", dumb)
+
 
 
     while count < 6:
@@ -136,16 +135,21 @@ def delivery_process(truck):
         print("Count = ", count)
 
         # Adding row from current position index
-        # This was all I had to do to read rows FML!!!!!!!!!!!!!!!!!!
         row_distant_list = CSV_Distance[index_for_current_position]
         print("row distance ", row_distant_list)
+
+        i = 0
         # Adding column from current position index
+        # while i < len(CSV_Distance):
+        #     column_distant_list.append(i[index_for_current_position])
+        #     i+=1
 
-        print("Index = ", index_for_current_position)
-        for column in CSV_Distance:
-            print("Column = ", column)
-            column_distant_list.append(column[index_for_current_position])
+        # for column in CSV_Distance:
+        #     print("Column = ", column)
+        #     column_distant_list.append(column[index_for_current_position])
 
+        column_distant_list = [z[index_for_current_position] for z in CSV_Distance]
+        print("gay dick ", column_distant_list)
         # Removing extra zero
         column_distant_list.remove('0')
 
@@ -155,7 +159,7 @@ def delivery_process(truck):
         # Removing empty spaces and moving data to 'cleaned list'
         cleaned_list = [ele for ele in row_distant_list if ele.strip()]
 
-        cleaned_list.clear()
+        # Clearing row and column list
         row_distant_list.clear()
         column_distant_list.clear()
 
@@ -173,7 +177,7 @@ def delivery_process(truck):
         print("Truck Mileage ", truck_mileage)
         index_for_current_position = index
         current_address = list_of_all_addresses[index]
-        print("YOOOOOOOOOOO ", index_for_current_position)
+
         index_deletor = 0
         del(list_of_delivery_addresses[index_deletor])
         index_deletor+=1
