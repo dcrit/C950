@@ -21,8 +21,6 @@ with open('CSV_FILES/WGUPS_Address_Table.csv', encoding="utf-8-sig") as csv_file
     CSV_Address = csv.reader(csv_file_address)
     CSV_Address = list(CSV_Address)
 
-
-
 with open('CSV_FILES/WGUPS_Package_File.csv', encoding='utf-8-sig') as csv_file_package:
     CSV_Package = csv.reader(csv_file_package)
     CSV_Package = list(CSV_Package)
@@ -65,9 +63,6 @@ loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime
 loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=10, minutes=20))
 
 
-
-
-
 def second_smallest(numbers):
     m1 = m2 = float('inf')
     for x in numbers:
@@ -75,12 +70,20 @@ def second_smallest(numbers):
             m1, m2 = x, m1
         elif x < m2:
             m2 = x
-    print("Second Smallest ", m2)
+    return m2
+
+
+def smallest_num_in_list(list):
+    any = list[0]
+    for a in list:
+        if a != 0:
+            if a < any:
+                any = a
+    return any
 
 
 def delivery_process(truck):
     current_address = truck.address
-
 
     empty_list = []
     column_distant_list = []
@@ -121,7 +124,6 @@ def delivery_process(truck):
 
     dumb = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
 
-
     while count < 16:
         # Reading Distance CSV
         with open('CSV_FILES/WGUPS_Distance_Table.csv', encoding="utf-8-sig") as csv_file_distance:
@@ -136,7 +138,7 @@ def delivery_process(truck):
         # Adding column from current position index
         for column in CSV_Distance:
             column_distant_list.append(column[index_for_current_position])
-        print("Column distant list ",  column_distant_list)
+        print("Column distant list ", column_distant_list)
 
         # Removing extra zero
         column_distant_list.remove('0')
@@ -146,19 +148,21 @@ def delivery_process(truck):
 
         # Removing empty spaces and moving data to 'cleaned list'
         cleaned_list = [ele for ele in row_distant_list if ele.strip()]
+        # !!!!!!!!!!!!!!!!!!!!!!!!!!
+        res = [float(ele) for ele in cleaned_list]
+        print("res ", res)
 
         # Clearing row and column list
         row_distant_list.clear()
         column_distant_list.clear()
         print("Cleaned List ", cleaned_list)
 
-
-
+        h = smallest_num_in_list(cleaned_list)
+        print("H ", h)
         # Finding the index of the second-smallest number
         # FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         for item in cleaned_list:
             if item != 0:
-                print("Item ", item)
                 shortest_route = item
                 index_for_current_position = cleaned_list.index(item)
                 mileage = float(shortest_route)
@@ -167,7 +171,6 @@ def delivery_process(truck):
         truck_mileage += mileage
         print("Truck Mileage ", truck_mileage)
         print("Index for current position ", index_for_current_position)
-
 
         count += 1
 
