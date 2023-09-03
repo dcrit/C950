@@ -21,10 +21,7 @@ with open('CSV_FILES/WGUPS_Address_Table.csv', encoding="utf-8-sig") as csv_file
     CSV_Address = csv.reader(csv_file_address)
     CSV_Address = list(CSV_Address)
 
-# Reading Distance CSV
-with open('CSV_FILES/WGUPS_Distance_Table.csv', encoding="utf-8-sig") as csv_file_distance:
-    CSV_Distance = csv.reader(csv_file_distance)
-    CSV_Distance = list(CSV_Distance)
+
 
 with open('CSV_FILES/WGUPS_Package_File.csv', encoding='utf-8-sig') as csv_file_package:
     CSV_Package = csv.reader(csv_file_package)
@@ -68,12 +65,9 @@ loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime
 loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=10, minutes=20))
 
 
-def distance_in_between(x_value, y_value):
-    distance = CSV_Distance[x_value][y_value]
-    if distance == '':
-        distance = CSV_Distance[y_value][x_value]
 
-    print("Distance ", distance)
+
+
 def second_smallest(numbers):
     m1 = m2 = float('inf')
     for x in numbers:
@@ -83,9 +77,10 @@ def second_smallest(numbers):
             m2 = x
     print("Second Smallest ", m2)
 
-def delivery_process(truck):
 
+def delivery_process(truck):
     current_address = truck.address
+
 
     empty_list = []
     column_distant_list = []
@@ -116,8 +111,6 @@ def delivery_process(truck):
     dictionary = dict(zip(keys, values))
     # print("Dict ", dictionary)
 
-
-    print("Package keys ", package_keys)
     # Adding all addresses to a list
     for col in CSV_Address:
         list_of_all_addresses.append(col[1])
@@ -129,28 +122,26 @@ def delivery_process(truck):
     dumb = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
 
 
-
-    while count < 6:
+    while count < 16:
+        # Reading Distance CSV
+        with open('CSV_FILES/WGUPS_Distance_Table.csv', encoding="utf-8-sig") as csv_file_distance:
+            CSV_Distance = csv.reader(csv_file_distance)
+            CSV_Distance = list(CSV_Distance)
 
         print("Count = ", count)
-
+        print("Big Balls ", CSV_Distance)
         # Adding row from current position index
         row_distant_list = CSV_Distance[index_for_current_position]
         print("row distance ", row_distant_list)
 
-        i = 0
         # Adding column from current position index
-        # while i < len(CSV_Distance):
-        #     column_distant_list.append(i[index_for_current_position])
-        #     i+=1
+        print("CSV Distance list ", CSV_Distance)
+        for column in CSV_Distance:
+            column_distant_list.append(column[index_for_current_position])
+        print("Column distant list ",  column_distant_list)
 
-        # for column in CSV_Distance:
-        #     print("Column = ", column)
-        #     column_distant_list.append(column[index_for_current_position])
-
-        column_distant_list = [z[index_for_current_position] for z in CSV_Distance]
-        print("gay dick ", column_distant_list)
         # Removing extra zero
+        print("Column Distant List ", column_distant_list)
         column_distant_list.remove('0')
 
         # Extending row_distant_list list with column_distant_list
@@ -163,34 +154,28 @@ def delivery_process(truck):
         row_distant_list.clear()
         column_distant_list.clear()
 
+
         print("Cleaned List ", cleaned_list)
         # Finding the index of the second-smallest number
-        for item in cleaned_list[1:]:
-            if shortest_route == 0 or shortest_route > item:
+        for item in cleaned_list:
+            if item != 0:
                 shortest_route = item
                 index = cleaned_list.index(item)
                 mileage = float(shortest_route)
-
 
         print("Shortest Route ", shortest_route)
         truck_mileage += mileage
         print("Truck Mileage ", truck_mileage)
         index_for_current_position = index
-        current_address = list_of_all_addresses[index]
 
-        index_deletor = 0
-        del(list_of_delivery_addresses[index_deletor])
-        index_deletor+=1
 
         count += 1
-
 
         # print("List Of Current Route ", cleaned_list)
         # print("Current Address ", current_address)
 
 
 delivery_process(loadTruck1)
-
 
 # Garbage Code
 # index = listOfCurrentRoute.index(min(listOfCurrentRoute))
