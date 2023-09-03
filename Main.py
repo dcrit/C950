@@ -129,19 +129,16 @@ def delivery_process(truck):
             CSV_Distance = list(CSV_Distance)
 
         print("Count = ", count)
-        print("Big Balls ", CSV_Distance)
         # Adding row from current position index
         row_distant_list = CSV_Distance[index_for_current_position]
         print("row distance ", row_distant_list)
 
         # Adding column from current position index
-        print("CSV Distance list ", CSV_Distance)
         for column in CSV_Distance:
             column_distant_list.append(column[index_for_current_position])
         print("Column distant list ",  column_distant_list)
 
         # Removing extra zero
-        print("Column Distant List ", column_distant_list)
         column_distant_list.remove('0')
 
         # Extending row_distant_list list with column_distant_list
@@ -153,20 +150,23 @@ def delivery_process(truck):
         # Clearing row and column list
         row_distant_list.clear()
         column_distant_list.clear()
-
-
         print("Cleaned List ", cleaned_list)
+
+
+
         # Finding the index of the second-smallest number
+        # FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         for item in cleaned_list:
             if item != 0:
+                print("Item ", item)
                 shortest_route = item
-                index = cleaned_list.index(item)
+                index_for_current_position = cleaned_list.index(item)
                 mileage = float(shortest_route)
 
         print("Shortest Route ", shortest_route)
         truck_mileage += mileage
         print("Truck Mileage ", truck_mileage)
-        index_for_current_position = index
+        print("Index for current position ", index_for_current_position)
 
 
         count += 1
