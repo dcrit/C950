@@ -16,14 +16,25 @@ import Truck
 from HashTable import ChainingHashTable
 from Package import Package
 
-# Reading Address CSV
-with open('CSV_FILES/WGUPS_Address_Table.csv', encoding="utf-8-sig") as csv_file_address:
-    CSV_Address = csv.reader(csv_file_address)
-    CSV_Address = list(CSV_Address)
+# Reading address csv
+def address_list():
+    with open('CSV_FILES/WGUPS_Address_Table.csv', encoding="utf-8-sig") as csv_file_address:
+        csv_address = csv.reader(csv_file_address)
+        csv_address = list(csv_address)
+    return csv_address
+# Reading package csv
+def package_list():
+    with open('CSV_FILES/WGUPS_Package_File.csv', encoding='utf-8-sig') as csv_file_package:
+        csv_package = csv.reader(csv_file_package)
+        csv_package = list(csv_package)
+    return csv_package
 
-with open('CSV_FILES/WGUPS_Package_File.csv', encoding='utf-8-sig') as csv_file_package:
-    CSV_Package = csv.reader(csv_file_package)
-    CSV_Package = list(CSV_Package)
+# Reading distance csv
+def distance_list():
+    with open('CSV_FILES/WGUPS_Distance_Table.csv', encoding="utf-8-sig") as csv_file_distance:
+        csv_distance = csv.reader(csv_file_distance)
+        csv_distance = list(csv_distance)
+    return csv_distance
 
 myHash = ChainingHashTable()
 
@@ -81,14 +92,10 @@ def smallest_num_in_list(list):
                 any = a
     return any
 
-def distance_table():
-    with open('CSV_FILES/WGUPS_Distance_Table.csv', encoding="utf-8-sig") as csv_file_distance:
-        CSV_Distance = csv.reader(csv_file_distance)
-        CSV_Distance = list(CSV_Distance)
-        return CSV_Distance
+
 def delivery_process(truck):
     current_address = truck.address
-
+    index_for_current_position = 0
     empty_list = []
     column_distant_list = []
     package_keys = []
@@ -98,7 +105,7 @@ def delivery_process(truck):
     truck_mileage = 0.0
     shortest_route = 0.0
     count = 0
-    index_for_current_position = 0
+
 
     keys = []
     values = []
@@ -116,7 +123,7 @@ def delivery_process(truck):
     # print("Dict ", dictionary)
 
     # Adding all addresses to a list
-    for col in CSV_Address:
+    for col in address_list():
         list_of_all_addresses.append(col[1])
 
     for t in list_of_all_addresses:
@@ -128,14 +135,14 @@ def delivery_process(truck):
     while count < len(list_of_delivery_addresses):
 
         # Reading Distance CSV
-        CSV_Distance = distance_table()
+        csv_distance = distance_list()
 
         print("Count = ", count)
         # Adding row from current position index
-        row_distant_list = CSV_Distance[index_for_current_position]
+        row_distant_list = csv_distance[index_for_current_position]
 
         # Adding column from current position index
-        for column in CSV_Distance:
+        for column in csv_distance:
             column_distant_list.append(column[index_for_current_position])
 
         # Removing extra zero
