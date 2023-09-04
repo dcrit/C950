@@ -16,12 +16,15 @@ import Truck
 from HashTable import ChainingHashTable
 from Package import Package
 
+
 # Reading address csv
 def address_list():
     with open('CSV_FILES/WGUPS_Address_Table.csv', encoding="utf-8-sig") as csv_file_address:
         csv_address = csv.reader(csv_file_address)
         csv_address = list(csv_address)
     return csv_address
+
+
 # Reading package csv
 def package_list():
     with open('CSV_FILES/WGUPS_Package_File.csv', encoding='utf-8-sig') as csv_file_package:
@@ -29,12 +32,14 @@ def package_list():
         csv_package = list(csv_package)
     return csv_package
 
+
 # Reading distance csv
 def distance_list():
     with open('CSV_FILES/WGUPS_Distance_Table.csv', encoding="utf-8-sig") as csv_file_distance:
         csv_distance = csv.reader(csv_file_distance)
         csv_distance = list(csv_distance)
     return csv_distance
+
 
 myHash = ChainingHashTable()
 
@@ -106,7 +111,6 @@ def delivery_process(truck):
     shortest_route = 0.0
     count = 0
 
-
     keys = []
     values = []
 
@@ -131,8 +135,12 @@ def delivery_process(truck):
             index_for_current_position = list_of_all_addresses.index(t)
 
     dumb = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
+    double_dumb = []
+    print("Dumb ", dumb)
+    print("Double Dumb ", double_dumb)
+    print("Addresses ", list_of_all_addresses)
 
-    while count < len(list_of_delivery_addresses):
+    while count < 4:
 
         # Reading Distance CSV
         csv_distance = distance_list()
@@ -153,8 +161,17 @@ def delivery_process(truck):
 
         # Removing empty spaces and moving data to 'cleaned list'
         cleaned_list = [ele for ele in row_distant_list if ele.strip()]
+
         # Converting str list to float
         cleaned_list = [float(ele) for ele in cleaned_list]
+
+        # Working here!!!!!!!!!!!!!!!!!!!!!
+        for trip in dumb:
+            for f in cleaned_list:
+                if trip == cleaned_list.index(f):
+                    double_dumb.append(f)
+
+        print("YOPPSDFS ", double_dumb)
 
         # Clearing row and column list
         row_distant_list.clear()
