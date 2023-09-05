@@ -106,6 +106,7 @@ def delivery_process(truck):
     package_keys = []
     list_of_delivery_addresses = []
     list_of_all_addresses = []
+    mileage_list = []
 
     truck_mileage = 0.0
     shortest_route = 0.0
@@ -133,12 +134,10 @@ def delivery_process(truck):
     for t in list_of_all_addresses:
         if t == current_address:
             index_for_current_position = list_of_all_addresses.index(t)
+    # Getting indexes of packages from all addresses
+    indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
 
-    dumb = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
-    double_dumb = []
-    print("Dumb ", dumb)
-    print("Double Dumb ", double_dumb)
-    print("Addresses ", list_of_all_addresses)
+
 
     while count < 4:
 
@@ -165,38 +164,34 @@ def delivery_process(truck):
         # Converting str list to float
         cleaned_list = [float(ele) for ele in cleaned_list]
 
-        # Working here!!!!!!!!!!!!!!!!!!!!!
-        for trip in dumb:
+        # Getting mileage distances for packages on route
+        for trip in indexes_of_packages:
             for f in cleaned_list:
                 if trip == cleaned_list.index(f):
-                    double_dumb.append(f)
+                    mileage_list.append(f)
 
-        print("YOPPSDFS ", double_dumb)
+        print("Mileage list: ", mileage_list)
+        shortest_route = min(mileage_list)
+        print("Shortest Route: ", shortest_route)
+        truck_mileage += shortest_route
+        print("Truck mileage ", truck_mileage)
 
         # Clearing row and column list
         row_distant_list.clear()
         column_distant_list.clear()
-        print("Cleaned List ", cleaned_list)
 
-        # Finding the closest route from current position
-        w = second_smallest(cleaned_list)
-        print("W ", w)
-        # Finding the index of the second-smallest number
+        # Finding the index of the next route
         for item in cleaned_list:
-            if item == w:
-                shortest_route = item
+            if item == shortest_route:
                 index_for_current_position = cleaned_list.index(item)
-                mileage = float(shortest_route)
-                truck_mileage += mileage
 
-        print("Shortest Route ", shortest_route)
-        print("Truck Mileage ", truck_mileage)
+
         print("Index for current position ", index_for_current_position)
 
         count += 1
-        w = 0
+
         cleaned_list.clear()
-        shortest_route = 0.0
+        mileage_list.clear()
         # print("List Of Current Route ", cleaned_list)
         # print("Current Address ", current_address)
 
