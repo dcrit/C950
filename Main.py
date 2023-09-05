@@ -98,9 +98,19 @@ def smallest_num_in_list(list):
     return any
 
 
+def cool_func(list1, list2):
+    blank = []
+    for trip in list1:
+        for f in list2:
+            if trip == list2.index(f):
+                blank.append(f)
+    return blank
+
+
 def delivery_process(truck):
     current_address = truck.address
     index_for_current_position = 0
+
     empty_list = []
     column_distant_list = []
     package_keys = []
@@ -137,8 +147,6 @@ def delivery_process(truck):
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
 
-
-
     while count < 4:
 
         # Reading Distance CSV
@@ -163,7 +171,7 @@ def delivery_process(truck):
 
         # Converting str list to float
         cleaned_list = [float(ele) for ele in cleaned_list]
-
+        print("Cleaned list: ", cleaned_list)
         # Getting mileage distances for packages on route
         for trip in indexes_of_packages:
             for f in cleaned_list:
@@ -185,13 +193,14 @@ def delivery_process(truck):
             if item == shortest_route:
                 index_for_current_position = cleaned_list.index(item)
 
-
         print("Index for current position ", index_for_current_position)
 
         count += 1
 
         cleaned_list.clear()
         mileage_list.clear()
+        print("Mileage list removed delivied package: ", mileage_list)
+
         # print("List Of Current Route ", cleaned_list)
         # print("Current Address ", current_address)
 
