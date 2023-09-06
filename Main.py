@@ -102,8 +102,9 @@ def cool_func(list1, list2):
     blank = []
     for trip in list1:
         for f in list2:
-            if trip == list2.index(f):
-                blank.append(f)
+            if f != 0:
+                if trip == list2.index(f):
+                    blank.append(f)
     return blank
 
 
@@ -111,7 +112,7 @@ def delivery_process(truck):
     current_address = truck.address
     index_for_current_position = 0
 
-    empty_list = []
+    list_of_package_info = []
     column_distant_list = []
     package_keys = []
     list_of_delivery_addresses = []
@@ -130,12 +131,14 @@ def delivery_process(truck):
         package_list = myHash.search(packageID)
         package_keys.append(package_list[0])
         keys.append(package_list[0])
-        empty_list.append(package_list)
+        list_of_package_info.append(package_list)
         list_of_delivery_addresses.append(package_list[1])
         values.append(package_list[1])
 
+    print("List of Delivery addresses: ",  list_of_delivery_addresses)
+
     dictionary = dict(zip(keys, values))
-    # print("Dict ", dictionary)
+    print("Dict ", dictionary)
 
     # Adding all addresses to a list
     for col in address_list():
@@ -148,12 +151,14 @@ def delivery_process(truck):
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
 
-    while count < 4:
+    while count < len(indexes_of_packages):
 
         # Reading Distance CSV
         csv_distance = distance_list()
 
+        shortest_route = 0
         print("Count = ", count)
+        print("Index of Position 1 ", index_for_current_position)
         # Adding row from current position index
         row_distant_list = csv_distance[index_for_current_position]
 
@@ -177,15 +182,14 @@ def delivery_process(truck):
         # Getting mileage distances for packages on route
         mileage_list = cool_func(indexes_of_packages, cleaned_list)
 
+
         print("Mileage list: ", mileage_list)
+
         shortest_route = min(mileage_list)
         print("Shortest Route: ", shortest_route)
         truck_mileage += shortest_route
         print("Truck mileage ", truck_mileage)
-
-        # Clearing row and column list
-        row_distant_list.clear()
-        column_distant_list.clear()
+        print("Indexes of packages ", indexes_of_packages)
 
         # Finding the index of the next route
         for item in cleaned_list:
@@ -194,11 +198,15 @@ def delivery_process(truck):
 
         print("Index for current position ", index_for_current_position)
 
+        indexes_of_packages.pop(0)
+        # indexes_of_packages.remove(index_for_current_position)
         count += 1
 
+        # Clearing lists
+        row_distant_list.clear()
+        column_distant_list.clear()
         cleaned_list.clear()
         mileage_list.clear()
-        print("Mileage list removed delivied package: ", mileage_list)
 
         # print("List Of Current Route ", cleaned_list)
         # print("Current Address ", current_address)
