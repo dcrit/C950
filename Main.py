@@ -144,6 +144,7 @@ def delivery_process(truck):
     for t in list_of_all_addresses:
         if t == current_address:
             index_for_current_position = list_of_all_addresses.index(t)
+
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
 
@@ -172,11 +173,9 @@ def delivery_process(truck):
         # Converting str list to float
         cleaned_list = [float(ele) for ele in cleaned_list]
         print("Cleaned list: ", cleaned_list)
+
         # Getting mileage distances for packages on route
-        for trip in indexes_of_packages:
-            for f in cleaned_list:
-                if trip == cleaned_list.index(f):
-                    mileage_list.append(f)
+        mileage_list = cool_func(indexes_of_packages, cleaned_list)
 
         print("Mileage list: ", mileage_list)
         shortest_route = min(mileage_list)
