@@ -119,9 +119,10 @@ def delivery_process(truck):
     list_of_all_addresses = []
     mileage_list = []
 
+
     truck_mileage = 0.0
     shortest_route = 0.0
-    count = 0
+
 
     keys = []
     values = []
@@ -150,15 +151,19 @@ def delivery_process(truck):
 
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
+    print("Length ", len(indexes_of_packages))
+    count = 0
+    boobie = len(indexes_of_packages)
 
-    while count < len(indexes_of_packages):
-
+    while count < boobie:
+        print("Here 1")
+        count += 1
         # Reading Distance CSV
         csv_distance = distance_list()
 
-        shortest_route = 0
+
         print("Count = ", count)
-        print("Index of Position 1 ", index_for_current_position)
+        print("Index of Position before ", index_for_current_position)
         # Adding row from current position index
         row_distant_list = csv_distance[index_for_current_position]
 
@@ -178,10 +183,12 @@ def delivery_process(truck):
         # Converting str list to float
         cleaned_list = [float(ele) for ele in cleaned_list]
         print("Cleaned list: ", cleaned_list)
-
+        if len(indexes_of_packages) == 0:
+            break
         # Getting mileage distances for packages on route
         mileage_list = cool_func(indexes_of_packages, cleaned_list)
-
+        if len(mileage_list) == 0:
+            break
 
         print("Mileage list: ", mileage_list)
 
@@ -196,12 +203,19 @@ def delivery_process(truck):
             if item == shortest_route:
                 index_for_current_position = cleaned_list.index(item)
 
-        print("Index for current position ", index_for_current_position)
+        print("Index for current position after ", index_for_current_position)
 
-        indexes_of_packages.pop(0)
+
+        # Removing indexes from index of packages
+        for j in indexes_of_packages:
+            if j == index_for_current_position:
+                indexes_of_packages.remove(index_for_current_position)
+
+        print("index of packages ", indexes_of_packages)
         # indexes_of_packages.remove(index_for_current_position)
-        count += 1
 
+        print("Length = ", len(indexes_of_packages))
+        print("Here 2 ")
         # Clearing lists
         row_distant_list.clear()
         column_distant_list.clear()
