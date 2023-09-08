@@ -153,9 +153,8 @@ def delivery_process(truck):
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
     print("Length ", len(indexes_of_packages))
     count = 0
-    boobie = len(indexes_of_packages)
 
-    while count < boobie:
+    while len(indexes_of_packages) > 0:
         print("Here 1")
         count += 1
         # Reading Distance CSV
@@ -183,8 +182,7 @@ def delivery_process(truck):
         # Converting str list to float
         cleaned_list = [float(ele) for ele in cleaned_list]
         print("Cleaned list: ", cleaned_list)
-        if len(indexes_of_packages) == 0:
-            break
+
         # Getting mileage distances for packages on route
         mileage_list = cool_func(indexes_of_packages, cleaned_list)
         if len(mileage_list) == 0:
@@ -224,7 +222,6 @@ def delivery_process(truck):
 
         # print("List Of Current Route ", cleaned_list)
         # print("Current Address ", current_address)
-
 
 delivery_process(loadTruck1)
 
