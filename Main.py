@@ -4,17 +4,9 @@
 
 import csv
 import datetime
-import re
-
-import HashTable
-
-import CSV_FILES
-import HashTable
-import Package
 import Truck
 
 from HashTable import ChainingHashTable
-from Package import Package
 
 
 # Reading address csv
@@ -41,9 +33,11 @@ def distance_list():
     return csv_distance
 
 
+# Creating hash object
 myHash = ChainingHashTable()
 
 
+# Loading packages method
 def loadPackageData(csvFile):
     with open(csvFile, encoding='utf-8-sig') as packageData:
         PO = csv.reader(packageData, delimiter=',')
@@ -57,18 +51,14 @@ def loadPackageData(csvFile):
             deadline = package[5]
             weight = package[6]
             status = package[7]
-
             package = package
 
+            # Inserting Package ID and Package Info in a hash table
             myHash.insert(ID, package)
 
 
+# Reading CSV Package file with load package method
 loadPackageData('CSV_FILES/WGUPS_Package_File.csv')
-
-# for i in range(len(myHash.table) + 1):
-#     print("Package ID: {} {}".format(i + 1, myHash.search(i + 1)))
-#
-
 
 truck1 = [1, 2, 4, 5, 7, 8, 10, 11, 12, 21, 22, 23, 24, 26, 27, 29]
 truck2 = [3, 18, 36, 38, 13, 14, 15, 16, 17, 19, 20, 30, 31, 33, 34, 35]
@@ -77,25 +67,6 @@ truck3 = [6, 25, 28, 32, 37, 39, 40, 9]
 loadTruck1 = Truck.Truck(16, 18, 1, truck1, 0.0, "4001 South 700 East", datetime.timedelta(hours=8))
 loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime.timedelta(hours=8))
 loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=10, minutes=20))
-
-
-def second_smallest(numbers):
-    m1 = m2 = float('inf')
-    for x in numbers:
-        if x <= m1:
-            m1, m2 = x, m1
-        elif x < m2:
-            m2 = x
-    return m2
-
-
-def smallest_num_in_list(list):
-    any = list[0]
-    for a in list:
-        if a != 0:
-            if a < any:
-                any = a
-    return any
 
 
 def cool_func(list1, list2):
@@ -107,8 +78,9 @@ def cool_func(list1, list2):
                     blank.append(f)
     return blank
 
-
+# Delivery Process method
 def delivery_process(truck):
+    truck_mileage = 0.0
     current_address = truck.address
     index_for_current_position = 0
 
@@ -119,10 +91,7 @@ def delivery_process(truck):
     list_of_all_addresses = []
     mileage_list = []
 
-
-    truck_mileage = 0.0
     shortest_route = 0.0
-
 
     keys = []
     values = []
@@ -136,7 +105,7 @@ def delivery_process(truck):
         list_of_delivery_addresses.append(package_list[1])
         values.append(package_list[1])
 
-    print("List of Delivery addresses: ",  list_of_delivery_addresses)
+    print("List of Delivery addresses: ", list_of_delivery_addresses)
 
     dictionary = dict(zip(keys, values))
     print("Dict ", dictionary)
@@ -159,7 +128,6 @@ def delivery_process(truck):
         count += 1
         # Reading Distance CSV
         csv_distance = distance_list()
-
 
         print("Count = ", count)
         print("Index of Position before ", index_for_current_position)
@@ -203,7 +171,6 @@ def delivery_process(truck):
 
         print("Index for current position after ", index_for_current_position)
 
-
         # Removing indexes from index of packages
         for j in indexes_of_packages:
             if j == index_for_current_position:
@@ -222,6 +189,7 @@ def delivery_process(truck):
 
         # print("List Of Current Route ", cleaned_list)
         # print("Current Address ", current_address)
+
 
 delivery_process(loadTruck1)
 
@@ -301,3 +269,21 @@ delivery_process(loadTruck1)
 #         if list_of_delivery_addresses[r] == list_of_all_addresses[j]:
 #             list_3.append(j)
 # print("List 3 ", list_3)
+# for i in range(len(myHash.table) + 1):
+#     print("Package ID: {} {}".format(i + 1, myHash.search(i + 1)))
+#
+# def second_smallest(numbers):
+# #     m1 = m2 = float('inf')
+# #     for x in numbers:
+# #         if x <= m1:
+# #             m1, m2 = x, m1
+# #         elif x < m2:
+# #             m2 = x
+# #     return m2
+# def smallest_num_in_list(list):
+#     any = list[0]
+#     for a in list:
+#         if a != 0:
+#             if a < any:
+#                 any = a
+#     return any
