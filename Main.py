@@ -78,6 +78,10 @@ def cool_func(list1, list2):
                     blank.append(f)
     return blank
 
+
+total_mileage = 0.0
+
+
 # Delivery Process method
 def delivery_process(truck):
     truck_mileage = 0.0
@@ -187,11 +191,17 @@ def delivery_process(truck):
         cleaned_list.clear()
         mileage_list.clear()
 
+        # Working here
+        total_mileage += truck_mileage
+
         # print("List Of Current Route ", cleaned_list)
         # print("Current Address ", current_address)
 
 
 delivery_process(loadTruck1)
+delivery_process(loadTruck2)
+delivery_process(loadTruck3)
+print("Total Mileage ", total_mileage)
 
 # Garbage Code
 # index = listOfCurrentRoute.index(min(listOfCurrentRoute))
