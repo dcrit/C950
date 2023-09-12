@@ -72,10 +72,14 @@ loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime
 def cool_func(list1, list2):
     blank = []
     for trip in list1:
+       # print("Trip ", trip)
         for f in list2:
             if f != 0:
                 if trip == list2.index(f):
+                    print("list2 index = ", list2.index(f))
+                    print("Trip 2 ", trip)
                     blank.append(f)
+    print("Blank ", blank)
     return blank
 
 
@@ -109,8 +113,8 @@ def delivery_process(truck):
         list_of_delivery_addresses.append(package_list[1])
         values.append(package_list[1])
 
-    dictionary = dict(zip(keys, values))
 
+    print("List of delivery addresses ", list_of_delivery_addresses)
     # Adding all addresses to a list
     for col in address_list():
         list_of_all_addresses.append(col[1])
@@ -121,7 +125,10 @@ def delivery_process(truck):
 
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
+    print("Indexs of packages ", indexes_of_packages)
 
+    dictionary = dict(zip(indexes_of_packages, values))
+    print("Dict ", dictionary)
     while len(indexes_of_packages) > 0:
 
         # Reading Distance CSV
@@ -146,11 +153,12 @@ def delivery_process(truck):
         # Converting str list to float
         cleaned_list = [float(ele) for ele in cleaned_list]
         print("Cleaned List ", cleaned_list)
+
         # Getting mileage distances for packages on route
         mileage_list = cool_func(indexes_of_packages, cleaned_list)
         print("Mileage List ", mileage_list)
 
-        boobie = 0.0
+
         if len(mileage_list) == 0:
             print("Yoo ", cleaned_list)
             for h in list_of_all_addresses:
