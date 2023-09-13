@@ -72,13 +72,12 @@ loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime
 def cool_func(list1, list2):
     blank = []
     for trip in list1:
-       # print("Trip ", trip)
         for f in list2:
             if f != 0:
                 if trip == list2.index(f):
-                    print("list2 index = ", list2.index(f))
-                    print("Trip 2 ", trip)
+                    print("F ", f)
                     blank.append(f)
+                    break
     print("Blank ", blank)
     return blank
 
@@ -153,7 +152,12 @@ def delivery_process(truck):
         # Converting str list to float
         cleaned_list = [float(ele) for ele in cleaned_list]
         print("Cleaned List ", cleaned_list)
+        # WORKING HERE !!!!!!!!!!!!!!!!1
+        for tater in cleaned_list:
+            if tater != 0.0:
+                gay_balls = cleaned_list.index(min(cleaned_list))
 
+        print("Gay Balls ", gay_balls)
         # Getting mileage distances for packages on route
         mileage_list = cool_func(indexes_of_packages, cleaned_list)
         print("Mileage List ", mileage_list)
@@ -167,14 +171,21 @@ def delivery_process(truck):
             break
 
         shortest_route = min(mileage_list)
+        print("Shortest route = ", shortest_route)
         truck_mileage += shortest_route
+
+
 
         # Finding the index of the next route
         for item in cleaned_list:
             if item == shortest_route:
+                print("Item ", item)
                 index_for_current_position = cleaned_list.index(item)
-
+        print("under balls ", index_for_current_position)
         # Removing indexes from index of packages
+        print("indexes of package ", indexes_of_packages)
+        print("indexes length ", len(indexes_of_packages))
+        print("shortest route ",  shortest_route)
         for j in indexes_of_packages:
             if j == index_for_current_position:
                 indexes_of_packages.remove(index_for_current_position)
