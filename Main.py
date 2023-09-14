@@ -73,18 +73,19 @@ def cool_func(list1, list2):
     blank = []
     key = []
     values = []
+
     for trip in list1:
         for f in list2:
             if f != 0:
                 if trip == list2.index(f):
                     key.append(list2.index(f))
                     values.append(f)
-                    blank.append(f)
                     break
-    big_dict = dict(zip(key, values))
+    new_list = dict(zip(key, values))
+
     print("Blank ", blank)
-    print("Dict ", big_dict)
-    return big_dict
+    print("New List ", new_list)
+    return new_list
 
 
 total_mileage = 0.0
@@ -131,9 +132,9 @@ def delivery_process(truck):
     print("Indexs of packages ", indexes_of_packages)
 
     dictionary = dict(zip(indexes_of_packages, values))
-    print("Dict ", dictionary)
+
     count = 0
-    while count < 2:
+    while count < 5:
 
         count += 1
         # Reading Distance CSV
@@ -163,28 +164,26 @@ def delivery_process(truck):
         mileage_list = cool_func(indexes_of_packages, cleaned_list)
         print("Mileage List ", mileage_list)
 
-        key1 = min(mileage_list)
-        print("Key 1 ", key1)
-        key2 = min(mileage_list.values())
-        print("Key 2 ", key2)
+        s = list(mileage_list.keys())[list(mileage_list.values()).index(min(mileage_list.values()))]
+        print("S ", s)
         # Breaking loop once mileage list is empty
         if len(mileage_list) == 0:
             break
 
-        # shortest_route = min(mileage_list)
-        # print("Shortest route = ", shortest_route)
-        # truck_mileage += shortest_route
-        #
-        # # Finding the index of the next route
-        # for item in cleaned_list:
-        #     if item == shortest_route:
-        #         print("Item ", item)
-        #         index_for_current_position = cleaned_list.index(item)
-        #
-        # # Removing indexes from index of packages
-        # for j in indexes_of_packages:
-        #     if j == index_for_current_position:
-        #         indexes_of_packages.remove(index_for_current_position)
+        shortest_route = mileage_list.get(s)
+        print("Shortest route = ", shortest_route)
+        truck_mileage += shortest_route
+
+        # Finding the index of the next route
+        for item in cleaned_list:
+            if item == shortest_route:
+                print("Item ", item)
+                index_for_current_position = cleaned_list.index(item)
+
+        # Removing indexes from index of packages
+        for j in indexes_of_packages:
+            if j == index_for_current_position:
+                indexes_of_packages.remove(index_for_current_position)
 
         # Clearing lists
         row_distant_list.clear()
