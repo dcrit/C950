@@ -68,6 +68,7 @@ loadTruck1 = Truck.Truck(16, 18, 1, truck1, 0.0, "4001 South 700 East", datetime
 loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime.timedelta(hours=8))
 loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=10, minutes=20))
 
+def too_cool(list1, list2):
 
 def cool_func(list1, list2):
     blank = []
@@ -134,12 +135,15 @@ def delivery_process(truck):
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
     # print("Indexs of packages ", indexes_of_packages)
-    indexes_of_packages.sort()
+
     dictionary = dict(zip(indexes_of_packages, values))
 
     count = 0
-    while count < 5:
-        print("Indexs of packages ", indexes_of_packages)
+    while count < 15:
+
+        print("Indexs of packages not sorted ", indexes_of_packages)
+       # indexes_of_packages.sort()
+        print("Indexs of packages sorted ", indexes_of_packages)
         print("Indexes of packaages length ", len(indexes_of_packages))
         count += 1
         # Reading Distance CSV
