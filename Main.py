@@ -68,7 +68,6 @@ loadTruck1 = Truck.Truck(16, 18, 1, truck1, 0.0, "4001 South 700 East", datetime
 loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime.timedelta(hours=8))
 loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=10, minutes=20))
 
-def too_cool(list1, list2):
 
 def cool_func(list1, list2):
     blank = []
@@ -139,10 +138,10 @@ def delivery_process(truck):
     dictionary = dict(zip(indexes_of_packages, values))
 
     count = 0
-    while count < 15:
+    while count < 2:
 
         print("Indexs of packages not sorted ", indexes_of_packages)
-       # indexes_of_packages.sort()
+        indexes_of_packages.sort()
         print("Indexs of packages sorted ", indexes_of_packages)
         print("Indexes of packaages length ", len(indexes_of_packages))
         count += 1
@@ -169,9 +168,22 @@ def delivery_process(truck):
         cleaned_list = [float(ele) for ele in cleaned_list]
         print("Cleaned List ", cleaned_list)
 
+        some_list = []
+        silly = []
         # Getting mileage distances for packages on route
         mileage_list = cool_func(indexes_of_packages, cleaned_list)
         print("Mileage List ", mileage_list)
+
+        for time in cleaned_list:
+            for travel in indexes_of_packages:
+                if travel == cleaned_list.index(time):
+                    silly.append(travel)
+                    some_list.append(time)
+                    indexes_of_packages.remove(travel)
+
+        print("Some List HERER ", some_list)
+        print("Some List HERER lenght ", len(some_list))
+        print("Silly list ", silly)
 
         s = list(mileage_list.keys())[list(mileage_list.values()).index(min(mileage_list.values()))]
         print("S ", s)
