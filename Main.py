@@ -173,13 +173,13 @@ def delivery_process(truck):
         # Getting mileage distances for packages on route
         mileage_list = cool_func(indexes_of_packages, cleaned_list)
         print("Mileage List ", mileage_list)
-
+        print("Packages 22 ", indexes_of_packages)
         for time in cleaned_list:
             for travel in indexes_of_packages:
                 if travel == cleaned_list.index(time):
                     silly.append(travel)
                     some_list.append(time)
-                    indexes_of_packages.remove(travel)
+
 
         print("Some List HERER ", some_list)
         print("Some List HERER lenght ", len(some_list))
