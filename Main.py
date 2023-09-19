@@ -138,13 +138,13 @@ def delivery_process(truck):
     dictionary = dict(zip(indexes_of_packages, values))
 
     count = 0
-    while count < 15:
+    while len(indexes_of_packages) > 0:
 
         print("Indexs of packages not sorted ", indexes_of_packages)
-        indexes_of_packages.sort()
-        print("Indexs of packages sorted ", indexes_of_packages)
         print("Indexes of packaages length ", len(indexes_of_packages))
+
         count += 1
+
         # Reading Distance CSV
         csv_distance = distance_list()
 
@@ -168,26 +168,16 @@ def delivery_process(truck):
         cleaned_list = [float(ele) for ele in cleaned_list]
         print("Cleaned List ", cleaned_list)
 
-        some_list = []
-        silly = []
         # Getting mileage distances for packages on route
-        mileage_list = cool_func(indexes_of_packages, cleaned_list)
-        print("Mileage List ", mileage_list)
+        mileage_list = [cleaned_list[i] for i in indexes_of_packages]
+        print("Mileage list for current route = ", mileage_list)
+        print("Mileage list Length = ", len(mileage_list))
 
-        # WORKUNG HEERERE !!!!!!!!!!!
-        T = [cleaned_list[i] for i in indexes_of_packages]
-        print("IIIIIIIIIIII ", T)
-        print("IIIIIIIIII LEN ", len(T))
-
-
-        s = list(mileage_list.keys())[list(mileage_list.values()).index(min(mileage_list.values()))]
-        print("S ", s)
-        print("Mileage List = ", len(mileage_list))
         # Breaking loop once mileage list is empty
         if len(mileage_list) == 0:
             break
 
-        shortest_route = mileage_list.get(s)
+        shortest_route = min(mileage_list)
         print("Shortest route = ", shortest_route)
         truck_mileage += shortest_route
 
@@ -325,3 +315,4 @@ print("Total Mileage ", total_mileage)
 # print("Some List HERER ", some_list)
 # print("Some List HERER lenght ", len(some_list))
 # print("Silly list ", silly)
+# s = list(mileage_list.keys())[list(mileage_list.values()).index(min(mileage_list.values()))]
