@@ -138,7 +138,7 @@ def delivery_process(truck):
     dictionary = dict(zip(indexes_of_packages, values))
 
     count = 0
-    while count < 2:
+    while count < 15:
 
         print("Indexs of packages not sorted ", indexes_of_packages)
         indexes_of_packages.sort()
@@ -174,16 +174,11 @@ def delivery_process(truck):
         mileage_list = cool_func(indexes_of_packages, cleaned_list)
         print("Mileage List ", mileage_list)
 
-        for time in cleaned_list:
-            for travel in indexes_of_packages:
-                if travel == cleaned_list.index(time):
-                    silly.append(travel)
-                    some_list.append(time)
-                    indexes_of_packages.remove(travel)
+        # WORKUNG HEERERE !!!!!!!!!!!
+        T = [cleaned_list[i] for i in indexes_of_packages]
+        print("IIIIIIIIIIII ", T)
+        print("IIIIIIIIII LEN ", len(T))
 
-        print("Some List HERER ", some_list)
-        print("Some List HERER lenght ", len(some_list))
-        print("Silly list ", silly)
 
         s = list(mileage_list.keys())[list(mileage_list.values()).index(min(mileage_list.values()))]
         print("S ", s)
@@ -320,3 +315,13 @@ print("Total Mileage ", total_mileage)
 #             if a < any:
 #                 any = a
 #     return any
+# for time in cleaned_list:
+#     for travel in indexes_of_packages:
+#         if travel == cleaned_list.index(time):
+#             silly.append(travel)
+#             some_list.append(time)
+#             indexes_of_packages.remove(travel)
+#
+# print("Some List HERER ", some_list)
+# print("Some List HERER lenght ", len(some_list))
+# print("Silly list ", silly)
