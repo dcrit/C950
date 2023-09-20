@@ -76,7 +76,6 @@ total_mileage = 0.0
 
 # Delivery Process method
 def delivery_process(truck):
-
     truck_mileage = 0.0
     current_address = truck.address
     hub_address = "4001 South 700 East"
@@ -165,9 +164,7 @@ def delivery_process(truck):
                 print("Index of next position ", index_for_current_position)
 
         # Removing delivered package from truck
-        for index in indexes_of_packages:
-            if index == index_for_current_position:
-                indexes_of_packages.remove(index_for_current_position)
+        indexes_of_packages = remove_delivered_package(indexes_of_packages, index_for_current_position)
 
         # Clearing lists
         row_distant_list.clear()
@@ -179,6 +176,11 @@ def delivery_process(truck):
 
     print("Truck mileage ", truck_mileage)
     return truck_mileage
+
+
+def remove_delivered_package(list, item):
+    res = [i for i in list if i != item]
+    return res
 
 
 # total_mileage += delivery_process(loadTruck1)
