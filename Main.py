@@ -181,7 +181,7 @@ def delivery_process(truck):
     return truck_mileage
 
 
-total_mileage += delivery_process(loadTruck1)
-# total_mileage += delivery_process(loadTruck2)
+# total_mileage += delivery_process(loadTruck1)
+total_mileage += delivery_process(loadTruck2)
 # total_mileage += delivery_process(loadTruck3)
 print("Total Mileage ", total_mileage)
