@@ -110,6 +110,8 @@ def delivery_process(truck):
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
 
+
+    # Herer
     while len(indexes_of_packages) > 0:
 
         print("Indexes of packages not sorted ", indexes_of_packages)
