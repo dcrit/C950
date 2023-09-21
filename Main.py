@@ -7,6 +7,7 @@ import datetime
 import Truck
 
 from HashTable import ChainingHashTable
+from Package import Package
 
 
 # Reading address csv
@@ -22,6 +23,7 @@ def package_list():
     with open('CSV_FILES/WGUPS_Package_File.csv', encoding='utf-8-sig') as csv_file_package:
         csv_package = csv.reader(csv_file_package)
         csv_package = list(csv_package)
+        print("CSV Package ", csv_package)
     return csv_package
 
 
@@ -39,26 +41,32 @@ myHash = ChainingHashTable()
 
 # Loading packages method
 def loadPackageData(csvFile):
-    with open(csvFile, encoding='utf-8-sig') as packageData:
-        PO = csv.reader(packageData, delimiter=',')
-
-        for package in PO:
-            ID = int(package[0])
-            address = package[1]
-            city = package[2]
-            state = package[3]
-            zip = package[4]
-            deadline = package[5]
-            weight = package[6]
-            status = package[7]
-            package = package
-
-            # Inserting Package ID and Package Info in a hash table
-            myHash.insert(ID, package)
+    PO = package_list()
+    test = Package
+    for package in PO:
+        ID = int(package[0])
+        address = package[1]
+        city = package[2]
+        state = package[3]
+        zip = package[4]
+        deadline = package[5]
+        weight = package[6]
+        package[7] = "Not Delivered"
+        package = package
+        # Inserting Package ID and Package Info in a hash table
+        myHash.insert(ID, package)
 
 
 # Reading CSV Package file with load package method
 loadPackageData('CSV_FILES/WGUPS_Package_File.csv')
+# WOEKING HERE !!!!!!!!!!!!
+print("Hash Table ", myHash.table)
+p = myHash.search(26)
+print("P = ", p)
+p[7] = "Tucan"
+print("P 2 ", p)
+myHash.insert(26, p)
+print("zzzz ", myHash.table)
 
 # Designating packages to trucks
 truck1 = [1, 2, 4, 5, 7, 8, 10, 11, 12, 21, 22, 23, 24, 26, 27, 29]
@@ -76,7 +84,6 @@ total_mileage = 0.0
 
 # Delivery Process method
 def delivery_process(truck):
-
     truck_mileage = 0.0
     current_address = truck.address
     hub_address = "4001 South 700 East"
