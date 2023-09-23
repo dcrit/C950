@@ -23,7 +23,6 @@ def package_list():
     with open('CSV_FILES/WGUPS_Package_File.csv', encoding='utf-8-sig') as csv_file_package:
         csv_package = csv.reader(csv_file_package)
         csv_package = list(csv_package)
-        print("CSV Package ", csv_package)
     return csv_package
 
 
@@ -102,10 +101,10 @@ def delivery_process(truck):
         list_of_package_info.append(package_list)
         list_of_delivery_addresses.append(package_list[1])
 
-    print("List of delivery addresses ", list_of_delivery_addresses)
-    print("Delivery addresses list length ", len(list_of_delivery_addresses))
-    print("Package list ", list_of_package_info)
 
+    print("List of delivery addresses ", list_of_delivery_addresses)
+    print("Package list ", list_of_package_info)
+    print("List keys ", package_keys)
     # Adding all addresses to a list
     for col in address_list():
         list_of_all_addresses.append(col[1])
@@ -118,8 +117,7 @@ def delivery_process(truck):
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
 
-
-    # Herer
+    # Packages are being delivered
     while len(indexes_of_packages) > 0:
 
         print("Indexes of packages not sorted ", indexes_of_packages)
@@ -159,12 +157,12 @@ def delivery_process(truck):
         # Adding mileage to total mileage
         truck_mileage += shortest_route
 
-        # Breaking loop on last delivery and returning to hub
+        # Returning to hub on last delivery
         if len(indexes_of_packages) == 1:
             print("Last stop index ", index_for_current_position)
             print("To hub mileage ", mileage_list[0])
             truck_mileage += mileage_list[0]
-            break
+
 
         # Finding the index of the next route
         for item in cleaned_list:
@@ -172,6 +170,12 @@ def delivery_process(truck):
                 print("Item ", item)
                 index_for_current_position = cleaned_list.index(item)
                 print("Index of next position ", index_for_current_position)
+
+        # Working here!!!!!!!!!!!!!!!!!!!!!
+        for b in indexes_of_packages:
+            if b == index_for_current_position:
+                print("YOOOOOOOOOOOOOOOO ", indexes_of_packages.index(b))
+
 
         # Removing delivered package from truck
         indexes_of_packages = remove_delivered_package(indexes_of_packages, index_for_current_position)
@@ -189,7 +193,12 @@ def delivery_process(truck):
 
 
 def remove_delivered_package(list, item):
-    res = [i for i in list if i != item]
+    res = []
+    tricky = []
+    for t in list:
+        if t != item:
+            res.append(t)
+    print("Here in the removal process ", res)
     return res
 
 
