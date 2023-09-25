@@ -58,14 +58,7 @@ def loadPackageData(csvFile):
 
 # Reading CSV Package file with load package method
 loadPackageData('CSV_FILES/WGUPS_Package_File.csv')
-# WOEKING HERE !!!!!!!!!!!!
-print("Hash Table ", myHash.table)
-p = myHash.search(26)
-print("P = ", p)
-p[7] = "Tucan"
-print("P 2 ", p)
-myHash.insert(26, p)
-print("zzzz ", myHash.table)
+
 
 # Designating packages to trucks
 truck1 = [1, 2, 4, 5, 7, 8, 10, 11, 12, 21, 22, 23, 24, 26, 27, 29]
@@ -116,6 +109,8 @@ def delivery_process(truck):
 
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
+
+    test_list = indexes_of_packages
 
     # Packages are being delivered
     while len(indexes_of_packages) > 0:
@@ -172,11 +167,30 @@ def delivery_process(truck):
                 print("Index of next position ", index_for_current_position)
 
         # Working here!!!!!!!!!!!!!!!!!!!!!
-        for b in indexes_of_packages:
+        # Updating pacakages to status delivered and time stamp
+        print("jnjn ")
+        for b in test_list:
             if b == index_for_current_position:
-                print("YOOOOOOOOOOOOOOOO ", indexes_of_packages.index(b))
+                y = test_list.index(b)
+                print("YYYYYYY ", y)
+                z = package_keys[y]
+                print("ZZZZZZZZZZZZZ ", z)
+                x = int(package_keys[y])
+                print("XXXXXXXXXXX ", x)
+                key_id = myHash.search(x)
+                key_id[7] = "Delivered"
+                myHash.insert(x, key_id)
 
+                print("Key ID ", key_id)
+                print("Searching Updated file ", myHash.search(x))
+                key_id = []
 
+        print("Hash Table ", myHash.table)
+
+        for c in list_of_all_addresses:
+            if c == list_of_all_addresses[index_for_current_position]:
+                print("CCCCCCCCCCCCCCCCCCC ", c)
+                print(myHash.search(c))
         # Removing delivered package from truck
         indexes_of_packages = remove_delivered_package(indexes_of_packages, index_for_current_position)
 
@@ -202,7 +216,7 @@ def remove_delivered_package(list, item):
     return res
 
 
-# total_mileage += delivery_process(loadTruck1)
+total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
-# total_mileage += delivery_process(loadTruck3)
+total_mileage += delivery_process(loadTruck3)
 print("Total Mileage ", total_mileage)
