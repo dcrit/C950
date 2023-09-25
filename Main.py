@@ -90,13 +90,10 @@ def delivery_process(truck):
     # Checking load of truck, then adding packages to lists
     for packageID in truck.packages:
         package_list = myHash.search(packageID)
-        package_keys.append(package_list[0])
+        package_keys.append(int(package_list[0]))
         list_of_package_info.append(package_list)
         list_of_delivery_addresses.append(package_list[1])
 
-
-    print("List of delivery addresses ", list_of_delivery_addresses)
-    print("Package list ", list_of_package_info)
     print("List keys ", package_keys)
     # Adding all addresses to a list
     for col in address_list():
@@ -109,9 +106,9 @@ def delivery_process(truck):
 
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
-
+    print("sadfsdf sd ", indexes_of_packages)
     test_list = indexes_of_packages
-
+    print("22222222222 , ",  test_list)
     # Packages are being delivered
     while len(indexes_of_packages) > 0:
 
@@ -143,7 +140,7 @@ def delivery_process(truck):
         # Getting mileage distances for packages on route
         mileage_list = [cleaned_list[i] for i in indexes_of_packages]
         print("Mileage list = ", mileage_list)
-        print("Mileage List length = ", len(mileage_list))
+        print("Mileage list length ", len(mileage_list))
 
         # Find the nearest route by using the min function
         shortest_route = min(mileage_list)
@@ -152,23 +149,11 @@ def delivery_process(truck):
         # Adding mileage to total mileage
         truck_mileage += shortest_route
 
-        # Returning to hub on last delivery
-        if len(indexes_of_packages) == 1:
-            print("Last stop index ", index_for_current_position)
-            print("To hub mileage ", mileage_list[0])
-            truck_mileage += mileage_list[0]
-
-
-        # Finding the index of the next route
-        for item in cleaned_list:
-            if item == shortest_route:
-                print("Item ", item)
-                index_for_current_position = cleaned_list.index(item)
-                print("Index of next position ", index_for_current_position)
-
         # Working here!!!!!!!!!!!!!!!!!!!!!
         # Updating pacakages to status delivered and time stamp
-        print("jnjn ")
+        print("package keys ", package_keys)
+        print("test list ", test_list)
+        print("index of current postion ", index_for_current_position)
         for b in test_list:
             if b == index_for_current_position:
                 y = test_list.index(b)
@@ -180,17 +165,28 @@ def delivery_process(truck):
                 key_id = myHash.search(x)
                 key_id[7] = "Delivered"
                 myHash.insert(x, key_id)
-
                 print("Key ID ", key_id)
                 print("Searching Updated file ", myHash.search(x))
-                key_id = []
 
-        print("Hash Table ", myHash.table)
+
+        # Finding the index of the next route
+        for item in cleaned_list:
+            if item == shortest_route:
+                index_for_current_position = cleaned_list.index(item)
+                print("Index of next position ", index_for_current_position)
+
 
         for c in list_of_all_addresses:
             if c == list_of_all_addresses[index_for_current_position]:
-                print("CCCCCCCCCCCCCCCCCCC ", c)
-                print(myHash.search(c))
+                print("Current Address location ", c)
+
+
+         # Returning to hub on last delivery
+        if len(indexes_of_packages) == 0:
+                print("Last stop index ", index_for_current_position)
+                print("To hub mileage ", mileage_list[0])
+                truck_mileage += mileage_list[0]
+
         # Removing delivered package from truck
         indexes_of_packages = remove_delivered_package(indexes_of_packages, index_for_current_position)
 
@@ -200,7 +196,7 @@ def delivery_process(truck):
         cleaned_list.clear()
         mileage_list.clear()
 
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
     print("Truck mileage ", truck_mileage)
     return truck_mileage
@@ -208,15 +204,29 @@ def delivery_process(truck):
 
 def remove_delivered_package(list, item):
     res = []
-    tricky = []
     for t in list:
         if t != item:
             res.append(t)
-    print("Here in the removal process ", res)
     return res
 
 
 total_mileage += delivery_process(loadTruck1)
-total_mileage += delivery_process(loadTruck2)
-total_mileage += delivery_process(loadTruck3)
+# total_mileage += delivery_process(loadTruck2)
+# total_mileage += delivery_process(loadTruck3)
 print("Total Mileage ", total_mileage)
+print("Checking packages 1 ", myHash.search(1))
+print("Checking packages 2 ", myHash.search(2))
+print("Checking packages 4 ", myHash.search(4))
+print("Checking packages 5 ", myHash.search(5))
+print("Checking packages 7 ", myHash.search(7))
+print("Checking packages 8 ", myHash.search(8))
+print("Checking packages 10 ", myHash.search(10))
+print("Checking packages 11 ", myHash.search(11))
+print("Checking packages 12 ", myHash.search(12))
+print("Checking packages 21 ", myHash.search(21))
+print("Checking packages 22 ", myHash.search(22))
+print("Checking packages 23 ", myHash.search(23))
+print("Checking packages 24 ", myHash.search(24))
+print("Checking packages 26 ", myHash.search(26))
+print("Checking packages 27 ", myHash.search(27))
+print("Checking packages 29 ", myHash.search(29))
