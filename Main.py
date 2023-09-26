@@ -106,9 +106,8 @@ def delivery_process(truck):
 
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
-    print("sadfsdf sd ", indexes_of_packages)
+
     test_list = indexes_of_packages
-    print("22222222222 , ",  test_list)
     # Packages are being delivered
     while len(indexes_of_packages) > 0:
 
@@ -145,21 +144,39 @@ def delivery_process(truck):
         # Find the nearest route by using the min function
         shortest_route = min(mileage_list)
         print("Shortest route = ", shortest_route)
+        shortest_route_index = mileage_list.index(min(mileage_list))
+
+        # Working hererer!!!!!!!!!!!!!!!!!!
+        titts = 0
+        for r in cleaned_list:
+
+            ten = mileage_list.count(shortest_route)
+            if r == shortest_route and ten == 0:
+                titts = cleaned_list.index(r)
+                print("Indexxxxxxxxx, ", titts)
+                print("balllss")
+            else:
+                print("Du[ilcates found ")
+
+
+
+
+        print("shortest route index ", shortest_route_index)
 
         # Adding mileage to total mileage
         truck_mileage += shortest_route
 
         # Working here!!!!!!!!!!!!!!!!!!!!!
         # Updating pacakages to status delivered and time stamp
+
         print("package keys ", package_keys)
         print("test list ", test_list)
         print("index of current postion ", index_for_current_position)
+        print("Break ")
         for b in test_list:
-            if b == index_for_current_position:
+            if b == index_for_current_position or b == titts:
                 y = test_list.index(b)
                 print("YYYYYYY ", y)
-                z = package_keys[y]
-                print("ZZZZZZZZZZZZZ ", z)
                 x = int(package_keys[y])
                 print("XXXXXXXXXXX ", x)
                 key_id = myHash.search(x)
@@ -181,7 +198,7 @@ def delivery_process(truck):
                 print("Current Address location ", c)
 
 
-         # Returning to hub on last delivery
+        # Returning to hub on last delivery
         if len(indexes_of_packages) == 0:
                 print("Last stop index ", index_for_current_position)
                 print("To hub mileage ", mileage_list[0])
@@ -203,10 +220,12 @@ def delivery_process(truck):
 
 
 def remove_delivered_package(list, item):
+    print("Inside removal OG list", list)
     res = []
     for t in list:
         if t != item:
             res.append(t)
+    print("Inside removal edited list ",  res)
     return res
 
 
