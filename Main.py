@@ -148,15 +148,16 @@ def delivery_process(truck):
 
         # Working hererer!!!!!!!!!!!!!!!!!!
         titts = 0
+        ten = mileage_list.count(shortest_route)
+        print("TEN! ", ten)
         for r in cleaned_list:
 
-            ten = mileage_list.count(shortest_route)
-            if r == shortest_route and ten == 0:
+
+            if r == shortest_route and ten == 1:
                 titts = cleaned_list.index(r)
                 print("Indexxxxxxxxx, ", titts)
                 print("balllss")
-            else:
-                print("Du[ilcates found ")
+
 
 
 
