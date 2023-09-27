@@ -152,15 +152,11 @@ def delivery_process(truck):
         print("TEN! ", ten)
         for r in cleaned_list:
 
-
             if r == shortest_route and ten == 1:
                 titts = cleaned_list.index(r)
                 print("Indexxxxxxxxx, ", titts)
-                print("balllss")
-
-
-
-
+            if r == shortest_route and ten > 1:
+                print("DUPSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
 
         print("shortest route index ", shortest_route_index)
 
