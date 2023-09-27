@@ -149,13 +149,18 @@ def delivery_process(truck):
         # Working hererer!!!!!!!!!!!!!!!!!!
         titts = 0
         ten = mileage_list.count(shortest_route)
+
         print("TEN! ", ten)
         for r in cleaned_list:
 
             if r == shortest_route and ten == 1:
                 titts = cleaned_list.index(r)
+                locs  = find_indices(cleaned_list, shortest_route)
+                print("Loc 1", locs)
                 print("Indexxxxxxxxx, ", titts)
             if r == shortest_route and ten > 1:
+                locs = find_indices(cleaned_list, shortest_route)
+                print("Loc 2", locs)
                 print("DUPSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
 
         print("shortest route index ", shortest_route_index)
@@ -225,7 +230,11 @@ def remove_delivered_package(list, item):
     print("Inside removal edited list ",  res)
     return res
 
-
+def find_indices(l, value):
+    return [
+        index for index, item in enumerate(l)
+        if item == value
+    ]
 total_mileage += delivery_process(loadTruck1)
 # total_mileage += delivery_process(loadTruck2)
 # total_mileage += delivery_process(loadTruck3)
