@@ -147,18 +147,16 @@ def delivery_process(truck):
         shortest_route_index = mileage_list.index(min(mileage_list))
 
         # Working hererer!!!!!!!!!!!!!!!!!!
-        titts = 0
-        ten = mileage_list.count(shortest_route)
-
-        print("TEN! ", ten)
+        duplicate_distance = mileage_list.count(shortest_route)
         for r in cleaned_list:
 
-            if r == shortest_route and ten == 1:
+            if r == shortest_route and duplicate_distance == 1:
                 titts = cleaned_list.index(r)
                 locs  = find_indices(cleaned_list, shortest_route)
+
                 print("Loc 1", locs)
                 print("Indexxxxxxxxx, ", titts)
-            if r == shortest_route and ten > 1:
+            if r == shortest_route and duplicate_distance > 1:
                 locs = find_indices(cleaned_list, shortest_route)
                 print("Loc 2", locs)
                 print("DUPSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
@@ -175,6 +173,13 @@ def delivery_process(truck):
         print("test list ", test_list)
         print("index of current postion ", index_for_current_position)
         print("Break ")
+        titts = 0
+        # Working herere!!!!!!!!!!!!!!!!!!!!!!
+        def updating_packages(list, index, keys):
+            for a in list:
+                if a == list:
+                    x = list
+                print("yoo")
         for b in test_list:
             if b == index_for_current_position or b == titts:
                 y = test_list.index(b)
