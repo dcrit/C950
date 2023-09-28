@@ -134,37 +134,53 @@ def delivery_process(truck):
 
         # Converting str list to float
         cleaned_list = [float(ele) for ele in cleaned_list]
-        print("Cleaned List ", cleaned_list)
+        print("Cleaned List = ", cleaned_list)
 
         # Getting mileage distances for packages on route
         mileage_list = [cleaned_list[i] for i in indexes_of_packages]
         print("Mileage list = ", mileage_list)
-        print("Mileage list length ", len(mileage_list))
+        print("Mileage list length = ", len(mileage_list))
 
         # Find the nearest route by using the min function
         shortest_route = min(mileage_list)
         print("Shortest route = ", shortest_route)
         shortest_route_index = mileage_list.index(min(mileage_list))
 
-        # Working hererer!!!!!!!!!!!!!!!!!!
+        locks = find_indices(cleaned_list, shortest_route)
+        print("Locks = ", locks)
+        # Counting duplicate distance on next route
         duplicate_distance = mileage_list.count(shortest_route)
+        print("Duplicate distance count = ", duplicate_distance)
+        print("Lengthyyyy ", len(locks))
+
+        # Working hererer!!!!!!!!!!!!!!!!!!
         for r in cleaned_list:
 
-            if r == shortest_route and duplicate_distance == 1:
-                titts = cleaned_list.index(r)
-                locs  = find_indices(cleaned_list, shortest_route)
+            if r == shortest_route and duplicate_distance == 1 and len(locks) == 1:
+                updating_packages(test_list, index_for_current_position, package_keys)
+                # Adding mileage to total mileage
+                truck_mileage += shortest_route
+                print("Package delivered ")
+                for a in list:
+                    key_id = []
+                    if a == position:
+                        x = list.index(a)
+                        print("X = ", x)
+                        y = int(keys[x])
+                        print("Y = ", y)
+                        key_id = myHash.search(y)
+                        print("Key ID = ", key_id)
+                        key_id[7] = "Delivered"
+                        myHash.insert(y, key_id)
 
-                print("Loc 1", locs)
-                print("Indexxxxxxxxx, ", titts)
-            if r == shortest_route and duplicate_distance > 1:
-                locs = find_indices(cleaned_list, shortest_route)
-                print("Loc 2", locs)
-                print("DUPSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
+            if r == shortest_route and duplicate_distance > 1 and len(locks) > 1:
+                print("Package not delivered ")
+                print("Dup Values ")
 
         print("shortest route index ", shortest_route_index)
 
-        # Adding mileage to total mileage
-        truck_mileage += shortest_route
+
+
 
         # Working here!!!!!!!!!!!!!!!!!!!!!
         # Updating pacakages to status delivered and time stamp
@@ -173,24 +189,20 @@ def delivery_process(truck):
         print("test list ", test_list)
         print("index of current postion ", index_for_current_position)
         print("Break ")
-        titts = 0
         # Working herere!!!!!!!!!!!!!!!!!!!!!!
-        def updating_packages(list, index, keys):
-            for a in list:
-                if a == list:
-                    x = list
-                print("yoo")
-        for b in test_list:
-            if b == index_for_current_position or b == titts:
-                y = test_list.index(b)
-                print("YYYYYYY ", y)
-                x = int(package_keys[y])
-                print("XXXXXXXXXXX ", x)
-                key_id = myHash.search(x)
-                key_id[7] = "Delivered"
-                myHash.insert(x, key_id)
-                print("Key ID ", key_id)
-                print("Searching Updated file ", myHash.search(x))
+
+
+        # for b in test_list:
+        #     if b == index_for_current_position or b == titts:
+        #         y = test_list.index(b)
+        #         print("YYYYYYY ", y)
+        #         x = int(package_keys[y])
+        #         print("XXXXXXXXXXX ", x)
+        #         key_id = myHash.search(x)
+        #         key_id[7] = "Delivered"
+        #         myHash.insert(x, key_id)
+        #         print("Key ID ", key_id)
+        #         print("Searching Updated file ", myHash.search(x))
 
 
         # Finding the index of the next route
@@ -240,6 +252,20 @@ def find_indices(l, value):
         index for index, item in enumerate(l)
         if item == value
     ]
+
+
+def updating_packages(list, position, keys):
+    for a in list:
+        key_id = []
+        if a == position:
+            x = list.index(a)
+            print("X = ", x)
+            y = int(keys[x])
+            print("Y = ", y)
+            key_id = myHash.search(y)
+            print("Key ID = ", key_id)
+            key_id[7] = "Delivered"
+            myHash.insert(y, key_id)
 total_mileage += delivery_process(loadTruck1)
 # total_mileage += delivery_process(loadTruck2)
 # total_mileage += delivery_process(loadTruck3)
