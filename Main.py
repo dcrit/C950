@@ -157,21 +157,20 @@ def delivery_process(truck):
         for r in cleaned_list:
 
             if r == shortest_route and duplicate_distance == 1 and len(locks) == 1:
-                updating_packages(test_list, index_for_current_position, package_keys)
+               # updating_packages(test_list, index_for_current_position, package_keys)
+                print("YOOOOOOOOOOOOOOOOOOOO ")
+                print("Index ", cleaned_list.index(shortest_route))
                 # Adding mileage to total mileage
                 truck_mileage += shortest_route
+                x = test_list.index(cleaned_list.index(shortest_route))
+                print("X = ", x)
+                y = int(package_keys[x])
+                print("Y = ", y)
+                key_id = myHash.search(y)
+                print("Key ID = ", key_id)
+                key_id[7] = "Delivered"
+                myHash.insert(y, key_id)
                 print("Package delivered ")
-                for a in list:
-                    key_id = []
-                    if a == position:
-                        x = list.index(a)
-                        print("X = ", x)
-                        y = int(keys[x])
-                        print("Y = ", y)
-                        key_id = myHash.search(y)
-                        print("Key ID = ", key_id)
-                        key_id[7] = "Delivered"
-                        myHash.insert(y, key_id)
 
             if r == shortest_route and duplicate_distance > 1 and len(locks) > 1:
                 print("Package not delivered ")
@@ -266,7 +265,9 @@ def updating_packages(list, position, keys):
             print("Key ID = ", key_id)
             key_id[7] = "Delivered"
             myHash.insert(y, key_id)
+
 total_mileage += delivery_process(loadTruck1)
+
 # total_mileage += delivery_process(loadTruck2)
 # total_mileage += delivery_process(loadTruck3)
 print("Total Mileage ", total_mileage)
