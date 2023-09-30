@@ -112,7 +112,7 @@ def delivery_process(truck):
     while len(indexes_of_packages) > 0:
 
         print("Indexes of packages not sorted ", indexes_of_packages)
-
+        print("Index position ", index_for_current_position)
         # Reading Distance CSV
         csv_distance = distance_list()
 
@@ -158,7 +158,6 @@ def delivery_process(truck):
 
             if r == shortest_route and duplicate_distance == 1 and len(locks) == 1:
                # updating_packages(test_list, index_for_current_position, package_keys)
-                print("YOOOOOOOOOOOOOOOOOOOO ")
                 print("Index ", cleaned_list.index(shortest_route))
                 # Adding mileage to total mileage
                 truck_mileage += shortest_route
@@ -171,15 +170,17 @@ def delivery_process(truck):
                 key_id[7] = "Delivered"
                 myHash.insert(y, key_id)
                 print("Package delivered ")
+                print("Status ", myHash.search(y))
 
-            if r == shortest_route and duplicate_distance > 1 and len(locks) > 1:
+            if r == shortest_route and duplicate_distance == 1 and len(locks) > 1:
                 print("Package not delivered ")
                 print("Dup Values ")
+                print("Addresses ", list_of_all_addresses[15])
+                print("Addresses ", list_of_all_addresses[18])
+            if r == shortest_route and duplicate_distance > 1 and len(locks) > 1:
+                print("??????????????????????????????????")
 
         print("shortest route index ", shortest_route_index)
-
-
-
 
         # Working here!!!!!!!!!!!!!!!!!!!!!
         # Updating pacakages to status delivered and time stamp
@@ -187,21 +188,6 @@ def delivery_process(truck):
         print("package keys ", package_keys)
         print("test list ", test_list)
         print("index of current postion ", index_for_current_position)
-        print("Break ")
-        # Working herere!!!!!!!!!!!!!!!!!!!!!!
-
-
-        # for b in test_list:
-        #     if b == index_for_current_position or b == titts:
-        #         y = test_list.index(b)
-        #         print("YYYYYYY ", y)
-        #         x = int(package_keys[y])
-        #         print("XXXXXXXXXXX ", x)
-        #         key_id = myHash.search(x)
-        #         key_id[7] = "Delivered"
-        #         myHash.insert(x, key_id)
-        #         print("Key ID ", key_id)
-        #         print("Searching Updated file ", myHash.search(x))
 
 
         # Finding the index of the next route
