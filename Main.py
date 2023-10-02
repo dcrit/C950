@@ -201,9 +201,10 @@ def delivery_process(truck):
         print("index of current postion ", index_for_current_position)
 
         # Finding the index of the next route
+        # Working here
         print("Duppy on cleaned route ", duplicate_distance_cleaned_list)
         for item in cleaned_list:
-            if item == shortest_route and duplicate_distance_on_route == 1 and duplicate_distance_cleaned_list == 1:
+            if item == shortest_route:
                 index_for_current_position = cleaned_list.index(item)
                 print("Index of next position ", index_for_current_position)
             # if item == shortest_route and len(duplicate_distance_cleaned_list) > 1:
