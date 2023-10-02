@@ -146,17 +146,17 @@ def delivery_process(truck):
         print("Shortest route = ", shortest_route)
         shortest_route_index = mileage_list.index(min(mileage_list))
 
-        locks = find_indices(cleaned_list, shortest_route)
-        print("Locks = ", locks)
+        duplicate_distance_cleaned_list = find_indices(cleaned_list, shortest_route)
+        print("Locks = ", duplicate_distance_cleaned_list)
         # Counting duplicate distance on next route
-        duplicate_distance = mileage_list.count(shortest_route)
-        print("Duplicate distance count = ", duplicate_distance)
-        print("Lengthyyyy ", len(locks))
+        duplicate_distance_on_route = mileage_list.count(shortest_route)
+        print("Duplicate distance count = ", duplicate_distance_on_route)
+        print("Lengthyyyy ", len(duplicate_distance_cleaned_list))
 
         # Working hererer!!!!!!!!!!!!!!!!!!
         for r in cleaned_list:
 
-            if r == shortest_route and duplicate_distance == 1 and len(locks) == 1:
+            if r == shortest_route and duplicate_distance_on_route == 1 and len(duplicate_distance_cleaned_list) == 1:
                # updating_packages(test_list, index_for_current_position, package_keys)
                 print("Index ", cleaned_list.index(shortest_route))
                 # Adding mileage to total mileage
@@ -171,13 +171,20 @@ def delivery_process(truck):
                 myHash.insert(y, key_id)
                 print("Package delivered ")
                 print("Status ", myHash.search(y))
-
-            if r == shortest_route and duplicate_distance == 1 and len(locks) > 1:
+            if r == shortest_route and duplicate_distance_on_route == 1 and len(duplicate_distance_cleaned_list) > 1:
                 print("Package not delivered ")
                 print("Dup Values ")
                 print("Addresses ", list_of_all_addresses[15])
                 print("Addresses ", list_of_all_addresses[18])
-            if r == shortest_route and duplicate_distance > 1 and len(locks) > 1:
+                print("test list, ", test_list)
+                print("package keys ", package_keys)
+                # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                for s in test_list:
+                    for f in duplicate_distance_cleaned_list:
+                        if s == f:
+                            print("F", f)
+
+            if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicate_distance_cleaned_list) > 1:
                 print("??????????????????????????????????")
 
         print("shortest route index ", shortest_route_index)
