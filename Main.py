@@ -171,6 +171,7 @@ def delivery_process(truck):
                 myHash.insert(y, key_id)
                 print("Package delivered ")
                 print("Status ", myHash.search(y))
+            # Checking if duplicates on cleaned list
             if r == shortest_route and duplicate_distance_on_route == 1 and len(duplicate_distance_cleaned_list) > 1:
                 print("Package not delivered ")
                 print("Dup Values ")
