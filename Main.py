@@ -146,8 +146,8 @@ def delivery_process(truck):
         shortest_route_index = mileage_list.index(min(mileage_list))
         print("Shortest route index ", shortest_route_index)
 
-        duplicate_distance_cleaned_list = find_indices(cleaned_list, shortest_route)
-        print("Dups on cleaned list = ", duplicate_distance_cleaned_list)
+        duplicates_on_distance_cleaned_list = find_indices(cleaned_list, shortest_route)
+        print("Dups on cleaned list = ", duplicates_on_distance_cleaned_list)
         # Counting duplicate distance on next route
         duplicate_distance_on_route = mileage_list.count(shortest_route)
         print("Dups on mileage list ", duplicate_distance_on_route)
@@ -157,7 +157,7 @@ def delivery_process(truck):
         # Working hererer!!!!!!!!!!!!!!!!!!
         for r in cleaned_list:
 
-            if r == shortest_route and duplicate_distance_on_route == 1 and len(duplicate_distance_cleaned_list) == 1:
+            if r == shortest_route and duplicate_distance_on_route == 1 and len(duplicates_on_distance_cleaned_list) == 1:
                 x = test_list.index(cleaned_list.index(shortest_route))
                 print("X = ", x)
                 y = int(package_keys[x])
@@ -169,13 +169,14 @@ def delivery_process(truck):
                 print("Status ", myHash.search(y))
                 # Adding mileage to total mileage
                 truck_mileage += shortest_route
-                # index_for_current_position = duplicate_distance_cleaned_list[0]
+                index_for_current_position = duplicates_on_distance_cleaned_list[0]
                 print("Shorest route ", shortest_route)
                 print("Total Mileage ", truck_mileage)
             # Checking if duplicates on cleaned list
-            if r == shortest_route and duplicate_distance_on_route == 1 and len(duplicate_distance_cleaned_list) > 1:
+            if r == shortest_route and duplicate_distance_on_route == 1 and len(duplicates_on_distance_cleaned_list) > 1:
                 for s in test_list:
-                    for f in duplicate_distance_cleaned_list:
+                    for f in duplicates_on_distance_cleaned_list:
+                        # Working here
                         if s == f:
                             t = test_list.index(s)
                             print("FFFFF ", f)
@@ -185,16 +186,17 @@ def delivery_process(truck):
                                 print("Key Id ", key_id)
                                 key_id[7] = "Delivered"
                                 print("status ", myHash.search(id))
+                                print("Total Mileage ", truck_mileage)
+                                index_for_current_position = f
                                 truck_mileage += shortest_route
                                 print("Shorest route ", shortest_route)
-                                print("Total Mileage ", truck_mileage)
-                                # index_for_current_position = f
 
-            if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicate_distance_cleaned_list) > 1:
+            if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
                 truck_mileage += shortest_route
                 print("Shorest route ", shortest_route)
                 print("Total Mileage ", truck_mileage)
                 print("??????????????????????????????????")
+
 
         print("package keys ", package_keys)
         print("test list ", test_list)
@@ -202,13 +204,12 @@ def delivery_process(truck):
 
         # Finding the index of the next route
         # Working here
-        print("Duppy on cleaned route ", duplicate_distance_cleaned_list)
+        print("Duppy on cleaned route ", duplicates_on_distance_cleaned_list)
         for item in cleaned_list:
             if item == shortest_route:
                 index_for_current_position = cleaned_list.index(item)
                 print("Index of next position ", index_for_current_position)
-            # if item == shortest_route and len(duplicate_distance_cleaned_list) > 1:
-            #      index_for_current_position = index_taker
+
 
 
         # Returning to hub on last delivery
