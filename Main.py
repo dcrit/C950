@@ -169,6 +169,7 @@ def delivery_process(truck):
                 print("Status ", myHash.search(y))
                 # Adding mileage to total mileage
                 truck_mileage += shortest_route
+                # index_for_current_position = duplicate_distance_cleaned_list[0]
                 print("Shorest route ", shortest_route)
                 print("Total Mileage ", truck_mileage)
             # Checking if duplicates on cleaned list
@@ -177,6 +178,7 @@ def delivery_process(truck):
                     for f in duplicate_distance_cleaned_list:
                         if s == f:
                             t = test_list.index(s)
+                            print("FFFFF ", f)
                             id = package_keys[t]
                             key_id = myHash.search(id)
                             if key_id[7] == "Not Delivered":
@@ -186,9 +188,7 @@ def delivery_process(truck):
                                 truck_mileage += shortest_route
                                 print("Shorest route ", shortest_route)
                                 print("Total Mileage ", truck_mileage)
-                                index_taker = t
-
-
+                                # index_for_current_position = f
 
             if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicate_distance_cleaned_list) > 1:
                 truck_mileage += shortest_route
@@ -208,7 +208,7 @@ def delivery_process(truck):
                 index_for_current_position = cleaned_list.index(item)
                 print("Index of next position ", index_for_current_position)
             # if item == shortest_route and len(duplicate_distance_cleaned_list) > 1:
-            #     index_for_current_position = index_taker
+            #      index_for_current_position = index_taker
 
 
         # Returning to hub on last delivery
