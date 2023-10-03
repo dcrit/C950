@@ -221,6 +221,10 @@ def delivery_process(truck):
                     id = g
                     key_id = myHash.search(id)
                     print("key id ", key_id)
+                    key_id[7] = "Delivered"
+                    print("key id ", key_id)
+                indexes_of_packages.remove(rat)
+
 
 
                 print("??????????????????????????????????")
