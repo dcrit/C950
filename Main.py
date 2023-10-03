@@ -177,7 +177,8 @@ def delivery_process(truck):
                 for s in test_list:
                     for f in duplicates_on_distance_cleaned_list:
                         # Working here
-                        if s == f:
+                        print("Fuck it ", f)
+                        if f == s:
                             t = test_list.index(s)
                             print("FFFFF ", f)
                             id = package_keys[t]
@@ -190,6 +191,7 @@ def delivery_process(truck):
                                 index_for_current_position = f
                                 truck_mileage += shortest_route
                                 print("Shorest route ", shortest_route)
+                                break
 
             if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
                 truck_mileage += shortest_route
