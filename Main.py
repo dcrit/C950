@@ -206,6 +206,23 @@ def delivery_process(truck):
                 print("Total Mileage ", truck_mileage)
                 print("dups on clean ", duplicates_on_distance_cleaned_list)
                 print("Dups on route BOOOOOOOOOOOO ", boo)
+                rat = int(duplicates_on_distance_cleaned_list[0])
+                t = []
+                print("RATT ",  rat)
+                for h in test_list:
+                    if h == rat:
+                        stuff = find_indices(test_list, h)
+                        print("Stuff ",  stuff)
+                        t = [package_keys[i] for i in stuff]
+                        print("TTTtttt ", t)
+
+                for g in t:
+                    print("g", g)
+                    id = g
+                    key_id = myHash.search(id)
+                    print("key id ", key_id)
+
+
                 print("??????????????????????????????????")
 
 
