@@ -109,8 +109,10 @@ def delivery_process(truck):
 
     test_list = indexes_of_packages
     # Packages are being delivered
-    while len(indexes_of_packages) > 0:
+    count = 0
+    while count < 10:
 
+        count += 1
         print("Indexes of packages not sorted ", indexes_of_packages)
         print("Index position ", index_for_current_position)
         # Reading Distance CSV
@@ -150,6 +152,7 @@ def delivery_process(truck):
         print("Dups on cleaned list = ", duplicates_on_distance_cleaned_list)
         # Counting duplicate distance on next route
         duplicate_distance_on_route = mileage_list.count(shortest_route)
+        boo = find_indices(mileage_list, shortest_route)
         print("Dups on mileage list ", duplicate_distance_on_route)
 
         index_taker = 0
@@ -170,21 +173,19 @@ def delivery_process(truck):
                 # Adding mileage to total mileage
                 truck_mileage += shortest_route
                 index_for_current_position = duplicates_on_distance_cleaned_list[0]
-                print("Shorest route ", shortest_route)
+                print("Shortest route ", shortest_route)
                 print("Total Mileage ", truck_mileage)
+                p = int(duplicates_on_distance_cleaned_list[0])
+                indexes_of_packages.remove(p)
+                break
             # Checking if duplicates on cleaned list
             if r == shortest_route and duplicate_distance_on_route == 1 and len(duplicates_on_distance_cleaned_list) > 1:
-                list_count = 0
                 for s in test_list:
                     for f in duplicates_on_distance_cleaned_list:
-                    # if s in duplicates_on_distance_cleaned_list
-                        # Working here
-                        print("Fuck it ", f)
-                        if f == s:
-                            list_count += 1
-                            print("List count ", list_count)
+                        if s == f:
                             t = test_list.index(s)
                             print("FFFFF ", f)
+                            index_taker = f
                             id = package_keys[t]
                             key_id = myHash.search(id)
                             if key_id[7] == "Not Delivered":
@@ -195,14 +196,18 @@ def delivery_process(truck):
                                 index_for_current_position = f
                                 truck_mileage += shortest_route
                                 print("Shorest route ", shortest_route)
-
-
-            if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
+                                indexes_of_packages.remove(f)
+                                break
+            # Checking if dups are on current route
+            if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) == 1:
+                print("??????????????????????????????????")
                 truck_mileage += shortest_route
                 print("Shorest route ", shortest_route)
                 print("Total Mileage ", truck_mileage)
+                print("dups on clean ", duplicates_on_distance_cleaned_list)
+                print("Dups on route BOOOOOOOOOOOO ", boo)
                 print("??????????????????????????????????")
-
+                break
 
         print("package keys ", package_keys)
         print("test list ", test_list)
@@ -211,12 +216,10 @@ def delivery_process(truck):
         # Finding the index of the next route
         # Working here
         print("Duppy on cleaned route ", duplicates_on_distance_cleaned_list)
-        for item in cleaned_list:
-            if item == shortest_route:
-                index_for_current_position = cleaned_list.index(item)
-                print("Index of next position ", index_for_current_position)
-
-
+        # for item in cleaned_list:
+        #     if item == shortest_route:
+        #         index_for_current_position = cleaned_list.index(item)
+        #         print("Index of next position ", index_for_current_position)
 
         # Returning to hub on last delivery
         if len(indexes_of_packages) == 0:
