@@ -110,7 +110,7 @@ def delivery_process(truck):
     test_list = indexes_of_packages
     # Packages are being delivered
     count = 0
-    while count < 10:
+    while count < 16:
 
         count += 1
         print("Indexes of packages not sorted ", indexes_of_packages)
@@ -225,9 +225,10 @@ def delivery_process(truck):
                     print("key id ", key_id)
                 indexes_of_packages.remove(rat)
 
+            if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
+                print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ")
 
 
-                print("??????????????????????????????????")
 
 
         print("package keys ", package_keys)
