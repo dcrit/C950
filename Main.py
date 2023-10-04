@@ -72,8 +72,7 @@ loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime
 
 # Total mileage variable
 total_mileage = 0.0
-gay_balls = []
-global test_list
+
 # Delivery Process method
 def delivery_process(truck):
     truck_mileage = 0.0
@@ -108,15 +107,13 @@ def delivery_process(truck):
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
 
-    test_list = indexes_of_packages
-    gay_balls = indexes_of_packages
+    test_list = indexes_of_packages[:]
     print("TEst List ", test_list)
     print("Test list length ", len(test_list))
-    print("Gay balls ", gay_balls)
-    print("Gay balls len ", len(gay_balls))
+
     # Packages are being delivered
     count = 0
-    while count < 16:
+    while len(indexes_of_packages) > 0:
 
         count += 1
         print("Indexes of packages not sorted ", indexes_of_packages)
@@ -183,27 +180,25 @@ def delivery_process(truck):
                 print("Total Mileage ", truck_mileage)
                 p = int(duplicates_on_distance_cleaned_list[0])
                 indexes_of_packages.remove(p)
-                print("Gay balls ", gay_balls)
-                print("Gay balls len ", len(gay_balls))
 
             # Checking if duplicates on cleaned list
             if r == shortest_route and duplicate_distance_on_route == 1 and len(duplicates_on_distance_cleaned_list) > 1:
                 print("yoooo")
-                # for s in test_list:
-                #     for f in duplicates_on_distance_cleaned_list:
-                #         if s == f:
-                #             t = test_list.index(s)
-                #             id = package_keys[t]
-                #             key_id = myHash.search(id)
-                #             if key_id[7] == "Not Delivered":
-                #                 print("Key Id ", key_id)
-                #                 key_id[7] = "Delivered"
-                #                 print("status ", myHash.search(id))
-                #                 print("Total Mileage ", truck_mileage)
-                #                 index_for_current_position = f
-                #                 truck_mileage += shortest_route
-                #                 print("Shorest route ", shortest_route)
-                #                 indexes_of_packages.remove(f)
+                for s in test_list:
+                    for f in duplicates_on_distance_cleaned_list:
+                        if s == f:
+                            t = test_list.index(s)
+                            id = package_keys[t]
+                            key_id = myHash.search(id)
+                            if key_id[7] == "Not Delivered":
+                                print("Key Id ", key_id)
+                                key_id[7] = "Delivered"
+                                print("status ", myHash.search(id))
+                                print("Total Mileage ", truck_mileage)
+                                index_for_current_position = f
+                                truck_mileage += shortest_route
+                                print("Shorest route ", shortest_route)
+                                indexes_of_packages.remove(f)
 
             # Checking if dups are on current route
             if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) == 1:
@@ -215,23 +210,23 @@ def delivery_process(truck):
                 print("Dups on route BOOOOOOOOOOOO ", boo)
                 rat = int(duplicates_on_distance_cleaned_list[0])
                 t = []
-                # print("RATT ",  rat)
-                # for h in test_list:
-                #     if h == rat:
-                #         stuff = find_indices(test_list, h)
-                #         print("Stuff ",  stuff)
-                #         t = [package_keys[i] for i in stuff]
-                #         print("TTTtttt ", t)
-                # for g in t:
-                #     print("g", g)
-                #     id = g
-                #     key_id = myHash.search(id)
-                #     print("key id ", key_id)
-                #     key_id[7] = "Delivered"
-                #     print("key id ", key_id)
-                # indexes_of_packages.remove(rat)
-                # hey = int(duplicates_on_distance_cleaned_list[0])
-                # index_for_current_position = hey
+                print("RATT ",  rat)
+                for h in test_list:
+                    if h == rat:
+                        stuff = find_indices(test_list, h)
+                        print("Stuff ",  stuff)
+                        t = [package_keys[i] for i in stuff]
+                        print("TTTtttt ", t)
+                for g in t:
+                    print("g", g)
+                    id = g
+                    key_id = myHash.search(id)
+                    print("key id ", key_id)
+                    key_id[7] = "Delivered"
+                    print("key id ", key_id)
+                indexes_of_packages.remove(rat)
+                hey = int(duplicates_on_distance_cleaned_list[0])
+                index_for_current_position = hey
 
             if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
                 print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ")
@@ -297,10 +292,10 @@ def updating_packages(list, position, keys):
             myHash.insert(y, key_id)
 
 total_mileage += delivery_process(loadTruck1)
-print("GGGGGGGGGG ", test_list)
 # total_mileage += delivery_process(loadTruck2)
-# total_mileage += delivery_process(loadTruck3)
+total_mileage += delivery_process(loadTruck3)
 print("Total Mileage ", total_mileage)
+print("Truck 1 ")
 print("Checking packages 1 ", myHash.search(1))
 print("Checking packages 2 ", myHash.search(2))
 print("Checking packages 4 ", myHash.search(4))
@@ -317,3 +312,33 @@ print("Checking packages 24 ", myHash.search(24))
 print("Checking packages 26 ", myHash.search(26))
 print("Checking packages 27 ", myHash.search(27))
 print("Checking packages 29 ", myHash.search(29))
+print("\n")
+print("Truck 2")
+print("Total Mileage ", total_mileage)
+print("Checking packages 3 ", myHash.search(3))
+print("Checking packages 18 ", myHash.search(18))
+print("Checking packages 36 ", myHash.search(36))
+print("Checking packages 38 ", myHash.search(38))
+print("Checking packages 13 ", myHash.search(13))
+print("Checking packages 14 ", myHash.search(14))
+print("Checking packages 15 ", myHash.search(15))
+print("Checking packages 16 ", myHash.search(16))
+print("Checking packages 17 ", myHash.search(17))
+print("Checking packages 19 ", myHash.search(19))
+print("Checking packages 20 ", myHash.search(20))
+print("Checking packages 30 ", myHash.search(30))
+print("Checking packages 31 ", myHash.search(31))
+print("Checking packages 33 ", myHash.search(33))
+print("Checking packages 34 ", myHash.search(34))
+print("Checking packages 35 ", myHash.search(35))
+print("\n")
+print("Truck 3")
+print("Total Mileage ", total_mileage)
+print("Checking packages 6 ", myHash.search(6))
+print("Checking packages 25 ", myHash.search(25))
+print("Checking packages 28 ", myHash.search(28))
+print("Checking packages 32 ", myHash.search(32))
+print("Checking packages 37 ", myHash.search(37))
+print("Checking packages 39 ", myHash.search(39))
+print("Checking packages 40 ", myHash.search(40))
+print("Checking packages 9 ", myHash.search(9))
