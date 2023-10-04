@@ -108,6 +108,8 @@ def delivery_process(truck):
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
 
     test_list = indexes_of_packages
+    print("TEst List ", test_list)
+    print("Test list length ", len(test_list))
     # Packages are being delivered
     count = 0
     while count < 16:
@@ -180,23 +182,22 @@ def delivery_process(truck):
 
             # Checking if duplicates on cleaned list
             if r == shortest_route and duplicate_distance_on_route == 1 and len(duplicates_on_distance_cleaned_list) > 1:
-                for s in test_list:
-                    for f in duplicates_on_distance_cleaned_list:
-                        if s == f:
-                            t = test_list.index(s)
-                            print("FFFFF ", f)
-                            index_taker = f
-                            id = package_keys[t]
-                            key_id = myHash.search(id)
-                            if key_id[7] == "Not Delivered":
-                                print("Key Id ", key_id)
-                                key_id[7] = "Delivered"
-                                print("status ", myHash.search(id))
-                                print("Total Mileage ", truck_mileage)
-                                index_for_current_position = f
-                                truck_mileage += shortest_route
-                                print("Shorest route ", shortest_route)
-                                indexes_of_packages.remove(f)
+                print("yoooo")
+                # for s in test_list:
+                #     for f in duplicates_on_distance_cleaned_list:
+                #         if s == f:
+                #             t = test_list.index(s)
+                #             id = package_keys[t]
+                #             key_id = myHash.search(id)
+                #             if key_id[7] == "Not Delivered":
+                #                 print("Key Id ", key_id)
+                #                 key_id[7] = "Delivered"
+                #                 print("status ", myHash.search(id))
+                #                 print("Total Mileage ", truck_mileage)
+                #                 index_for_current_position = f
+                #                 truck_mileage += shortest_route
+                #                 print("Shorest route ", shortest_route)
+                #                 indexes_of_packages.remove(f)
 
             # Checking if dups are on current route
             if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) == 1:
@@ -208,33 +209,34 @@ def delivery_process(truck):
                 print("Dups on route BOOOOOOOOOOOO ", boo)
                 rat = int(duplicates_on_distance_cleaned_list[0])
                 t = []
-                print("RATT ",  rat)
-                for h in test_list:
-                    if h == rat:
-                        stuff = find_indices(test_list, h)
-                        print("Stuff ",  stuff)
-                        t = [package_keys[i] for i in stuff]
-                        print("TTTtttt ", t)
-
-                for g in t:
-                    print("g", g)
-                    id = g
-                    key_id = myHash.search(id)
-                    print("key id ", key_id)
-                    key_id[7] = "Delivered"
-                    print("key id ", key_id)
-                indexes_of_packages.remove(rat)
+                # print("RATT ",  rat)
+                # for h in test_list:
+                #     if h == rat:
+                #         stuff = find_indices(test_list, h)
+                #         print("Stuff ",  stuff)
+                #         t = [package_keys[i] for i in stuff]
+                #         print("TTTtttt ", t)
+                # for g in t:
+                #     print("g", g)
+                #     id = g
+                #     key_id = myHash.search(id)
+                #     print("key id ", key_id)
+                #     key_id[7] = "Delivered"
+                #     print("key id ", key_id)
+                # indexes_of_packages.remove(rat)
+                # hey = int(duplicates_on_distance_cleaned_list[0])
+                # index_for_current_position = hey
 
             if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
                 print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ")
 
         print("package keys ", package_keys)
         print("test list ", test_list)
+        print("test list length ", len(test_list))
         print("index of current postion ", index_for_current_position)
+        print("Pacakgae indexes ", indexes_of_packages)
 
         # Finding the index of the next route
-        # Working here
-        print("Duppy on cleaned route ", duplicates_on_distance_cleaned_list)
         # for item in cleaned_list:
         #     if item == shortest_route:
         #         index_for_current_position = cleaned_list.index(item)
