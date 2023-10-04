@@ -228,9 +228,6 @@ def delivery_process(truck):
             if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
                 print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ")
 
-
-
-
         print("package keys ", package_keys)
         print("test list ", test_list)
         print("index of current postion ", index_for_current_position)
@@ -250,7 +247,7 @@ def delivery_process(truck):
                 truck_mileage += mileage_list[0]
 
         # Removing delivered package from truck
-        indexes_of_packages = remove_delivered_package(indexes_of_packages, index_for_current_position)
+        # indexes_of_packages = remove_delivered_package(indexes_of_packages, index_for_current_position)
 
         # Clearing lists
         row_distant_list.clear()
