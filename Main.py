@@ -224,7 +224,8 @@ def delivery_process(truck):
                     print("key id ", key_id)
                     key_id[7] = "Delivered"
                     print("key id ", key_id)
-                indexes_of_packages.remove(rat)
+                #indexes_of_packages.remove(rat)
+                indexes_of_packages = [x for x in indexes_of_packages if x != rat]
                 hey = int(duplicates_on_distance_cleaned_list[0])
                 index_for_current_position = hey
 
