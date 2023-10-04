@@ -72,8 +72,8 @@ loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime
 
 # Total mileage variable
 total_mileage = 0.0
-
-
+gay_balls = []
+global test_list
 # Delivery Process method
 def delivery_process(truck):
     truck_mileage = 0.0
@@ -86,6 +86,7 @@ def delivery_process(truck):
     package_keys = []
     list_of_delivery_addresses = []
     list_of_all_addresses = []
+
 
     # Checking load of truck, then adding packages to lists
     for packageID in truck.packages:
@@ -108,8 +109,11 @@ def delivery_process(truck):
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
 
     test_list = indexes_of_packages
+    gay_balls = indexes_of_packages
     print("TEst List ", test_list)
     print("Test list length ", len(test_list))
+    print("Gay balls ", gay_balls)
+    print("Gay balls len ", len(gay_balls))
     # Packages are being delivered
     count = 0
     while count < 16:
@@ -179,6 +183,8 @@ def delivery_process(truck):
                 print("Total Mileage ", truck_mileage)
                 p = int(duplicates_on_distance_cleaned_list[0])
                 indexes_of_packages.remove(p)
+                print("Gay balls ", gay_balls)
+                print("Gay balls len ", len(gay_balls))
 
             # Checking if duplicates on cleaned list
             if r == shortest_route and duplicate_distance_on_route == 1 and len(duplicates_on_distance_cleaned_list) > 1:
@@ -258,7 +264,7 @@ def delivery_process(truck):
         mileage_list.clear()
 
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-
+    print("fdafsadfsdf ", test_list)
     print("Truck mileage ", truck_mileage)
     return truck_mileage
 
@@ -291,7 +297,7 @@ def updating_packages(list, position, keys):
             myHash.insert(y, key_id)
 
 total_mileage += delivery_process(loadTruck1)
-
+print("GGGGGGGGGG ", test_list)
 # total_mileage += delivery_process(loadTruck2)
 # total_mileage += delivery_process(loadTruck3)
 print("Total Mileage ", total_mileage)
