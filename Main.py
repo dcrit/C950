@@ -113,7 +113,7 @@ def delivery_process(truck):
 
     # Packages are being delivered
     count = 0
-    while len(indexes_of_packages) > 0:
+    while count < 16:
 
         count += 1
         print("Indexes of packages not sorted ", indexes_of_packages)
@@ -292,9 +292,9 @@ def updating_packages(list, position, keys):
             key_id[7] = "Delivered"
             myHash.insert(y, key_id)
 
-total_mileage += delivery_process(loadTruck1)
-# total_mileage += delivery_process(loadTruck2)
-total_mileage += delivery_process(loadTruck3)
+# total_mileage += delivery_process(loadTruck1)
+total_mileage += delivery_process(loadTruck2)
+# total_mileage += delivery_process(loadTruck3)
 print("Total Mileage ", total_mileage)
 print("Truck 1 ")
 print("Checking packages 1 ", myHash.search(1))
