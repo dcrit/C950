@@ -113,7 +113,7 @@ def delivery_process(truck):
 
     # Packages are being delivered
     count = 0
-    while count < 16:
+    while len(indexes_of_packages) > 0:
 
         count += 1
         print("Indexes of packages not sorted ", indexes_of_packages)
@@ -157,8 +157,8 @@ def delivery_process(truck):
         duplicate_distance_on_route = mileage_list.count(shortest_route)
         boo = find_indices(mileage_list, shortest_route)
         print("Dups on mileage list ", duplicate_distance_on_route)
+        print("Dups milege listb ",  boo)
 
-        index_taker = 0
 
         # Working hererer!!!!!!!!!!!!!!!!!!
         for r in cleaned_list:
@@ -231,6 +231,19 @@ def delivery_process(truck):
 
             if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
                 print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ")
+                tut = duplicates_on_distance_cleaned_list[0]
+                for s in test_list:
+                    if s == tut:
+                        key = package_keys[test_list.index(s)]
+                        print("KEYY ", key)
+                        key_id = myHash.search(key)
+                        if key_id[7] == "Not Delivered":
+                            print("Key ", key_id)
+                            key_id[7] = "Delivered"
+                            myHash.insert(key, key_id)
+                            print("Key ", key_id)
+                            indexes_of_packages.remove(tut)
+                            index_for_current_position = tut
 
         print("package keys ", package_keys)
         print("test list ", test_list)
@@ -292,9 +305,9 @@ def updating_packages(list, position, keys):
             key_id[7] = "Delivered"
             myHash.insert(y, key_id)
 
-# total_mileage += delivery_process(loadTruck1)
+total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
-# total_mileage += delivery_process(loadTruck3)
+total_mileage += delivery_process(loadTruck3)
 print("Total Mileage ", total_mileage)
 print("Truck 1 ")
 print("Checking packages 1 ", myHash.search(1))
