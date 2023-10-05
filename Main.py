@@ -305,9 +305,9 @@ def updating_packages(list, position, keys):
             key_id[7] = "Delivered"
             myHash.insert(y, key_id)
 
-total_mileage += delivery_process(loadTruck1)
+# total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
-total_mileage += delivery_process(loadTruck3)
+# total_mileage += delivery_process(loadTruck3)
 print("Total Mileage ", total_mileage)
 print("Truck 1 ")
 print("Checking packages 1 ", myHash.search(1))
