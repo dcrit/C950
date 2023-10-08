@@ -50,6 +50,14 @@ def loadPackageData(csvFile):
         deadline = package[5]
         weight = package[6]
         package[7] = "Not Delivered"
+
+        status = "Not Delivered"
+        delivery_time = "$%"
+
+        myPac = Package(ID, address, city, state, zip, deadline, weight, status, delivery_time)
+
+        print("My Pacakagr ", myPac)
+        print("Object ID ", myPac.ID)
         # Inserting Package ID and Package Info in a hash table
         myHash.insert(ID, package)
 
