@@ -41,7 +41,6 @@ myHash = ChainingHashTable()
 # Loading packages method
 def loadPackageData(csvFile):
     PO = package_list()
-    test = Package
     for package in PO:
         ID = int(package[0])
         address = package[1]
@@ -51,7 +50,6 @@ def loadPackageData(csvFile):
         deadline = package[5]
         weight = package[6]
         package[7] = "Not Delivered"
-        package = package
         # Inserting Package ID and Package Info in a hash table
         myHash.insert(ID, package)
 
@@ -77,7 +75,6 @@ total_mileage = 0.0
 def delivery_process(truck):
     truck_mileage = 0.0
     current_address = truck.address
-    hub_address = "4001 South 700 East"
     index_for_current_position = 0
 
     list_of_package_info = []
@@ -85,7 +82,6 @@ def delivery_process(truck):
     package_keys = []
     list_of_delivery_addresses = []
     list_of_all_addresses = []
-
 
     # Checking load of truck, then adding packages to lists
     for packageID in truck.packages:
@@ -171,6 +167,10 @@ def delivery_process(truck):
                 key_id = myHash.search(y)
                 print("Key ID = ", key_id)
                 key_id[7] = "Delivered"
+                deliverytime = (shortest_route / 18) * 60 * 60
+                dts = datetime.timedelta(seconds=deliverytime)
+                # key_id[8] = deliverytime
+                print("Time ", dts)
                 myHash.insert(y, key_id)
                 print("Status ", myHash.search(y))
                 # Adding mileage to total mileage
@@ -183,7 +183,6 @@ def delivery_process(truck):
 
             # Checking if duplicates on cleaned list
             if r == shortest_route and duplicate_distance_on_route == 1 and len(duplicates_on_distance_cleaned_list) > 1:
-                print("yoooo")
                 for s in test_list:
                     for f in duplicates_on_distance_cleaned_list:
                         if s == f:
@@ -251,20 +250,11 @@ def delivery_process(truck):
         print("index of current postion ", index_for_current_position)
         print("Pacakgae indexes ", indexes_of_packages)
 
-        # Finding the index of the next route
-        # for item in cleaned_list:
-        #     if item == shortest_route:
-        #         index_for_current_position = cleaned_list.index(item)
-        #         print("Index of next position ", index_for_current_position)
-
         # Returning to hub on last delivery
         if len(indexes_of_packages) == 0:
                 print("Last stop index ", index_for_current_position)
                 print("To hub mileage ", mileage_list[0])
                 truck_mileage += mileage_list[0]
-
-        # Removing delivered package from truck
-        # indexes_of_packages = remove_delivered_package(indexes_of_packages, index_for_current_position)
 
         # Clearing lists
         row_distant_list.clear()
@@ -273,7 +263,7 @@ def delivery_process(truck):
         mileage_list.clear()
 
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    print("fdafsadfsdf ", test_list)
+    print("Test List ", test_list)
     print("Truck mileage ", truck_mileage)
     return truck_mileage
 
