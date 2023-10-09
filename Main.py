@@ -9,8 +9,6 @@ import Truck
 from HashTable import ChainingHashTable
 from Package import Package
 
-from package2 import Package2
-
 
 # Reading address csv
 def address_list():
@@ -38,13 +36,13 @@ def distance_list():
 
 # Creating hash object
 myHash = ChainingHashTable()
-myHash2 = ChainingHashTable()
-myHash3 = ChainingHashTable()
 
 
 # Loading packages method
 def loadPackageData(csvFile):
     PO = package_list()
+    status = "Not Delivered"
+    delivery_time = datetime.timedelta(hours=8)
     for package in PO:
         ID = int(package[0])
         address = package[1]
@@ -53,44 +51,17 @@ def loadPackageData(csvFile):
         zip = package[4]
         deadline = package[5]
         weight = package[6]
-        package[7] = "Not Delivered"
+        notes = package[7]
 
-        status = "Not Delivered"
-        delivery_time = "$%"
+        myPac = Package(ID, address, city, state, zip, deadline, weight, notes, status, delivery_time)
 
-        myPac = Package(ID, address, city, state, zip, deadline, weight, status, delivery_time)
-        myHash2.insert(myPac.ID, myPac)
-
-        print("My Pacakage ", myPac)
-        print("Object ID ", myPac.ID)
         # Inserting Package ID and Package Info in a hash table
-        myHash.insert(ID, package)
+        myHash.insert(ID, myPac)
+        myPac = 0
 
-
-def newPackageMaker(CSVLlist):
-    list = package_list()
-    status = "Not Delivered"
-    time = datetime.timedelta(hours=8)
-    for a in list:
-        ID = int(a[0])
-        address = a[1]
-        city = a[2]
-        state = a[3]
-        zipcode = a[4]
-        deadline_time = a[5]
-        weight = a[6]
-        notes = a[7]
-
-        pat = Package2(ID, address, city, state, zipcode, deadline_time, weight, notes, status, time)
-        myHash3.insert(pat.ID, pat)
 
 # Reading CSV Package file with load package method
 loadPackageData('CSV_FILES/WGUPS_Package_File.csv')
-newPackageMaker('CSV_FILES/WGUPS_Package_File.csv')
-print("YOLOLOLOL ", myHash2.table)
-print("ASADASDAS ", myHash.table)
-print("GSAYYYYYYYYYY ", myHash3.search(3))
-print(myHash2.search(1))
 
 # Designating packages to trucks
 truck1 = [1, 2, 4, 5, 7, 8, 10, 11, 12, 21, 22, 23, 24, 26, 27, 29]
@@ -112,20 +83,25 @@ def delivery_process(truck):
     current_address = truck.address
     index_for_current_position = 0
 
-    list_of_package_info = []
     column_distant_list = []
     package_keys = []
     list_of_delivery_addresses = []
     list_of_all_addresses = []
+    new_list = []
 
     # Checking load of truck, then adding packages to lists
     for packageID in truck.packages:
-        package_list = myHash.search(packageID)
-        package_keys.append(int(package_list[0]))
-        list_of_package_info.append(package_list)
-        list_of_delivery_addresses.append(package_list[1])
+        package_keys.append(packageID)
+        r = str(myHash.search(packageID))
+        k = r.split(", ")
+        list_of_delivery_addresses.append(k[1])
+
+
+
 
     print("List keys ", package_keys)
+    print("New List  ", new_list)
+    print("List of delivery addresses ", list_of_delivery_addresses)
     # Adding all addresses to a list
     for col in address_list():
         list_of_all_addresses.append(col[1])
@@ -137,14 +113,14 @@ def delivery_process(truck):
 
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
-
+    print("INdexesese ", indexes_of_packages)
     test_list = indexes_of_packages[:]
     print("TEst List ", test_list)
     print("Test list length ", len(test_list))
 
     # Packages are being delivered
     count = 0
-    while len(indexes_of_packages) > 0:
+    while count < 13:
 
         count += 1
         print("Indexes of packages not sorted ", indexes_of_packages)
@@ -195,13 +171,15 @@ def delivery_process(truck):
 
             if r == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
+                print("No Dups ")
                 x = test_list.index(cleaned_list.index(shortest_route))
                 print("X = ", x)
                 y = int(package_keys[x])
                 print("Y = ", y)
-                key_id = myHash.search(y)
+                key_id = str(myHash.search(y))
                 print("Key ID = ", key_id)
-                key_id[7] = "Delivered"
+                key_id = key_id.split(", ")
+                key_id[9] = "Delivered"
                 deliverytime = (shortest_route / 18) * 60 * 60
                 dts = datetime.timedelta(seconds=deliverytime)
                 # key_id[8] = deliverytime
@@ -219,26 +197,30 @@ def delivery_process(truck):
             # Checking if duplicates on cleaned list
             if r == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) > 1:
+                print("Dups on distance list")
                 for s in test_list:
                     for f in duplicates_on_distance_cleaned_list:
                         if s == f:
                             t = test_list.index(s)
                             id = package_keys[t]
-                            key_id = myHash.search(id)
-                            if key_id[7] == "Not Delivered":
+                            key_id = str(myHash.search(id))
+                            key_id = key_id.split(", ")
+                            print("FUCCCCCCCCKKKKKKKK ", key_id)
+                            if key_id[8] == "Not Delivered":
                                 print("Key Id ", key_id)
-                                key_id[7] = "Delivered"
+                                key_id[8] = "Delivered"
                                 print("status ", myHash.search(id))
                                 print("Total Mileage ", truck_mileage)
                                 index_for_current_position = f
                                 truck_mileage += shortest_route
                                 print("Shorest route ", shortest_route)
+                                print("FFFF ", f)
                                 indexes_of_packages.remove(f)
 
             # Checking if dups are on current route
             if r == shortest_route and duplicate_distance_on_route > 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
-                print("??????????????????????????????????")
+                print("Dups on distance route")
                 truck_mileage += shortest_route
                 print("Shorest route ", shortest_route)
                 print("Total Mileage ", truck_mileage)
@@ -256,9 +238,10 @@ def delivery_process(truck):
                 for g in t:
                     print("g", g)
                     id = g
-                    key_id = myHash.search(id)
+                    key_id = str(myHash.search(id))
                     print("key id ", key_id)
-                    key_id[7] = "Delivered"
+                    key_id = key_id.split(", ")
+                    key_id[8] = "Delivered"
                     print("key id ", key_id)
                 # indexes_of_packages.remove(rat)
                 indexes_of_packages = [x for x in indexes_of_packages if x != rat]
@@ -266,16 +249,17 @@ def delivery_process(truck):
                 index_for_current_position = hey
 
             if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
-                print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ")
+                print("Dups on both route and clean list ")
                 tut = duplicates_on_distance_cleaned_list[0]
                 for s in test_list:
                     if s == tut:
                         key = package_keys[test_list.index(s)]
                         print("KEYY ", key)
-                        key_id = myHash.search(key)
-                        if key_id[7] == "Not Delivered":
+                        key_id = str(myHash.search(key))
+                        key_id = key_id.split(", ")
+                        if key_id[9] == "Not Delivered":
                             print("Key ", key_id)
-                            key_id[7] = "Delivered"
+                            key_id[9] = "Delivered"
                             myHash.insert(key, key_id)
                             print("Key ", key_id)
                             indexes_of_packages.remove(tut)
