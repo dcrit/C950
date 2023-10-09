@@ -206,9 +206,11 @@ def delivery_process(truck):
                             key_id = str(myHash.search(id))
                             key_id = key_id.split(", ")
                             print("FUCCCCCCCCKKKKKKKK ", key_id)
+                            print("GGGG ", key_id[8])
                             if key_id[8] == "Not Delivered":
                                 print("Key Id ", key_id)
                                 key_id[8] = "Delivered"
+                                myHash.insert(id, key_id)
                                 print("status ", myHash.search(id))
                                 print("Total Mileage ", truck_mileage)
                                 index_for_current_position = f
@@ -257,9 +259,9 @@ def delivery_process(truck):
                         print("KEYY ", key)
                         key_id = str(myHash.search(key))
                         key_id = key_id.split(", ")
-                        if key_id[9] == "Not Delivered":
+                        if key_id[8] == "Not Delivered":
                             print("Key ", key_id)
-                            key_id[9] = "Delivered"
+                            key_id[8] = "Delivered"
                             myHash.insert(key, key_id)
                             print("Key ", key_id)
                             indexes_of_packages.remove(tut)
