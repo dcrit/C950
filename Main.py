@@ -69,9 +69,9 @@ truck2 = [3, 18, 36, 38, 13, 14, 15, 16, 17, 19, 20, 30, 31, 33, 34, 35]
 truck3 = [6, 25, 28, 32, 37, 39, 40, 9]
 
 # Loading trucks
-loadTruck1 = Truck.Truck(16, 18, 1, truck1, 0.0, "4001 South 700 East", datetime.timedelta(hours=8))
-loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime.timedelta(hours=8))
-loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=10, minutes=20))
+loadTruck1 = Truck.Truck(16, 18, 1, truck1, 0.0, "4001 South 700 East", datetime.timedelta(hours=8), datetime.timedelta(hours=8))
+loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime.timedelta(hours=8), datetime.timedelta(hours=8))
+loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=10, minutes=20), datetime.timedelta(hours=8))
 
 # Total mileage variable
 total_mileage = 0.0
@@ -81,7 +81,7 @@ total_mileage = 0.0
 def delivery_process(truck):
 
     truck_mileage = 0.0
-    time = truck.time
+    time = truck.depart_time
     print("Helllo world ", time)
     current_address = truck.address
     index_for_current_position = 0
@@ -168,10 +168,10 @@ def delivery_process(truck):
                 key_id[8] = "Delivered"
                 deliverytime = (shortest_route / 18) * 60 * 60
                 dts = datetime.timedelta(seconds=deliverytime)
-                yo = time + dts
-                key_id[9] = deliverytime
+                time = time + dts
+                key_id[9] = str(time)
                 print("Time ", dts)
-                print("Yoo ", yo)
+                print("Yoo ", time)
                 myHash.insert(y, key_id)
                 print("Status ", myHash.search(y))
                 # Adding mileage to total mileage
@@ -195,6 +195,10 @@ def delivery_process(truck):
                             if key_id[8] == "Not Delivered":
                                 print("Key Id ", key_id)
                                 key_id[8] = "Delivered"
+                                deliverytime = (shortest_route / 18) * 60 * 60
+                                dts = datetime.timedelta(seconds=deliverytime)
+                                time = time + dts
+                                key_id[9] = str(time)
                                 myHash.insert(id, key_id)
                                 index_for_current_position = f
                                 truck_mileage += shortest_route
@@ -217,6 +221,10 @@ def delivery_process(truck):
                     key_id = str(myHash.search(id))
                     key_id = key_id.split(", ")
                     key_id[8] = "Delivered"
+                    deliverytime = (shortest_route / 18) * 60 * 60
+                    dts = datetime.timedelta(seconds=deliverytime)
+                    time = time + dts
+                    key_id[9] = str(time)
                     myHash.insert(id, key_id)
                     print("key id ", myHash.search(id))
                 # indexes_of_packages.remove(rat)
@@ -234,6 +242,10 @@ def delivery_process(truck):
                         key_id = key_id.split(", ")
                         if key_id[8] == "Not Delivered":
                             key_id[8] = "Delivered"
+                            deliverytime = (shortest_route / 18) * 60 * 60
+                            dts = datetime.timedelta(seconds=deliverytime)
+                            time = time + dts
+                            key_id[9] = str(time)
                             myHash.insert(key, key_id)
                             indexes_of_packages.remove(tut)
                             index_for_current_position = tut
@@ -241,9 +253,24 @@ def delivery_process(truck):
 
         # Returning to hub on last delivery
         if len(indexes_of_packages) == 0:
+            print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
             print("Last stop index ", index_for_current_position)
             print("To hub mileage ", mileage_list[0])
+            deliverytime = (mileage_list[0] / 18) * 60 * 60
+            dts = datetime.timedelta(seconds=deliverytime)
+            time = time + dts
+            print("Final Time ", time)
             truck_mileage += mileage_list[0]
+            if truck == loadTruck1:
+                loadTruck1.return_time = time
+                print("Truck 1 ", loadTruck1.return_time)
+            if truck == loadTruck2:
+                loadTruck2.return_time = time
+                print("Truck 1 ", loadTruck2.return_time)
+            if truck == loadTruck3:
+                loadTruck3.depart_time = loadTruck1
+                print("Truck 3")
+
 
         # Clearing lists
         row_distant_list.clear()
@@ -285,7 +312,7 @@ def updating_packages(list, position, keys):
             myHash.insert(y, key_id)
 
 
-# total_mileage += delivery_process(loadTruck1)
+total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
 # total_mileage += delivery_process(loadTruck3)
 print("Total Mileage ", total_mileage)
