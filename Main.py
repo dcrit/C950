@@ -194,6 +194,7 @@ def delivery_process(truck):
                 indexes_of_packages.remove(p)
 
             # Checking if duplicates on cleaned list
+            # Change made
             if r == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) > 1:
                 print("Dups on distance list")
