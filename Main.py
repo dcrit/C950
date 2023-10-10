@@ -79,7 +79,10 @@ total_mileage = 0.0
 
 # Delivery Process method
 def delivery_process(truck):
+
     truck_mileage = 0.0
+    time = truck.time
+    print("Helllo world ", time)
     current_address = truck.address
     index_for_current_position = 0
 
@@ -98,9 +101,6 @@ def delivery_process(truck):
         k = r.split(", ")
         list_of_delivery_addresses.append(k[1])
 
-    print("List keys ", package_keys)
-    print("New List  ", new_list)
-    print("List of delivery addresses ", list_of_delivery_addresses)
     # Adding all addresses to a list
     for col in address_list():
         list_of_all_addresses.append(col[1])
@@ -112,18 +112,12 @@ def delivery_process(truck):
 
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
-    print("INdexesese ", indexes_of_packages)
+
     test_list = indexes_of_packages[:]
-    print("TEst List ", test_list)
-    print("Test list length ", len(test_list))
 
     # Packages are being delivered
-    count = 0
     while len(indexes_of_packages) > 0:
 
-        count += 1
-        print("Indexes of packages not sorted ", indexes_of_packages)
-        print("Index position ", index_for_current_position)
         # Reading Distance CSV
         csv_distance = distance_list()
 
@@ -145,51 +139,44 @@ def delivery_process(truck):
 
         # Converting str list to float
         cleaned_list = [float(ele) for ele in cleaned_list]
-        print("Cleaned List = ", cleaned_list)
 
         # Getting mileage distances for packages on route
         mileage_list = [cleaned_list[i] for i in indexes_of_packages]
-        print("Mileage List = ", mileage_list)
 
         # Find the nearest route by using the min function
         shortest_route = min(mileage_list)
-        print("Shortest route = ", shortest_route)
+
         shortest_route_index = mileage_list.index(min(mileage_list))
-        print("Shortest route index ", shortest_route_index)
+
 
         duplicates_on_distance_cleaned_list = find_indices(cleaned_list, shortest_route)
-        print("Dups on cleaned list = ", duplicates_on_distance_cleaned_list)
+
         # Counting duplicate distance on next route
         duplicate_distance_on_route = mileage_list.count(shortest_route)
-        boo = find_indices(mileage_list, shortest_route)
-        print("Dups on mileage list ", duplicate_distance_on_route)
-        print("Dups milege listb ", boo)
 
         # Working hererer!!!!!!!!!!!!!!!!!!
         for r in cleaned_list:
 
             if r == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
-                print("No Dups ")
+                print("No Dups")
                 x = test_list.index(cleaned_list.index(shortest_route))
-                print("X = ", x)
                 y = int(package_keys[x])
-                print("Y = ", y)
                 key_id = str(myHash.search(y))
                 print("Key ID = ", key_id)
                 key_id = key_id.split(", ")
                 key_id[8] = "Delivered"
                 deliverytime = (shortest_route / 18) * 60 * 60
                 dts = datetime.timedelta(seconds=deliverytime)
-                # key_id[8] = deliverytime
+                yo = time + dts
+                key_id[9] = deliverytime
                 print("Time ", dts)
+                print("Yoo ", yo)
                 myHash.insert(y, key_id)
                 print("Status ", myHash.search(y))
                 # Adding mileage to total mileage
                 truck_mileage += shortest_route
                 index_for_current_position = duplicates_on_distance_cleaned_list[0]
-                print("Shortest route ", shortest_route)
-                print("Total Mileage ", truck_mileage)
                 p = int(duplicates_on_distance_cleaned_list[0])
                 indexes_of_packages.remove(p)
 
@@ -197,7 +184,7 @@ def delivery_process(truck):
             # Change made
             if r == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) > 1:
-                print("Dups on distance list")
+                print("Dups on duplicates ")
                 for s in test_list:
                     for f in duplicates_on_distance_cleaned_list:
                         if s == f:
@@ -205,43 +192,29 @@ def delivery_process(truck):
                             id = package_keys[t]
                             key_id = str(myHash.search(id))
                             key_id = key_id.split(", ")
-                            print("FUCCCCCCCCKKKKKKKK ", key_id)
-                            print("GGGG ", key_id[8])
                             if key_id[8] == "Not Delivered":
                                 print("Key Id ", key_id)
                                 key_id[8] = "Delivered"
                                 myHash.insert(id, key_id)
-                                print("status ", myHash.search(id))
-                                print("Total Mileage ", truck_mileage)
                                 index_for_current_position = f
                                 truck_mileage += shortest_route
-                                print("Shorest route ", shortest_route)
-                                print("FFFF ", f)
                                 indexes_of_packages.remove(f)
 
             # Checking if dups are on current route
             if r == shortest_route and duplicate_distance_on_route > 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
-                print("Dups on distance route")
+                print("Dups on route")
                 truck_mileage += shortest_route
-                print("Shorest route ", shortest_route)
-                print("Total Mileage ", truck_mileage)
-                print("dups on clean ", duplicates_on_distance_cleaned_list)
-                print("Dups on route BOOOOOOOOOOOO ", boo)
                 rat = int(duplicates_on_distance_cleaned_list[0])
                 t = []
-                print("RATT ", rat)
                 for h in test_list:
                     if h == rat:
                         stuff = find_indices(test_list, h)
-                        print("Stuff ", stuff)
                         t = [package_keys[i] for i in stuff]
-                        print("TTTtttt ", t)
                 for g in t:
                     print("g", g)
                     id = g
                     key_id = str(myHash.search(id))
-                    print("key id ", key_id)
                     key_id = key_id.split(", ")
                     key_id[8] = "Delivered"
                     myHash.insert(id, key_id)
@@ -252,27 +225,19 @@ def delivery_process(truck):
                 index_for_current_position = hey
 
             if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
-                print("Dups on both route and clean list ")
                 tut = duplicates_on_distance_cleaned_list[0]
+                print("Dups on route and cleaned list")
                 for s in test_list:
                     if s == tut:
                         key = package_keys[test_list.index(s)]
-                        print("KEYY ", key)
                         key_id = str(myHash.search(key))
                         key_id = key_id.split(", ")
                         if key_id[8] == "Not Delivered":
-                            print("Key ", key_id)
                             key_id[8] = "Delivered"
                             myHash.insert(key, key_id)
-                            print("Key ", key_id)
                             indexes_of_packages.remove(tut)
                             index_for_current_position = tut
 
-        print("package keys ", package_keys)
-        print("test list ", test_list)
-        print("test list length ", len(test_list))
-        print("index of current postion ", index_for_current_position)
-        print("Pacakgae indexes ", indexes_of_packages)
 
         # Returning to hub on last delivery
         if len(indexes_of_packages) == 0:
@@ -292,14 +257,12 @@ def delivery_process(truck):
     print("Truck mileage ", truck_mileage)
     return truck_mileage
 
-
 def remove_delivered_package(list, item):
     res = []
     for t in list:
         if t != item:
             res.append(t)
     return res
-
 
 def find_indices(l, value):
     return [
@@ -318,13 +281,13 @@ def updating_packages(list, position, keys):
             print("Y = ", y)
             key_id = myHash.search(y)
             print("Key ID = ", key_id)
-            key_id[7] = "Delivered"
+            key_id[8] = "Delivered"
             myHash.insert(y, key_id)
 
 
-total_mileage += delivery_process(loadTruck1)
+# total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
-total_mileage += delivery_process(loadTruck3)
+# total_mileage += delivery_process(loadTruck3)
 print("Total Mileage ", total_mileage)
 print("Truck 1 ")
 print("Checking packages 1 ", myHash.search(1))
