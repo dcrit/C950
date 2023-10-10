@@ -146,17 +146,15 @@ def delivery_process(truck):
         # Find the nearest route by using the min function
         shortest_route = min(mileage_list)
 
-        shortest_route_index = mileage_list.index(min(mileage_list))
-
-
+        # Checking duplicate values on cleaned list
         duplicates_on_distance_cleaned_list = find_indices(cleaned_list, shortest_route)
 
         # Counting duplicate distance on next route
         duplicate_distance_on_route = mileage_list.count(shortest_route)
 
-        # Working hererer!!!!!!!!!!!!!!!!!!
+        # Updating packages when they are being delivered
         for r in cleaned_list:
-
+            # Handles no duplicates distances and then updates package
             if r == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
                 print("No Dups")
@@ -180,8 +178,7 @@ def delivery_process(truck):
                 p = int(duplicates_on_distance_cleaned_list[0])
                 indexes_of_packages.remove(p)
 
-            # Checking if duplicates on cleaned list
-            # Change made
+            # Handles duplicate values on clean list and updates packages
             if r == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) > 1:
                 print("Dups on duplicates ")
@@ -204,7 +201,7 @@ def delivery_process(truck):
                                 truck_mileage += shortest_route
                                 indexes_of_packages.remove(f)
 
-            # Checking if dups are on current route
+            # Handles duplicate values on route and updates package
             if r == shortest_route and duplicate_distance_on_route > 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
                 print("Dups on route")
@@ -232,6 +229,7 @@ def delivery_process(truck):
                 hey = int(duplicates_on_distance_cleaned_list[0])
                 index_for_current_position = hey
 
+            # Handles duplicate values on route and cleaned list
             if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
                 tut = duplicates_on_distance_cleaned_list[0]
                 print("Dups on route and cleaned list")
@@ -250,7 +248,6 @@ def delivery_process(truck):
                             indexes_of_packages.remove(tut)
                             index_for_current_position = tut
 
-
         # Returning to hub on last delivery
         if len(indexes_of_packages) == 0:
             print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
@@ -261,6 +258,7 @@ def delivery_process(truck):
             time = time + dts
             print("Final Time ", time)
             truck_mileage += mileage_list[0]
+            # Updating final times
             if truck == loadTruck1:
                 loadTruck1.return_time = time
                 print("Truck 1 ", loadTruck1.return_time)
