@@ -69,9 +69,12 @@ truck2 = [3, 18, 36, 38, 13, 14, 15, 16, 17, 19, 20, 30, 31, 33, 34, 35]
 truck3 = [6, 25, 28, 32, 37, 39, 40, 9]
 
 # Loading trucks
-loadTruck1 = Truck.Truck(16, 18, 1, truck1, 0.0, "4001 South 700 East", datetime.timedelta(hours=8), datetime.timedelta(hours=8))
-loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime.timedelta(hours=8), datetime.timedelta(hours=8))
-loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=10, minutes=20), datetime.timedelta(hours=8))
+loadTruck1 = Truck.Truck(16, 18, 1, truck1, 0.0, "4001 South 700 East", datetime.timedelta(hours=8),
+                         datetime.timedelta(hours=8))
+loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime.timedelta(hours=8),
+                         datetime.timedelta(hours=8))
+loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=10, minutes=20),
+                         datetime.timedelta(hours=8))
 
 # Total mileage variable
 total_mileage = 0.0
@@ -79,7 +82,6 @@ total_mileage = 0.0
 
 # Delivery Process method
 def delivery_process(truck):
-
     truck_mileage = 0.0
     time = truck.depart_time
     print("Helllo world ", time)
@@ -265,10 +267,14 @@ def delivery_process(truck):
             if truck == loadTruck2:
                 loadTruck2.return_time = time
                 print("Truck 1 ", loadTruck2.return_time)
+                loadTruck3.depart_time = min(loadTruck1.return_time, loadTruck2.return_time)
+                print("RERERE ", loadTruck3.depart_time)
             if truck == loadTruck3:
-                loadTruck3.depart_time = loadTruck1
+                loadTruck3.return_time = time
+                print("Truck 3 ", loadTruck3.return_time)
+                # loadTruck3.depart_time = loadTruck1.return_time
+                # loadTruck3.depart_time = min(loadTruck1.return_time, loadTruck2.return_time)
                 print("Truck 3")
-
 
         # Clearing lists
         row_distant_list.clear()
@@ -282,12 +288,14 @@ def delivery_process(truck):
     print("Truck mileage ", truck_mileage)
     return truck_mileage
 
+
 def remove_delivered_package(list, item):
     res = []
     for t in list:
         if t != item:
             res.append(t)
     return res
+
 
 def find_indices(l, value):
     return [
@@ -312,7 +320,11 @@ def updating_packages(list, position, keys):
 
 total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
-# total_mileage += delivery_process(loadTruck3)
+total_mileage += delivery_process(loadTruck3)
+
+def interface():
+    print("Please choose")
+
 print("Total Mileage ", total_mileage)
 print("Truck 1 ")
 print("Checking packages 1 ", myHash.search(1))
