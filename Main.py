@@ -320,11 +320,18 @@ def ui():
     user_input = int(input("Input number: "))
     print("User Input ", user_input)
     if user_input == 1:
-        print(myHash.table)
-        # for package in myHash.table:
-        #     print(package, "\n")
+        pack = 1
+        while pack < 41:
+            print(myHash.search(pack))
+            pack += 1
     if user_input == 2:
         print("Total Mileage: ", total_mileage)
+    if user_input == 3:
+        print("Please enter a time using the following format: '8:00:00' ")
+        time = input("Enter a time: ")
+        t = myHash.search(1)
+        print(t[2])
+
 
 ui()
 
