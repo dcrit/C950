@@ -322,9 +322,17 @@ total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
 total_mileage += delivery_process(loadTruck3)
 
-def interface():
-    print("Please choose")
 
+
+def ui():
+    print("Please choose from the following options:\n"
+          "1. Show all package info \n"
+          "2. Total Mileage \n"
+          "3. Search for a package by time \n"
+          "4. Search for all packages by time \n"
+          "5. Exit Program ")
+
+ui()
 print("Total Mileage ", total_mileage)
 print("Truck 1 ")
 print("Checking packages 1 ", myHash.search(1))
