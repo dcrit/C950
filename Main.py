@@ -41,7 +41,7 @@ myHash = ChainingHashTable()
 # Loading packages method
 def loadPackageData(csvFile):
     PO = package_list()
-    status = "Not Delivered"
+    status = "At Hub"
     delivery_time = datetime.timedelta(hours=8)
     for package in PO:
         ID = int(package[0])
@@ -82,6 +82,7 @@ total_mileage = 0.0
 
 # Delivery Process method
 def delivery_process(truck):
+
     truck_mileage = 0.0
     time = truck.depart_time
     print("Helllo world ", time)
@@ -115,11 +116,19 @@ def delivery_process(truck):
     # Getting indexes of packages from all addresses
     indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
 
+    #Creating a compartive list
     test_list = indexes_of_packages[:]
 
+    # Updating package to "En Route" and converting to lists
+    for s in truck.packages:
+        here = str(myHash.search(s))
+        here = here.split(", ")
+        here[8] = "En route"
+        myHash.insert(s, here)
+    count = 0
     # Packages are being delivered
     while len(indexes_of_packages) > 0:
-
+        count += 1
         # Reading Distance CSV
         csv_distance = distance_list()
 
@@ -162,16 +171,13 @@ def delivery_process(truck):
                 print("No Dups")
                 x = test_list.index(cleaned_list.index(shortest_route))
                 y = int(package_keys[x])
-                key_id = str(myHash.search(y))
+                key_id = myHash.search(y)
                 print("Key ID = ", key_id)
-                key_id = key_id.split(", ")
                 key_id[8] = "Delivered"
                 deliverytime = (shortest_route / 18) * 60 * 60
                 dts = datetime.timedelta(seconds=deliverytime)
                 time = time + dts
                 key_id[9] = str(time)
-                print("Time ", dts)
-                print("Yoo ", time)
                 myHash.insert(y, key_id)
                 print("Status ", myHash.search(y))
                 # Adding mileage to total mileage
@@ -189,9 +195,9 @@ def delivery_process(truck):
                         if s == f:
                             t = test_list.index(s)
                             id = package_keys[t]
-                            key_id = str(myHash.search(id))
-                            key_id = key_id.split(", ")
-                            if key_id[8] == "Not Delivered":
+                            key_id = myHash.search(id)
+                            # key_id = key_id.split(", ")
+                            if key_id[8] == "En route":
                                 print("Key Id ", key_id)
                                 key_id[8] = "Delivered"
                                 deliverytime = (shortest_route / 18) * 60 * 60
@@ -217,8 +223,8 @@ def delivery_process(truck):
                 for g in t:
                     print("g", g)
                     id = g
-                    key_id = str(myHash.search(id))
-                    key_id = key_id.split(", ")
+                    key_id = myHash.search(id)
+                    # key_id = key_id.split(", ")
                     key_id[8] = "Delivered"
                     deliverytime = (shortest_route / 18) * 60 * 60
                     dts = datetime.timedelta(seconds=deliverytime)
@@ -238,9 +244,9 @@ def delivery_process(truck):
                 for s in test_list:
                     if s == tut:
                         key = package_keys[test_list.index(s)]
-                        key_id = str(myHash.search(key))
-                        key_id = key_id.split(", ")
-                        if key_id[8] == "Not Delivered":
+                        key_id = myHash.search(key)
+                        # key_id = key_id.split(", ")
+                        if key_id[8] == "En route":
                             key_id[8] = "Delivered"
                             deliverytime = (shortest_route / 18) * 60 * 60
                             dts = datetime.timedelta(seconds=deliverytime)
@@ -330,7 +336,9 @@ def ui():
           "2. Total Mileage \n"
           "3. Search for a package by time \n"
           "4. Search for all packages by time \n"
-          "5. Exit Program ")
+          "5. Exit Program \n")
+    # user_input = input("Input number: \n")
+    # print("Input = ", user_input)
 
 ui()
 print("Total Mileage ", total_mileage)
