@@ -4,6 +4,8 @@
 
 import csv
 import datetime
+import sys
+
 import Truck
 
 from HashTable import ChainingHashTable
@@ -84,7 +86,6 @@ total_mileage = 0.0
 def delivery_process(truck):
     truck_mileage = 0.0
     time = truck.depart_time
-    print("Helllo world ", time)
     current_address = truck.address
     index_for_current_position = 0
 
@@ -203,6 +204,7 @@ def delivery_process(truck):
                                 time = time + dts
                                 key_id[9] = str(time)
                                 myHash.insert(id, key_id)
+                                print(myHash.search(id))
                                 index_for_current_position = f
                                 truck_mileage += shortest_route
                                 indexes_of_packages.remove(f)
@@ -214,6 +216,9 @@ def delivery_process(truck):
                 truck_mileage += shortest_route
                 rat = int(duplicates_on_distance_cleaned_list[0])
                 t = []
+                deliverytime = (shortest_route / 18) * 60 * 60
+                dts = datetime.timedelta(seconds=deliverytime)
+                time = time + dts
                 for h in test_list:
                     if h == rat:
                         stuff = find_indices(test_list, h)
@@ -222,13 +227,13 @@ def delivery_process(truck):
                     print("g", g)
                     id = g
                     key_id = myHash.search(id)
-                    key_id[8] = "Delivered"
-                    deliverytime = (shortest_route / 18) * 60 * 60
-                    dts = datetime.timedelta(seconds=deliverytime)
-                    time = time + dts
-                    key_id[9] = str(time)
-                    myHash.insert(id, key_id)
-                    print("key id ", myHash.search(id))
+                    print("Hey you ", key_id)
+                    if key_id[8] == "En route":
+                        print("TRuck mileage ", total_mileage)
+                        key_id[8] = "Delivered"
+                        key_id[9] = str(time)
+                        myHash.insert(id, key_id)
+                        print("key id ", myHash.search(id))
                 # indexes_of_packages.remove(rat)
                 indexes_of_packages = [x for x in indexes_of_packages if x != rat]
                 hey = int(duplicates_on_distance_cleaned_list[0])
@@ -320,23 +325,27 @@ def ui():
           "1. Show all package info \n"
           "2. Total Mileage \n"
           "3. Search for a package by time \n"
-          "4. Search for all packages by time \n"
-          "5. Exit Program \n")
+          "4. Exit Program \n")
     user_input = int(input("Input number: "))
     print("User Input ", user_input)
     if user_input == 1:
         print(*cool_list, sep="\n")
+        ui()
     if user_input == 2:
         print("Total Mileage: ", total_mileage)
+        ui()
     if user_input == 3:
         print("Please enter a time using the following format: '8:00:00' ")
-        time = input("Enter a time: ")
+        time = str(input("Enter a time: "))
         for s in cool_list:
-            print(s[9])
-        t = myHash.search(1)
-        print(t[2])
+            if s[9] == time:
+                print("Match = ", s)
+        ui()
+    if user_input == 4:
+        # sys.exit()
 
 ui()
+
 
 def all_pacakage_info():
     print("Total Mileage ", total_mileage)
@@ -387,3 +396,5 @@ def all_pacakage_info():
     print("Checking packages 39 ", myHash.search(39))
     print("Checking packages 40 ", myHash.search(40))
     print("Checking packages 9 ", myHash.search(9))
+
+all_pacakage_info()
