@@ -311,6 +311,11 @@ total_mileage += delivery_process(loadTruck3)
 
 
 def ui():
+    cool_list = []
+    pack = 1
+    while pack < 41:
+        cool_list.append(myHash.search(pack))
+        pack += 1
     print("Please choose from the following options:\n"
           "1. Show all package info \n"
           "2. Total Mileage \n"
@@ -320,18 +325,16 @@ def ui():
     user_input = int(input("Input number: "))
     print("User Input ", user_input)
     if user_input == 1:
-        pack = 1
-        while pack < 41:
-            print(myHash.search(pack))
-            pack += 1
+        print(*cool_list, sep="\n")
     if user_input == 2:
         print("Total Mileage: ", total_mileage)
     if user_input == 3:
         print("Please enter a time using the following format: '8:00:00' ")
         time = input("Enter a time: ")
+        for s in cool_list:
+            print(s[9])
         t = myHash.search(1)
         print(t[2])
-
 
 ui()
 
