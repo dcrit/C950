@@ -342,7 +342,7 @@ def ui():
                 print("Match = ", s)
         ui()
     if user_input == 4:
-        # sys.exit()
+        sys.exit()
 
 ui()
 
