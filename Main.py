@@ -93,7 +93,7 @@ def delivery_process(truck):
     package_keys = []
     list_of_delivery_addresses = []
     list_of_all_addresses = []
-    new_list = []
+    indexes_of_packages = []
 
     # Checking load of truck, then adding packages to lists
     for packageID in truck.packages:
@@ -114,21 +114,24 @@ def delivery_process(truck):
             index_for_current_position = list_of_all_addresses.index(index)
 
     # Getting indexes of packages from all addresses
-    indexes_of_packages = [list_of_all_addresses.index(c) for c in list_of_delivery_addresses]
+    for index in list_of_delivery_addresses:
+        for a in list_of_all_addresses:
+            if index == a:
+                indexes_of_packages.append(list_of_all_addresses.index(index))
 
-    # Creating a compartive list
-    test_list = indexes_of_packages[:]
+    # Creating a comparative list
+    comparative_list = indexes_of_packages[:]
 
     # Updating package to "En Route" and converting to lists
-    for s in truck.packages:
-        here = str(myHash.search(s))
-        here = here.split(", ")
-        here[8] = "En route"
-        myHash.insert(s, here)
-    count = 0
+    for package_id in truck.packages:
+        package = str(myHash.search(package_id))
+        package = package.split(", ")
+        package[8] = "En route"
+        myHash.insert(package_id, package)
+
     # Packages are being delivered
     while len(indexes_of_packages) > 0:
-        count += 1
+
         # Reading Distance CSV
         csv_distance = distance_list()
 
@@ -169,7 +172,7 @@ def delivery_process(truck):
             if r == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
                 print("No Dups")
-                x = test_list.index(cleaned_list.index(shortest_route))
+                x = comparative_list.index(cleaned_list.index(shortest_route))
                 y = int(package_keys[x])
                 key_id = myHash.search(y)
                 print("Key ID = ", key_id)
@@ -190,10 +193,10 @@ def delivery_process(truck):
             if r == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) > 1:
                 print("Dups on duplicates ")
-                for s in test_list:
+                for package_id in comparative_list:
                     for f in duplicates_on_distance_cleaned_list:
-                        if s == f:
-                            t = test_list.index(s)
+                        if package_id == f:
+                            t = comparative_list.index(package_id)
                             id = package_keys[t]
                             key_id = myHash.search(id)
                             if key_id[8] == "En route":
@@ -219,9 +222,9 @@ def delivery_process(truck):
                 deliverytime = (shortest_route / 18) * 60 * 60
                 dts = datetime.timedelta(seconds=deliverytime)
                 time = time + dts
-                for h in test_list:
+                for h in comparative_list:
                     if h == rat:
-                        stuff = find_indices(test_list, h)
+                        stuff = find_indices(comparative_list, h)
                         t = [package_keys[i] for i in stuff]
                 for g in t:
                     print("g", g)
@@ -243,9 +246,9 @@ def delivery_process(truck):
             if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
                 tut = duplicates_on_distance_cleaned_list[0]
                 print("Dups on route and cleaned list")
-                for s in test_list:
-                    if s == tut:
-                        key = package_keys[test_list.index(s)]
+                for package_id in comparative_list:
+                    if package_id == tut:
+                        key = package_keys[comparative_list.index(package_id)]
                         key_id = myHash.search(key)
                         # key_id = key_id.split(", ")
                         if key_id[8] == "En route":
@@ -290,7 +293,7 @@ def delivery_process(truck):
 
         print(
             "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    print("Test List ", test_list)
+    print("Test List ", comparative_list)
     print("Truck mileage ", truck_mileage)
     return truck_mileage
 
@@ -344,6 +347,7 @@ def ui():
     if user_input == 4:
         sys.exit()
 
+
 ui()
 
 
@@ -396,5 +400,6 @@ def all_pacakage_info():
     print("Checking packages 39 ", myHash.search(39))
     print("Checking packages 40 ", myHash.search(40))
     print("Checking packages 9 ", myHash.search(9))
+
 
 all_pacakage_info()
