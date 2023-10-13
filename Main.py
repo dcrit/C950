@@ -94,6 +94,7 @@ def delivery_process(truck):
     list_of_delivery_addresses = []
     list_of_all_addresses = []
     indexes_of_packages = []
+    cleaned_list = []
 
     # Adding all addresses to a list
     for col in address_list():
@@ -104,12 +105,11 @@ def delivery_process(truck):
         # Adding Keys to a list
         package_keys.append(packageID)
         # Adding all delivery addresses to a list
-        r = str(myHash.search(packageID))
-        package = r.split(", ")
+        mileage = str(myHash.search(packageID))
+        package = mileage.split(", ")
         package[8] = "En route"
         myHash.insert(packageID, package)
         list_of_delivery_addresses.append(package[1])
-
 
         # if col == current_address:
         #     index_for_current_position == address_list().index(col)
@@ -155,7 +155,13 @@ def delivery_process(truck):
         row_distant_list.extend(column_distant_list)
 
         # Removing empty spaces and moving data to 'cleaned list'
-        cleaned_list = [ele for ele in row_distant_list if ele.strip()]
+        # cleaned_list = [ele for ele in row_distant_list if ele.strip()
+
+        for cell in row_distant_list:
+            if cell != "":
+                cleaned_list.append(cell)
+
+        print("Cleaned list 2 ", cleaned_list)
 
         # Converting str list to float
         cleaned_list = [float(ele) for ele in cleaned_list]
@@ -173,9 +179,9 @@ def delivery_process(truck):
         duplicate_distance_on_route = mileage_list.count(shortest_route)
 
         # Updating packages when they are being delivered
-        for r in cleaned_list:
+        for mileage in cleaned_list:
             # Handles no duplicates distances and then updates package
-            if r == shortest_route and duplicate_distance_on_route == 1 and len(
+            if mileage == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
                 print("No Dups")
                 x = comparative_list.index(cleaned_list.index(shortest_route))
@@ -196,7 +202,7 @@ def delivery_process(truck):
                 indexes_of_packages.remove(p)
 
             # Handles duplicate values on clean list and updates packages
-            if r == shortest_route and duplicate_distance_on_route == 1 and len(
+            if mileage == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) > 1:
                 print("Dups on duplicates ")
                 for package_id in comparative_list:
@@ -219,9 +225,10 @@ def delivery_process(truck):
                                 indexes_of_packages.remove(f)
 
             # Handles duplicate values on route and updates package
-            if r == shortest_route and duplicate_distance_on_route > 1 and len(
+            if mileage == shortest_route and duplicate_distance_on_route > 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
                 print("Dups on route")
+                # Adding mileage to truck
                 truck_mileage += shortest_route
                 rat = int(duplicates_on_distance_cleaned_list[0])
                 t = []
@@ -249,7 +256,8 @@ def delivery_process(truck):
                 index_for_current_position = hey
 
             # Handles duplicate values on route and cleaned list
-            if r == shortest_route and duplicate_distance_on_route > 1 and len(duplicates_on_distance_cleaned_list) > 1:
+            if mileage == shortest_route and duplicate_distance_on_route > 1 and len(
+                    duplicates_on_distance_cleaned_list) > 1:
                 tut = duplicates_on_distance_cleaned_list[0]
                 print("Dups on route and cleaned list")
                 for package_id in comparative_list:
