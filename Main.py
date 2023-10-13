@@ -184,22 +184,23 @@ def delivery_process(truck):
             if mileage == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
                 print("No Dups")
+                # Adding mileage to total mileage
+                truck_mileage += shortest_route
                 x = comparative_list.index(cleaned_list.index(shortest_route))
                 y = int(package_keys[x])
                 key_id = myHash.search(y)
                 print("Key ID = ", key_id)
-                key_id[8] = "Delivered"
-                deliverytime = (shortest_route / 18) * 60 * 60
-                dts = datetime.timedelta(seconds=deliverytime)
-                time = time + dts
-                key_id[9] = str(time)
-                myHash.insert(y, key_id)
-                print("Status ", myHash.search(y))
-                # Adding mileage to total mileage
-                truck_mileage += shortest_route
-                index_for_current_position = duplicates_on_distance_cleaned_list[0]
-                p = int(duplicates_on_distance_cleaned_list[0])
-                indexes_of_packages.remove(p)
+                if key_id[8] == "En route":
+                    key_id[8] = "Delivered"
+                    deliverytime = (shortest_route / 18) * 60 * 60
+                    dts = datetime.timedelta(seconds=deliverytime)
+                    time = time + dts
+                    key_id[9] = str(time)
+                    myHash.insert(y, key_id)
+                    print("Status ", myHash.search(y))
+                    index_for_current_position = duplicates_on_distance_cleaned_list[0]
+                    p = int(duplicates_on_distance_cleaned_list[0])
+                    indexes_of_packages.remove(p)
 
             # Handles duplicate values on clean list and updates packages
             if mileage == shortest_route and duplicate_distance_on_route == 1 and len(
