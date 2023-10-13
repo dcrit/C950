@@ -95,25 +95,31 @@ def delivery_process(truck):
     list_of_all_addresses = []
     indexes_of_packages = []
 
-    # Checking load of truck, then adding packages to lists
+    # Adding all addresses to a list
+    for col in address_list():
+        list_of_all_addresses.append(col[1])
+
+    # Loading truck and status of packages
     for packageID in truck.packages:
         # Adding Keys to a list
         package_keys.append(packageID)
         # Adding all delivery addresses to a list
         r = str(myHash.search(packageID))
-        k = r.split(", ")
-        list_of_delivery_addresses.append(k[1])
+        package = r.split(", ")
+        package[8] = "En route"
+        myHash.insert(packageID, package)
+        list_of_delivery_addresses.append(package[1])
 
-    # Adding all addresses to a list
-    for col in address_list():
-        list_of_all_addresses.append(col[1])
+
+        # if col == current_address:
+        #     index_for_current_position == address_list().index(col)
 
     # Getting the index of the current address
-    for index in list_of_all_addresses:
-        if index == current_address:
-            index_for_current_position = list_of_all_addresses.index(index)
+    # for index in list_of_all_addresses:
+    #     if index == current_address:
+    #         index_for_current_position = list_of_all_addresses.index(index)
 
-    # Getting indexes of packages from all addresses
+    # Getting indexes of packages being delivered
     for index in list_of_delivery_addresses:
         for a in list_of_all_addresses:
             if index == a:
@@ -123,11 +129,11 @@ def delivery_process(truck):
     comparative_list = indexes_of_packages[:]
 
     # Updating package to "En Route" and converting to lists
-    for package_id in truck.packages:
-        package = str(myHash.search(package_id))
-        package = package.split(", ")
-        package[8] = "En route"
-        myHash.insert(package_id, package)
+    # for package_id in truck.packages:
+    #     package = str(myHash.search(package_id))
+    #     package = package.split(", ")
+    #     package[8] = "En route"
+    #     myHash.insert(package_id, package)
 
     # Packages are being delivered
     while len(indexes_of_packages) > 0:
