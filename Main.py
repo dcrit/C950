@@ -61,7 +61,6 @@ def loadPackageData(csvFile):
         # Inserting Package ID and Package Info in a hash table
         myHash.insert(ID, package_object)
 
-
 # Reading CSV Package file with load package method
 loadPackageData('CSV_FILES/WGUPS_Package_File.csv')
 
@@ -86,9 +85,9 @@ total_mileage = 0.0
 def delivery_process(truck):
     truck_mileage = 0.0
     time = truck.depart_time
-    current_address = truck.address
     index_for_current_position = 0
 
+    # Emtpy lists need for my delivery process
     column_distant_list = []
     package_keys = []
     list_of_delivery_addresses = []
@@ -184,10 +183,10 @@ def delivery_process(truck):
                     index_for_current_position = duplicates_on_distance_cleaned_list[0]
                     p = int(duplicates_on_distance_cleaned_list[0])
                     indexes_of_packages.remove(p)
-
             # Handles duplicate values on clean list and updates packages
             if mileage == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) > 1:
+                # Determining what duplicates need to be delivered and updating package
                 for package_id in comparative_list:
                     for duplicate in duplicates_on_distance_cleaned_list:
                         if package_id == duplicate:
@@ -268,13 +267,15 @@ def delivery_process(truck):
             time = time + dts
             print("Final Time ", time)
             truck_mileage += mileage_list[0]
-            # Updating final times
+
+            # Updating final times and mileage
             if truck == loadTruck1:
                 loadTruck1.return_time = time
                 print("Truck 1 ", loadTruck1.return_time)
             if truck == loadTruck2:
                 loadTruck2.return_time = time
-                print("Truck 1 ", loadTruck2.return_time)
+                print("Truck 2 ", loadTruck2.return_time)
+                # Checking which truck has the min time and setting truck 3 depart time
                 loadTruck3.depart_time = min(loadTruck1.return_time, loadTruck2.return_time)
                 print("RERERE ", loadTruck3.depart_time)
             if truck == loadTruck3:
@@ -297,6 +298,7 @@ def delivery_process(truck):
     return truck_mileage
 
 
+# Removing delivered packages and returning remaining packages
 def remove_delivered_package(list, item):
     res = []
     for t in list:
@@ -305,6 +307,7 @@ def remove_delivered_package(list, item):
     return res
 
 
+# Finding indices of a value in a list
 def find_indices(l, value):
     return [
         index for index, item in enumerate(l)
@@ -312,17 +315,21 @@ def find_indices(l, value):
     ]
 
 
+# Starting the delivery process and returning mileage from truck
 total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
 total_mileage += delivery_process(loadTruck3)
 
 
+# User Interface
 def ui():
-    cool_list = []
+    packages = []
     pack = 1
+    # Adding packages to a list
     while pack < 41:
-        cool_list.append(myHash.search(pack))
+        packages.append(myHash.search(pack))
         pack += 1
+    # Options for the user to choose from
     print("Please choose from the following options:\n"
           "1. Show all package info \n"
           "2. Total Mileage \n"
@@ -331,7 +338,7 @@ def ui():
     user_input = int(input("Input number: "))
     print("User Input ", user_input)
     if user_input == 1:
-        print(*cool_list, sep="\n")
+        print(*packages, sep="\n")
         ui()
     if user_input == 2:
         print("Total Mileage: ", total_mileage)
@@ -339,7 +346,7 @@ def ui():
     if user_input == 3:
         print("Please enter a time using the following format: '8:00:00' ")
         time = str(input("Enter a time: "))
-        for s in cool_list:
+        for s in packages:
             if s[9] == time:
                 print("Match = ", s)
         ui()
@@ -348,57 +355,3 @@ def ui():
 
 
 ui()
-
-
-def all_pacakage_info():
-    print("Total Mileage ", total_mileage)
-    print("Truck 1 ")
-    print("Checking packages 1 ", myHash.search(1))
-    print("Checking packages 2 ", myHash.search(2))
-    print("Checking packages 4 ", myHash.search(4))
-    print("Checking packages 5 ", myHash.search(5))
-    print("Checking packages 7 ", myHash.search(7))
-    print("Checking packages 8 ", myHash.search(8))
-    print("Checking packages 10 ", myHash.search(10))
-    print("Checking packages 11 ", myHash.search(11))
-    print("Checking packages 12 ", myHash.search(12))
-    print("Checking packages 21 ", myHash.search(21))
-    print("Checking packages 22 ", myHash.search(22))
-    print("Checking packages 23 ", myHash.search(23))
-    print("Checking packages 24 ", myHash.search(24))
-    print("Checking packages 26 ", myHash.search(26))
-    print("Checking packages 27 ", myHash.search(27))
-    print("Checking packages 29 ", myHash.search(29))
-    print("\n")
-    print("Truck 2")
-    print("Total Mileage ", total_mileage)
-    print("Checking packages 3 ", myHash.search(3))
-    print("Checking packages 18 ", myHash.search(18))
-    print("Checking packages 36 ", myHash.search(36))
-    print("Checking packages 38 ", myHash.search(38))
-    print("Checking packages 13 ", myHash.search(13))
-    print("Checking packages 14 ", myHash.search(14))
-    print("Checking packages 15 ", myHash.search(15))
-    print("Checking packages 16 ", myHash.search(16))
-    print("Checking packages 17 ", myHash.search(17))
-    print("Checking packages 19 ", myHash.search(19))
-    print("Checking packages 20 ", myHash.search(20))
-    print("Checking packages 30 ", myHash.search(30))
-    print("Checking packages 31 ", myHash.search(31))
-    print("Checking packages 33 ", myHash.search(33))
-    print("Checking packages 34 ", myHash.search(34))
-    print("Checking packages 35 ", myHash.search(35))
-    print("\n")
-    print("Truck 3")
-    print("Total Mileage ", total_mileage)
-    print("Checking packages 6 ", myHash.search(6))
-    print("Checking packages 25 ", myHash.search(25))
-    print("Checking packages 28 ", myHash.search(28))
-    print("Checking packages 32 ", myHash.search(32))
-    print("Checking packages 37 ", myHash.search(37))
-    print("Checking packages 39 ", myHash.search(39))
-    print("Checking packages 40 ", myHash.search(40))
-    print("Checking packages 9 ", myHash.search(9))
-
-
-all_pacakage_info()
