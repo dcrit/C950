@@ -37,10 +37,11 @@ def distance_list():
 
 
 # Creating hash object
-myHash = ChainingHashTable()
+my_hash = ChainingHashTable()
 
 
 # Loading packages method
+#
 def loadPackageData(csvFile):
     PO = package_list()
     status = "At Hub"
@@ -59,7 +60,7 @@ def loadPackageData(csvFile):
         package_object = Package(ID, address, city, state, zip, deadline, weight, notes, status, delivery_time)
 
         # Inserting Package ID and Package Info in a hash table
-        myHash.insert(ID, package_object)
+        my_hash.insert(ID, package_object)
 
 # Reading CSV Package file with load package method
 loadPackageData('CSV_FILES/WGUPS_Package_File.csv')
@@ -87,7 +88,7 @@ def delivery_process(truck):
     time = truck.depart_time
     index_for_current_position = 0
 
-    # Emtpy lists need for my delivery process
+    # Emtpy lists needed for my delivery process
     column_distant_list = []
     package_keys = []
     list_of_delivery_addresses = []
@@ -105,10 +106,10 @@ def delivery_process(truck):
         # Adding Keys to a list
         package_keys.append(packageID)
         # Adding all delivery addresses to a list
-        mileage = str(myHash.search(packageID))
+        mileage = str(my_hash.search(packageID))
         package = mileage.split(", ")
         package[8] = "En route"
-        myHash.insert(packageID, package)
+        my_hash.insert(packageID, package)
         list_of_delivery_addresses.append(package[1])
 
     # Getting indexes of packages being delivered
@@ -169,7 +170,7 @@ def delivery_process(truck):
                 x = comparative_list.index(cleaned_list.index(shortest_route))
                 y = int(package_keys[x])
                 # Pulling package from hash table to update
-                key_value = myHash.search(y)
+                key_value = my_hash.search(y)
                 print("Key ID = ", key_value)
                 # Checking status of package and updating
                 if key_value[8] == "En route":
@@ -178,8 +179,8 @@ def delivery_process(truck):
                     dts = datetime.timedelta(seconds=delivery_time)
                     time = time + dts
                     key_value[9] = str(time)
-                    myHash.insert(y, key_value)
-                    print("Status ", myHash.search(y))
+                    my_hash.insert(y, key_value)
+                    print("Status ", my_hash.search(y))
                     index_for_current_position = duplicates_on_distance_cleaned_list[0]
                     p = int(duplicates_on_distance_cleaned_list[0])
                     indexes_of_packages.remove(p)
@@ -191,7 +192,7 @@ def delivery_process(truck):
                     for duplicate in duplicates_on_distance_cleaned_list:
                         if package_id == duplicate:
                             package_id = package_keys[comparative_list.index(package_id)]
-                            key_value = myHash.search(package_id)
+                            key_value = my_hash.search(package_id)
                             if key_value[8] == "En route":
                                 print("Key Id ", key_value)
                                 key_value[8] = "Delivered"
@@ -199,8 +200,8 @@ def delivery_process(truck):
                                 dts = datetime.timedelta(seconds=delivery_time)
                                 time = time + dts
                                 key_value[9] = str(time)
-                                myHash.insert(package_id, key_value)
-                                print(myHash.search(package_id))
+                                my_hash.insert(package_id, key_value)
+                                print(my_hash.search(package_id))
                                 index_for_current_position = duplicate
                                 truck_mileage += shortest_route
                                 indexes_of_packages.remove(duplicate)
@@ -228,12 +229,12 @@ def delivery_process(truck):
                 # Checking package status and then updating package
                 for key in keys:
                     package_id = key
-                    key_value = myHash.search(package_id)
+                    key_value = my_hash.search(package_id)
                     if key_value[8] == "En route":
                         key_value[8] = "Delivered"
                         key_value[9] = str(time)
-                        myHash.insert(package_id, key_value)
-                        print("key id ", myHash.search(package_id))
+                        my_hash.insert(package_id, key_value)
+                        print("key id ", my_hash.search(package_id))
                 # Removing delivered package for route
                 indexes_of_packages = remove_delivered_package(indexes_of_packages, duplicate)
                 # Updating position
@@ -248,14 +249,14 @@ def delivery_process(truck):
                 for package_id in comparative_list:
                     if package_id == first_package:
                         key = package_keys[comparative_list.index(package_id)]
-                        key_value = myHash.search(key)
+                        key_value = my_hash.search(key)
                         if key_value[8] == "En route":
                             key_value[8] = "Delivered"
                             delivery_time = (shortest_route / 18) * 60 * 60
                             dts = datetime.timedelta(seconds=delivery_time)
                             time = time + dts
                             key_value[9] = str(time)
-                            myHash.insert(key, key_value)
+                            my_hash.insert(key, key_value)
                             indexes_of_packages.remove(first_package)
                             index_for_current_position = first_package
 
@@ -327,7 +328,7 @@ def ui():
     pack = 1
     # Adding packages to a list
     while pack < 41:
-        packages.append(myHash.search(pack))
+        packages.append(my_hash.search(pack))
         pack += 1
     # Options for the user to choose from
     print("Please choose from the following options:\n"
