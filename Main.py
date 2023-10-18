@@ -5,7 +5,6 @@
 import csv
 import datetime
 import sys
-
 import Truck
 
 from HashTable import ChainingHashTable
@@ -13,6 +12,7 @@ from Package import Package
 
 
 # Reading address csv
+# Space-time complexity O(n)
 def address_list():
     with open('CSV_FILES/WGUPS_Address_Table.csv', encoding="utf-8-sig") as csv_file_address:
         csv_address = csv.reader(csv_file_address)
@@ -21,6 +21,7 @@ def address_list():
 
 
 # Reading package csv
+# Space-time complexity O(n)
 def package_list():
     with open('CSV_FILES/WGUPS_Package_File.csv', encoding='utf-8-sig') as csv_file_package:
         csv_package = csv.reader(csv_file_package)
@@ -29,6 +30,7 @@ def package_list():
 
 
 # Reading distance csv
+# Space-time complexity O(n)
 def distance_list():
     with open('CSV_FILES/WGUPS_Distance_Table.csv', encoding="utf-8-sig") as csv_file_distance:
         csv_distance = csv.reader(csv_file_distance)
@@ -41,29 +43,30 @@ my_hash = ChainingHashTable()
 
 
 # Loading packages method
-#
-def loadPackageData(csvFile):
-    PO = package_list()
+# Space-time complexity O(1)
+def load_package_data(csvFile):
+    packages = package_list()
     status = "At Hub"
     delivery_time = datetime.timedelta(hours=8)
-    for package in PO:
+    for package in packages:
         ID = int(package[0])
         address = package[1]
         city = package[2]
         state = package[3]
-        zip = package[4]
+        zip_code = package[4]
         deadline = package[5]
         weight = package[6]
         notes = package[7]
 
-        # Creating an Package object to put in hash table
-        package_object = Package(ID, address, city, state, zip, deadline, weight, notes, status, delivery_time)
+        # Creating a Package object to put in hash table
+        package_object = Package(ID, address, city, state, zip_code, deadline, weight, notes, status, delivery_time)
 
         # Inserting Package ID and Package Info in a hash table
         my_hash.insert(ID, package_object)
 
+
 # Reading CSV Package file with load package method
-loadPackageData('CSV_FILES/WGUPS_Package_File.csv')
+load_package_data('CSV_FILES/WGUPS_Package_File.csv')
 
 # Designating packages to trucks
 truck1 = [1, 2, 4, 5, 7, 8, 10, 11, 12, 21, 22, 23, 24, 26, 27, 29]
@@ -83,6 +86,7 @@ total_mileage = 0.0
 
 
 # Delivery Process method
+# Space-time complexity O(n^2)
 def delivery_process(truck):
     truck_mileage = 0.0
     time = truck.depart_time
@@ -98,10 +102,12 @@ def delivery_process(truck):
     mileage_list = []
 
     # Adding all addresses to a list
+    # Space-time complexity O(1)
     for col in address_list():
         list_of_all_addresses.append(col[1])
 
     # Loading truck and status of packages
+    # Space-time complexity O(1)
     for packageID in truck.packages:
         # Adding Keys to a list
         package_keys.append(packageID)
@@ -113,6 +119,7 @@ def delivery_process(truck):
         list_of_delivery_addresses.append(package[1])
 
     # Getting indexes of packages being delivered
+    # Space-time complexity O(n^2)
     for index in list_of_delivery_addresses:
         for a in list_of_all_addresses:
             if index == a:
@@ -122,6 +129,7 @@ def delivery_process(truck):
     comparative_list = indexes_of_packages[:]
 
     # Packages are being delivered
+    # Space-time complexity O(n^2)
     while len(indexes_of_packages) > 0:
 
         # Reading Distance CSV
@@ -131,6 +139,7 @@ def delivery_process(truck):
         row_distant_list = csv_distance[index_for_current_position]
 
         # Adding column from current position index
+        # Space-time complexity O(1)
         for column in csv_distance:
             column_distant_list.append(column[index_for_current_position])
 
@@ -141,11 +150,13 @@ def delivery_process(truck):
         row_distant_list.extend(column_distant_list)
 
         # Removing empty spaces and converting list to float
+        # Space-time complexity O(n)
         for cell in row_distant_list:
             if cell != "":
                 cleaned_list.append(float(cell))
 
         # Getting mileage distances for packages on route
+        # Space-time complexity O(1)
         for i in indexes_of_packages:
             mileage_list.append(cleaned_list[i])
 
@@ -159,6 +170,7 @@ def delivery_process(truck):
         duplicate_distance_on_route = mileage_list.count(shortest_route)
 
         # Updating packages when they are being delivered
+        # Space-time complexity O(n)
         for mileage in cleaned_list:
             # Handles no duplicates distances and then updates package
             if mileage == shortest_route and duplicate_distance_on_route == 1 and len(
@@ -185,6 +197,7 @@ def delivery_process(truck):
                     p = int(duplicates_on_distance_cleaned_list[0])
                     indexes_of_packages.remove(p)
             # Handles duplicate values on clean list and updates packages
+            # Space-time complexity O(n^2)
             if mileage == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) > 1:
                 # Determining what duplicates need to be delivered and updating package
@@ -207,6 +220,7 @@ def delivery_process(truck):
                                 indexes_of_packages.remove(duplicate)
 
             # Handles duplicate values on route and updates package
+            # Space-time complexity O(n)
             if mileage == shortest_route and duplicate_distance_on_route > 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
                 print("Dups on route")
@@ -241,6 +255,7 @@ def delivery_process(truck):
                 index_for_current_position = int(duplicates_on_distance_cleaned_list[0])
 
             # Handles duplicate values on route and cleaned list
+            # Space-time complexity O(n)
             if mileage == shortest_route and duplicate_distance_on_route > 1 and len(
                     duplicates_on_distance_cleaned_list) > 1:
                 # Grabbing first package from duplicate list
@@ -300,6 +315,7 @@ def delivery_process(truck):
 
 
 # Removing delivered packages and returning remaining packages
+# Space-time complexity O(n)
 def remove_delivered_package(list, item):
     res = []
     for t in list:
@@ -309,9 +325,10 @@ def remove_delivered_package(list, item):
 
 
 # Finding indices of a value in a list
-def find_indices(l, value):
+# Space-time complexity O(n)
+def find_indices(list, value):
     return [
-        index for index, item in enumerate(l)
+        index for index, item in enumerate(list)
         if item == value
     ]
 
@@ -323,6 +340,7 @@ total_mileage += delivery_process(loadTruck3)
 
 
 # User Interface
+# Space-time complexity O(1)
 def ui():
     packages = []
     pack = 1
