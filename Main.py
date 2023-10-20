@@ -4,8 +4,9 @@
 
 import csv
 import datetime
-import sys
 import Truck
+import sys
+import time
 
 from HashTable import ChainingHashTable
 from Package import Package
@@ -73,7 +74,7 @@ loadTruck1 = Truck.Truck(16, 18, 1, truck1, 0.0, "4001 South 700 East", datetime
                          datetime.timedelta(hours=8))
 loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime.timedelta(hours=8),
                          datetime.timedelta(hours=8))
-loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=10, minutes=20),
+loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=8),
                          datetime.timedelta(hours=8))
 
 # Total mileage variable
@@ -274,8 +275,10 @@ def delivery_process(truck):
                 loadTruck2.return_time = time
                 # Checking which truck has the min time and setting truck 3 depart time
                 loadTruck3.depart_time = min(loadTruck1.return_time, loadTruck2.return_time)
+                print("Here ", loadTruck3.depart_time)
             if truck == loadTruck3:
                 loadTruck3.return_time = time
+                print("Here 2 ", loadTruck3.return_time + datetime.timedelta(hours=8))
 
         # Clearing lists
         row_distant_list.clear()
@@ -306,7 +309,6 @@ def find_indices(list, value):
 total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
 total_mileage += delivery_process(loadTruck3)
-
 # User Interface
 # Space-time complexity O(1)
 def ui():
@@ -317,8 +319,12 @@ def ui():
     # Adding packages to a list
     while pack < 41:
         packages.append(my_hash.search(pack))
-        delivery_times.append((datetime.datetime.strptime(my_hash.search(pack)[9], "%H:%M:%S")))
-        print(delivery_times)
+        # delivery_times.append((datetime.datetime.strptime(my_hash.search(pack)[9], "%H:%M:%S")))
+        u = my_hash.search(pack)[9]
+        (hours, minutes, seconds) = u.split(":")
+        time_convert = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+        print(time_convert)
+
         pack += 1
     # Options for the user to choose from
     print("Please choose from the following options:\n"
