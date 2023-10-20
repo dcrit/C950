@@ -367,7 +367,10 @@ def ui():
         end_time = str(input("Enter a end time: "))
         (hours, minutes, seconds) = end_time.split(":")
         end_time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
-        print(delivery_times[start_time:end_time])
+        for j in delivery_times:
+            if start_time >= j and end_time <= j:
+                print(j)
+                print(my_hash.search(int(delivery_times.index(j))))
 
         ui()
     if user_input == 5:
