@@ -363,14 +363,14 @@ def ui():
         # print("Please enter a end time using the following format: '8:00:00' ")
         start_time = str(input("Enter start time: "))
         (hours, minutes, seconds) = start_time.split(":")
-        start_time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+        start = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
         end_time = str(input("Enter a end time: "))
         (hours, minutes, seconds) = end_time.split(":")
-        end_time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+        end = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
         for j in delivery_times:
-            if start_time >= j and end_time <= j:
-                print(j)
-                print(my_hash.search(int(delivery_times.index(j))))
+            if start <= j <= end:
+                print("1 ", str(j))
+                print("2 ", str(my_hash.search(int(delivery_times.index(j)+1))))
 
         ui()
     if user_input == 5:
