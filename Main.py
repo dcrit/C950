@@ -317,7 +317,8 @@ def ui():
     # Adding packages to a list
     while pack < 41:
         packages.append(my_hash.search(pack))
-        delivery_times.append((datetime.datetime.strptime(my_hash.search(pack)[9], '%H:%M:%S')))
+        delivery_times.append((datetime.datetime.strptime(my_hash.search(pack)[9], "%H:%M:%S")))
+        print(delivery_times)
         pack += 1
     # Options for the user to choose from
     print("Please choose from the following options:\n"
@@ -343,6 +344,8 @@ def ui():
     if user_input == 4:
         print("Please enter a start time using the following format: '8:00:00' ")
         print("Please enter a end time using the following format: '8:00:00' ")
+        start_time = str(input("Enter start time: "))
+        end_time = str(input("Enter a end time: "))
         print(delivery_times)
         ui()
     if user_input == 5:
