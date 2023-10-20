@@ -10,7 +10,6 @@ import Truck
 from HashTable import ChainingHashTable
 from Package import Package
 
-
 # Reading address csv
 # Space-time complexity O(n)
 def address_list():
@@ -18,7 +17,6 @@ def address_list():
         csv_address = csv.reader(csv_file_address)
         csv_address = list(csv_address)
     return csv_address
-
 
 # Reading package csv
 # Space-time complexity O(n)
@@ -28,7 +26,6 @@ def package_list():
         csv_package = list(csv_package)
     return csv_package
 
-
 # Reading distance csv
 # Space-time complexity O(n)
 def distance_list():
@@ -37,10 +34,8 @@ def distance_list():
         csv_distance = list(csv_distance)
     return csv_distance
 
-
 # Creating hash object
 my_hash = ChainingHashTable()
-
 
 # Loading packages method
 # Space-time complexity O(1)
@@ -129,7 +124,7 @@ def delivery_process(truck):
     comparative_list = indexes_of_packages[:]
 
     # Packages are being delivered
-    # Space-time complexity O(n^2)
+    # Space-time complexity O(n)
     while len(indexes_of_packages) > 0:
 
         # Reading Distance CSV
@@ -175,7 +170,6 @@ def delivery_process(truck):
             # Handles no duplicates distances and then updates package
             if mileage == shortest_route and duplicate_distance_on_route == 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
-                print("No Dups")
                 # Adding mileage to total mileage
                 truck_mileage += shortest_route
                 # Finding package id from list of keys
@@ -183,7 +177,6 @@ def delivery_process(truck):
                 y = int(package_keys[x])
                 # Pulling package from hash table to update
                 key_value = my_hash.search(y)
-                print("Key ID = ", key_value)
                 # Checking status of package and updating
                 if key_value[8] == "En route":
                     key_value[8] = "Delivered"
@@ -192,7 +185,6 @@ def delivery_process(truck):
                     time = time + dts
                     key_value[9] = str(time)
                     my_hash.insert(y, key_value)
-                    print("Status ", my_hash.search(y))
                     index_for_current_position = duplicates_on_distance_cleaned_list[0]
                     p = int(duplicates_on_distance_cleaned_list[0])
                     indexes_of_packages.remove(p)
@@ -207,14 +199,12 @@ def delivery_process(truck):
                             package_id = package_keys[comparative_list.index(package_id)]
                             key_value = my_hash.search(package_id)
                             if key_value[8] == "En route":
-                                print("Key Id ", key_value)
                                 key_value[8] = "Delivered"
                                 delivery_time = (shortest_route / 18) * 60 * 60
                                 dts = datetime.timedelta(seconds=delivery_time)
                                 time = time + dts
                                 key_value[9] = str(time)
                                 my_hash.insert(package_id, key_value)
-                                print(my_hash.search(package_id))
                                 index_for_current_position = duplicate
                                 truck_mileage += shortest_route
                                 indexes_of_packages.remove(duplicate)
@@ -223,7 +213,6 @@ def delivery_process(truck):
             # Space-time complexity O(n)
             if mileage == shortest_route and duplicate_distance_on_route > 1 and len(
                     duplicates_on_distance_cleaned_list) == 1:
-                print("Dups on route")
                 # Adding mileage to truck
                 truck_mileage += shortest_route
                 # Grabbing first duplicate on  cleaned list
@@ -237,7 +226,6 @@ def delivery_process(truck):
                 for package_id in comparative_list:
                     if package_id == duplicate:
                         indexes = find_indices(comparative_list, package_id)
-                        print("Stuff ", indexes)
                 for package_id in indexes:
                     keys.append(package_keys[package_id])
                 # Checking package status and then updating package
@@ -248,7 +236,6 @@ def delivery_process(truck):
                         key_value[8] = "Delivered"
                         key_value[9] = str(time)
                         my_hash.insert(package_id, key_value)
-                        print("key id ", my_hash.search(package_id))
                 # Removing delivered package for route
                 indexes_of_packages = remove_delivered_package(indexes_of_packages, duplicate)
                 # Updating position
@@ -260,7 +247,6 @@ def delivery_process(truck):
                     duplicates_on_distance_cleaned_list) > 1:
                 # Grabbing first package from duplicate list
                 first_package = duplicates_on_distance_cleaned_list[0]
-                print("Dups on route and cleaned list")
                 for package_id in comparative_list:
                     if package_id == first_package:
                         key = package_keys[comparative_list.index(package_id)]
@@ -277,29 +263,19 @@ def delivery_process(truck):
 
         # Returning to hub on last delivery
         if len(indexes_of_packages) == 0:
-            print("To hub mileage ", mileage_list[0])
             delivery_time = (mileage_list[0] / 18) * 60 * 60
             dts = datetime.timedelta(seconds=delivery_time)
             time = time + dts
-            print("Final Time ", time)
             truck_mileage += mileage_list[0]
-
             # Updating final times and mileage
             if truck == loadTruck1:
                 loadTruck1.return_time = time
-                print("Truck 1 ", loadTruck1.return_time)
             if truck == loadTruck2:
                 loadTruck2.return_time = time
-                print("Truck 2 ", loadTruck2.return_time)
                 # Checking which truck has the min time and setting truck 3 depart time
                 loadTruck3.depart_time = min(loadTruck1.return_time, loadTruck2.return_time)
-                print("RERERE ", loadTruck3.depart_time)
             if truck == loadTruck3:
                 loadTruck3.return_time = time
-                print("Truck 3 ", loadTruck3.return_time)
-                # loadTruck3.depart_time = loadTruck1.return_time
-                # loadTruck3.depart_time = min(loadTruck1.return_time, loadTruck2.return_time)
-                print("Truck 3")
 
         # Clearing lists
         row_distant_list.clear()
@@ -307,12 +283,8 @@ def delivery_process(truck):
         cleaned_list.clear()
         mileage_list.clear()
 
-        print(
-            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    print("Test List ", comparative_list)
-    print("Truck mileage ", truck_mileage)
+    # Returning truck mileage
     return truck_mileage
-
 
 # Removing delivered packages and returning remaining packages
 # Space-time complexity O(n)
@@ -323,7 +295,6 @@ def remove_delivered_package(list, item):
             res.append(t)
     return res
 
-
 # Finding indices of a value in a list
 # Space-time complexity O(n)
 def find_indices(list, value):
@@ -331,31 +302,31 @@ def find_indices(list, value):
         index for index, item in enumerate(list)
         if item == value
     ]
-
-
 # Starting the delivery process and returning mileage from truck
 total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
 total_mileage += delivery_process(loadTruck3)
 
-
 # User Interface
 # Space-time complexity O(1)
 def ui():
     packages = []
+    delivery_times = []
+
     pack = 1
     # Adding packages to a list
     while pack < 41:
         packages.append(my_hash.search(pack))
+        delivery_times.append((datetime.datetime.strptime(my_hash.search(pack)[9], '%H:%M:%S')))
         pack += 1
     # Options for the user to choose from
     print("Please choose from the following options:\n"
           "1. Show all package info \n"
           "2. Total Mileage \n"
           "3. Search for a package by time \n"
-          "4. Exit Program \n")
+          "4. Search packages between times \n"
+          "5. Exit Program \n")
     user_input = int(input("Input number: "))
-    print("User Input ", user_input)
     if user_input == 1:
         print(*packages, sep="\n")
         ui()
@@ -370,7 +341,15 @@ def ui():
                 print("Match = ", s)
         ui()
     if user_input == 4:
+        print("Please enter a start time using the following format: '8:00:00' ")
+        print("Please enter a end time using the following format: '8:00:00' ")
+        print(delivery_times)
+        ui()
+    if user_input == 5:
         sys.exit()
+    else:
+        print("Please enter a valid number")
+        ui()
 
 
 ui()
