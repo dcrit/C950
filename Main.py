@@ -321,7 +321,7 @@ total_mileage += delivery_process(loadTruck3)
 
 
 # User Interface
-# Space-time complexity O(1)
+# Space-time complexity O(n)
 def ui():
     packages = []
     delivery_times = []
@@ -363,18 +363,21 @@ def ui():
         # print("Please enter a end time using the following format: '8:00:00' ")
         start_time = str(input("Enter start time: "))
         (hours, minutes, seconds) = start_time.split(":")
-        start = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+        start_time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
         end_time = str(input("Enter a end time: "))
         (hours, minutes, seconds) = end_time.split(":")
-        end = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+        end_time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+        # Looking for times in between start and end times
+        # Space-time Complexity O(n)
         for j in delivery_times:
-            if start <= j <= end:
-                print("1 ", str(j))
-                print("2 ", str(my_hash.search(int(delivery_times.index(j)+1))))
-
+            if start_time <= j <= end_time:
+                print("Found: ", str(my_hash.search(int(delivery_times.index(j)+1))))
         ui()
     if user_input == 5:
         sys.exit()
+    if user_input == " ":
+        print("Please enter a valid number ")
+        ui()
     else:
         print("Please enter a valid number")
         ui()
