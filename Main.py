@@ -11,6 +11,7 @@ import time
 from HashTable import ChainingHashTable
 from Package import Package
 
+
 # Reading address csv
 # Space-time complexity O(n)
 def address_list():
@@ -18,6 +19,7 @@ def address_list():
         csv_address = csv.reader(csv_file_address)
         csv_address = list(csv_address)
     return csv_address
+
 
 # Reading package csv
 # Space-time complexity O(n)
@@ -27,6 +29,7 @@ def package_list():
         csv_package = list(csv_package)
     return csv_package
 
+
 # Reading distance csv
 # Space-time complexity O(n)
 def distance_list():
@@ -35,8 +38,10 @@ def distance_list():
         csv_distance = list(csv_distance)
     return csv_distance
 
+
 # Creating hash object
 my_hash = ChainingHashTable()
+
 
 # Loading packages method
 # Space-time complexity O(1)
@@ -289,6 +294,7 @@ def delivery_process(truck):
     # Returning truck mileage
     return truck_mileage
 
+
 # Removing delivered packages and returning remaining packages
 # Space-time complexity O(n)
 def remove_delivered_package(list, item):
@@ -298,6 +304,7 @@ def remove_delivered_package(list, item):
             res.append(t)
     return res
 
+
 # Finding indices of a value in a list
 # Space-time complexity O(n)
 def find_indices(list, value):
@@ -305,10 +312,14 @@ def find_indices(list, value):
         index for index, item in enumerate(list)
         if item == value
     ]
+
+
 # Starting the delivery process and returning mileage from truck
 total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
 total_mileage += delivery_process(loadTruck3)
+
+
 # User Interface
 # Space-time complexity O(1)
 def ui():
@@ -323,9 +334,9 @@ def ui():
         u = my_hash.search(pack)[9]
         (hours, minutes, seconds) = u.split(":")
         time_convert = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
-        print(time_convert)
-
+        delivery_times.append(time_convert)
         pack += 1
+
     # Options for the user to choose from
     print("Please choose from the following options:\n"
           "1. Show all package info \n"
@@ -348,11 +359,16 @@ def ui():
                 print("Match = ", s)
         ui()
     if user_input == 4:
-        print("Please enter a start time using the following format: '8:00:00' ")
-        print("Please enter a end time using the following format: '8:00:00' ")
+        # print("Please enter a start time using the following format: '8:00:00' ")
+        # print("Please enter a end time using the following format: '8:00:00' ")
         start_time = str(input("Enter start time: "))
+        (hours, minutes, seconds) = start_time.split(":")
+        start_time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
         end_time = str(input("Enter a end time: "))
-        print(delivery_times)
+        (hours, minutes, seconds) = end_time.split(":")
+        end_time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+        print(delivery_times[start_time:end_time])
+
         ui()
     if user_input == 5:
         sys.exit()
