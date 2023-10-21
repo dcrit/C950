@@ -325,7 +325,6 @@ total_mileage += delivery_process(loadTruck3)
 def ui():
     packages = []
     delivery_times = []
-
     pack = 1
     # Adding packages to a list
     while pack < 41:
@@ -344,7 +343,9 @@ def ui():
           "3. Search for a package by time \n"
           "4. Search packages between times \n"
           "5. Exit Program \n")
+
     user_input = int(input("Input number: "))
+
     if user_input == 1:
         print(*packages, sep="\n")
         ui()
@@ -359,8 +360,8 @@ def ui():
                 print("Match = ", s)
         ui()
     if user_input == 4:
-        # print("Please enter a start time using the following format: '8:00:00' ")
-        # print("Please enter a end time using the following format: '8:00:00' ")
+        print("Please enter a start time using the following format: '8:00:00' ")
+        print("Please enter a end time using the following format: '8:00:00' ")
         start_time = str(input("Enter start time: "))
         (hours, minutes, seconds) = start_time.split(":")
         start_time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
@@ -371,16 +372,12 @@ def ui():
         # Space-time Complexity O(n)
         for j in delivery_times:
             if start_time <= j <= end_time:
-                print("Found: ", str(my_hash.search(int(delivery_times.index(j)+1))))
+                print("Found: ", str(my_hash.search(int(delivery_times.index(j) + 1))))
         ui()
     if user_input == 5:
         sys.exit()
-    if user_input == " ":
-        print("Please enter a valid number ")
-        ui()
     else:
         print("Please enter a valid number")
         ui()
-
 
 ui()
