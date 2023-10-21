@@ -347,28 +347,22 @@ def ui():
     try:
         user_input = int(input("Input number: "))
     except ValueError:
-        print("Please enter a valid number")
-        ui()
-    if not int(user_input):
-        print("Fail ")
+        print("Please enter a valid number \n")
     if user_input == 1:
         print(*packages, sep="\n")
-        ui()
     if user_input == 2:
         print("Total Mileage: ", total_mileage)
-        ui()
     if user_input == 3:
         print("Please enter a time using the following format: '8:00:00' ")
         time = str(input("Enter a time: "))
-        check = False
         for s in packages:
             if s[9] == time:
                 print("Match = ", s)
         if time not in packages:
-            print("Nothing found ")
-        ui()
+            print("Nothing found \n")
+
     if user_input == 4:
-        print("Please enter a 24 hour start time and end time using the following format: '8:00:00' ")
+        print("Please enter a 24 hour start time and end time using the following format: '8:00:00' \n")
         start_time = ""
         end_time = ""
         try:
@@ -378,22 +372,17 @@ def ui():
             start_time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
             (hours, minutes, seconds) = end_time.split(":")
             end_time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+            # Looking for times in between start and end times
+            # Space-time Complexity O(n)
+            for j in delivery_times:
+                if start_time <= j <= end_time:
+                    print("Found: ", str(my_hash.search(int(delivery_times.index(j) + 1))))
         except ValueError:
-            print("Enter a valid time ")
-            ui()
-        # Looking for times in between start and end times
-        # Space-time Complexity O(n)
-        for j in delivery_times:
-            if start_time <= j <= end_time:
-                print("Found: ", str(my_hash.search(int(delivery_times.index(j) + 1))))
-        if start_time and end_time not in delivery_times:
-            print("Nothing found")
-        ui()
+            print("Enter a valid time \n")
+
     if user_input == 5:
         sys.exit()
-    else:
-        print("Please enter a valid number")
-        ui()
 
+    ui()
 
 ui()
