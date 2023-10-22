@@ -164,18 +164,18 @@ def delivery_process(truck):
         # Find the nearest route by using the min function
         shortest_route = min(mileage_list)
 
-        # Checking duplicate values on cleaned list
-        duplicates_on_distance_cleaned_list = find_indices(cleaned_list, shortest_route)
+        # Checking for collisions on cleaned list
+        collision_on_cleaned_list = find_indices(cleaned_list, shortest_route)
 
-        # Counting duplicate distance on next route
-        duplicate_distance_on_route = mileage_list.count(shortest_route)
+        # Counting collisions on the next route
+        collision_on_route = mileage_list.count(shortest_route)
 
         # Updating packages when they are being delivered
         # Space-time complexity O(n)
         for mileage in cleaned_list:
-            # Handles no duplicates distances and then updates package
-            if mileage == shortest_route and duplicate_distance_on_route == 1 and len(
-                    duplicates_on_distance_cleaned_list) == 1:
+            # Handles packages with no collision and then updates package
+            if mileage == shortest_route and collision_on_route == 1 and len(
+                    collision_on_cleaned_list) == 1:
                 # Adding mileage to total mileage
                 truck_mileage += shortest_route
                 # Finding package id from list of keys
@@ -191,16 +191,16 @@ def delivery_process(truck):
                     time = time + dts
                     key_value[9] = str(time)
                     my_hash.insert(y, key_value)
-                    index_for_current_position = duplicates_on_distance_cleaned_list[0]
-                    p = int(duplicates_on_distance_cleaned_list[0])
+                    index_for_current_position = collision_on_cleaned_list[0]
+                    p = int(collision_on_cleaned_list[0])
                     indexes_of_packages.remove(p)
-            # Handles duplicate values on clean list and updates packages
+            # Handles collisions values on clean list and updates packages
             # Space-time complexity O(n^2)
-            if mileage == shortest_route and duplicate_distance_on_route == 1 and len(
-                    duplicates_on_distance_cleaned_list) > 1:
-                # Determining what duplicates need to be delivered and updating package
+            if mileage == shortest_route and collision_on_route == 1 and len(
+                    collision_on_cleaned_list) > 1:
+                # Determining what collisions need to be delivered and updating package
                 for package_id in comparative_list:
-                    for duplicate in duplicates_on_distance_cleaned_list:
+                    for duplicate in collision_on_cleaned_list:
                         if package_id == duplicate:
                             package_id = package_keys[comparative_list.index(package_id)]
                             key_value = my_hash.search(package_id)
@@ -215,14 +215,14 @@ def delivery_process(truck):
                                 truck_mileage += shortest_route
                                 indexes_of_packages.remove(duplicate)
 
-            # Handles duplicate values on route and updates package
+            # Handles collisions on route and updates package
             # Space-time complexity O(n)
-            if mileage == shortest_route and duplicate_distance_on_route > 1 and len(
-                    duplicates_on_distance_cleaned_list) == 1:
+            if mileage == shortest_route and collision_on_route > 1 and len(
+                    collision_on_cleaned_list) == 1:
                 # Adding mileage to truck
                 truck_mileage += shortest_route
-                # Grabbing first duplicate on  cleaned list
-                duplicate = int(duplicates_on_distance_cleaned_list[0])
+                # Grabbing first collision on cleaned list
+                duplicate = int(collision_on_cleaned_list[0])
                 # Getting time for distance travel
                 delivery_time = (shortest_route / 18) * 60 * 60
                 dts = datetime.timedelta(seconds=delivery_time)
@@ -245,14 +245,14 @@ def delivery_process(truck):
                 # Removing delivered package for route
                 indexes_of_packages = remove_delivered_package(indexes_of_packages, duplicate)
                 # Updating position
-                index_for_current_position = int(duplicates_on_distance_cleaned_list[0])
+                index_for_current_position = int(collision_on_cleaned_list[0])
 
-            # Handles duplicate values on route and cleaned list
+            # Handles collisions on route and cleaned list
             # Space-time complexity O(n)
-            if mileage == shortest_route and duplicate_distance_on_route > 1 and len(
-                    duplicates_on_distance_cleaned_list) > 1:
-                # Grabbing first package from duplicate list
-                first_package = duplicates_on_distance_cleaned_list[0]
+            if mileage == shortest_route and collision_on_route > 1 and len(
+                    collision_on_cleaned_list) > 1:
+                # Grabbing first package from collision list
+                first_package = collision_on_cleaned_list[0]
                 for package_id in comparative_list:
                     if package_id == first_package:
                         key = package_keys[comparative_list.index(package_id)]
@@ -280,10 +280,8 @@ def delivery_process(truck):
                 loadTruck2.return_time = time
                 # Checking which truck has the min time and setting truck 3 depart time
                 loadTruck3.depart_time = min(loadTruck1.return_time, loadTruck2.return_time)
-                print("Here ", loadTruck3.depart_time)
             if truck == loadTruck3:
                 loadTruck3.return_time = time
-                print("Here 2 ", loadTruck3.return_time + datetime.timedelta(hours=8))
 
         # Clearing lists
         row_distant_list.clear()
@@ -327,9 +325,9 @@ def ui():
     delivery_times = []
     pack = 1
     # Adding packages to a list
+    # Space-time complexity O(n)
     while pack < 41:
         packages.append(my_hash.search(pack))
-        # delivery_times.append((datetime.datetime.strptime(my_hash.search(pack)[9], "%H:%M:%S")))
         u = my_hash.search(pack)[9]
         (hours, minutes, seconds) = u.split(":")
         time_convert = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
@@ -351,7 +349,7 @@ def ui():
     if user_input == 1:
         print(*packages, sep="\n")
     if user_input == 2:
-        print("Total Mileage: ", total_mileage)
+        print("Total Mileage: ", total_mileage, "\n")
     if user_input == 3:
         print("Please enter a time using the following format: '8:00:00' ")
         time = str(input("Enter a time: "))
@@ -362,9 +360,10 @@ def ui():
             print("Nothing found \n")
 
     if user_input == 4:
-        print("Please enter a 24 hour start time and end time using the following format: '8:00:00' \n")
+        print("Please enter a 24 hour start time and end time using the following format: '8:00:00' ")
         start_time = ""
         end_time = ""
+        count = 0
         try:
             start_time = str(input("Enter start time: "))
             end_time = str(input("Enter a end time: "))
@@ -377,6 +376,11 @@ def ui():
             for j in delivery_times:
                 if start_time <= j <= end_time:
                     print("Found: ", str(my_hash.search(int(delivery_times.index(j) + 1))))
+                    count += 1
+            if count == 0:
+                print("All packages have been delivered before given times. \n"
+                      "Please choose different times. \n")
+
         except ValueError:
             print("Enter a valid time \n")
 
