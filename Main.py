@@ -392,10 +392,18 @@ def ui():
         (hours, minutes, seconds) = time.split(":")
         time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
         for s in delivery_times:
-            if s > time:
+            if s < time:
+                print("S ", my_hash.search(delivery_times.index(s) + 1))
                 for t in loadTruck1.packages:
                     if delivery_times.index(s) == t:
-                        print("Match = ", delivery_times.index(s))
+                        print("Match Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
+                for b in loadTruck2.packages:
+                    if delivery_times.index(s) == b:
+                        print("Match Truck 2: ", my_hash.search(delivery_times.index(s) + 1))
+                for r in loadTruck3.packages:
+                    if delivery_times.index(s) == r:
+                        print("Match Truck 3: ", my_hash.search(delivery_times.index(s) + 1))
+
 
 
     if user_input == 6:
