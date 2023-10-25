@@ -340,7 +340,8 @@ def ui():
           "2. Total Mileage \n"
           "3. Search for a package by time \n"
           "4. Search packages between times \n"
-          "5. Exit Program \n")
+          "5. Search all package statuses for a given time \n"
+          "6. Exit Program \n")
     user_input = None
     try:
         user_input = int(input("Input number: "))
@@ -385,6 +386,19 @@ def ui():
             print("Enter a valid time \n")
 
     if user_input == 5:
+
+        print("Please enter a 24 hour time using the following format: '8:00:00' ")
+        time = str(input("Enter time: "))
+        (hours, minutes, seconds) = time.split(":")
+        time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+        for s in delivery_times:
+            if s > time:
+                for t in loadTruck1.packages:
+                    if delivery_times.index(s) == t:
+                        print("Match = ", delivery_times.index(s))
+
+
+    if user_input == 6:
         sys.exit()
 
     ui()
