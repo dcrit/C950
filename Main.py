@@ -396,15 +396,15 @@ def ui():
         for s in delivery_times:
             if s > time:
                 packages_delivered.append(my_hash.search(delivery_times.index(s) + 1))
-                # for t in loadTruck1.packages:
-                #     if delivery_times.index(s) == t:
-                #         print("Match Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
-                # for b in loadTruck2.packages:
-                #     if delivery_times.index(s) == b:
-                #         print("Match Truck 2: ", my_hash.search(delivery_times.index(s) + 1))
-                # for r in loadTruck3.packages:
-                #     if delivery_times.index(s) == r:
-                #         print("Match Truck 3: ", my_hash.search(delivery_times.index(s) + 1))
+                for t in loadTruck1.packages:
+                    if delivery_times.index(s) == t:
+                        print("Match Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
+                for b in loadTruck2.packages:
+                    if delivery_times.index(s) == b:
+                        print("Match Truck 2: ", my_hash.search(delivery_times.index(s) + 1))
+                for r in loadTruck3.packages:
+                    if delivery_times.index(s) == r:
+                        print("Match Truck 3: ", my_hash.search(delivery_times.index(s) + 1))
             if s > time:
                 packages_not_delivered.append(my_hash.search(delivery_times.index(s) + 1))
         print("Delivered Packages ", *packages_delivered, sep="\n")
