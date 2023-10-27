@@ -310,8 +310,6 @@ def find_indices(list, value):
         index for index, item in enumerate(list)
         if item == value
     ]
-
-
 # Starting the delivery process and returning mileage from truck
 total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
@@ -395,7 +393,6 @@ def ui():
             # Space-time complexity O(n^2)
             for s in delivery_times:
                 if s <= time:
-                    # packages_delivered.append(my_hash.search(delivery_times.index(s) + 1))
                     for t in loadTruck1.packages:
                         if delivery_times.index(s) == t:
                             print("Delivered on Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
@@ -406,7 +403,6 @@ def ui():
                         if delivery_times.index(s) == r:
                             print("Delivered on Truck 3: ", my_hash.search(delivery_times.index(s) + 1))
                 if s > time:
-                    # packages_not_delivered.append(my_hash.search(delivery_times.index(s) + 1))
                     for t in loadTruck1.packages:
                         if delivery_times.index(s) == t:
                             key_id = my_hash.search(delivery_times.index(s) + 1)[:]
