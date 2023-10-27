@@ -319,7 +319,7 @@ total_mileage += delivery_process(loadTruck3)
 
 
 # User Interface
-# Space-time complexity O(n)
+# Space-time complexity O(n^2)
 def ui():
     packages = []
     delivery_times = []
@@ -359,11 +359,8 @@ def ui():
                 print("Match = ", s)
         if time not in packages:
             print("Nothing found \n")
-
     if user_input == 4:
         print("Please enter a 24 hour start time and end time using the following format: '8:00:00' ")
-        start_time = ""
-        end_time = ""
         count = 0
         try:
             start_time = str(input("Enter start time: "))
@@ -384,56 +381,66 @@ def ui():
 
         except ValueError:
             print("Enter a valid time \n")
-
-    packages_delivered = []
-    packages_not_delivered = []
+    # This opition
     if user_input == 5:
-
-        print("Please enter a 24 hour time using the following format: '8:00:00' ")
-        time = str(input("Enter time: "))
-        (hours, minutes, seconds) = time.split(":")
-        time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
-        for s in delivery_times:
-            if s <= time:
-                # packages_delivered.append(my_hash.search(delivery_times.index(s) + 1))
-                for t in loadTruck1.packages:
-                    if delivery_times.index(s) == t:
-                        print("Match Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
-                for b in loadTruck2.packages:
-                    if delivery_times.index(s) == b:
-                        print("Match Truck 2: ", my_hash.search(delivery_times.index(s) + 1))
-                for r in loadTruck3.packages:
-                    if delivery_times.index(s) == r:
-                        print("Match Truck 3: ", my_hash.search(delivery_times.index(s) + 1))
-            if s > time:
-                # packages_not_delivered.append(my_hash.search(delivery_times.index(s) + 1))
-                for t in loadTruck1.packages:
-                    if delivery_times.index(s) == t:
-                        key_id = my_hash.search(delivery_times.index(s) + 1)
-                        key_id[8] = "En Route"
-                        print("Match Truck 1: ", key_id)
-                        print("Truck1 time start ", loadTruck1.depart_time)
-                        print("Truck1 time return ", loadTruck1.return_time)
-                for b in loadTruck2.packages:
-                    if delivery_times.index(s) == b:
-                        key_id = my_hash.search(delivery_times.index(s) + 1)
-                        key_id[8] = "En Route"
-                        print("Match Truck 2: ", key_id)
-                        print("Truck2 time start ", loadTruck2.depart_time)
-                        print("Truck2 time return ", loadTruck2.return_time)
-                for r in loadTruck3.packages:
-                    if delivery_times.index(s) == r:
-                        key_id = my_hash.search(delivery_times.index(s) + 1)
-                        key_id[8] = "At Hub"
-                        print("Match Truck 3: ", key_id)
-                        print("Truck3 time start ", loadTruck3.depart_time)
-                        print("Truck3 time return ", loadTruck3.return_time)
-        print("Delivered Packages ", *packages_delivered, sep="\n")
-        print("Packages Not Delivered ", *packages_not_delivered, sep="\n")
-
+        try:
+            print("Please enter a 24 hour time using the following format: '8:00:00' ")
+            time = str(input("Enter time: "))
+            (hours, minutes, seconds) = time.split(":")
+            time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+            # Space-time complexity O(n^2)
+            for s in delivery_times:
+                if s <= time:
+                    # packages_delivered.append(my_hash.search(delivery_times.index(s) + 1))
+                    for t in loadTruck1.packages:
+                        if delivery_times.index(s) == t:
+                            print("Match Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
+                    for b in loadTruck2.packages:
+                        if delivery_times.index(s) == b:
+                            print("Match Truck 2: ", my_hash.search(delivery_times.index(s) + 1))
+                    for r in loadTruck3.packages:
+                        if delivery_times.index(s) == r:
+                            print("Match Truck 3: ", my_hash.search(delivery_times.index(s) + 1))
+                if s > time:
+                    # packages_not_delivered.append(my_hash.search(delivery_times.index(s) + 1))
+                    for t in loadTruck1.packages:
+                        if delivery_times.index(s) == t:
+                            key_id = my_hash.search(delivery_times.index(s) + 1)[:]
+                            key_id[8] = "En Route"
+                            key_id[9] = ""
+                            print("Match Truck 1: ", key_id)
+                            print("Truck1 time start ", loadTruck1.depart_time)
+                            print("Truck1 time return ", loadTruck1.return_time)
+                    for b in loadTruck2.packages:
+                        if delivery_times.index(s) == b:
+                            key_id = my_hash.search(delivery_times.index(s) + 1)[:]
+                            key_id[8] = "En Route"
+                            key_id[9] = ""
+                            print("Match Truck 2: ", key_id)
+                            print("Truck2 time start ", loadTruck2.depart_time)
+                            print("Truck2 time return ", loadTruck2.return_time)
+                    for r in loadTruck3.packages:
+                        if delivery_times.index(s) == r and time < loadTruck2.return_time:
+                            key_id = my_hash.search(delivery_times.index(s) + 1)[:]
+                            key_id[8] = "At Hub"
+                            key_id[9] = ""
+                            print("Match Truck 3: ", key_id)
+                            print("Truck3 time start ", loadTruck3.depart_time)
+                            print("Truck3 time return ", loadTruck3.return_time)
+                        if delivery_times.index(s) == r and time > loadTruck2.return_time:
+                            key_id = my_hash.search(delivery_times.index(s) + 1)[:]
+                            key_id[8] = "En Route"
+                            key_id[9] = ""
+                            print("Match Truck 3: ", key_id)
+                            print("Truck3 time start ", loadTruck3.depart_time)
+                            print("Truck3 time return ", loadTruck3.return_time)
+        except ValueError:
+            print("Please enter a valid time ")
+            ui()
     if user_input == 6:
         sys.exit()
 
     ui()
+
 
 ui()
