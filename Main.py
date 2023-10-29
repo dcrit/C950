@@ -6,7 +6,6 @@ import csv
 import datetime
 import Truck
 import sys
-import time
 
 from HashTable import ChainingHashTable
 from Package import Package
@@ -84,6 +83,7 @@ loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime
 
 # Total mileage variable
 total_mileage = 0.0
+time_count = 0
 
 
 # Delivery Process method
@@ -92,6 +92,7 @@ def delivery_process(truck):
     truck_mileage = 0.0
     time = truck.depart_time
     index_for_current_position = 0
+    # global time_count
 
     # Emtpy lists needed for my delivery process
     column_distant_list = []
@@ -190,6 +191,7 @@ def delivery_process(truck):
                     dts = datetime.timedelta(seconds=delivery_time)
                     time = time + dts
                     key_value[9] = str(time)
+                    correct_package_time(time)
                     my_hash.insert(y, key_value)
                     index_for_current_position = collision_on_cleaned_list[0]
                     p = int(collision_on_cleaned_list[0])
@@ -210,6 +212,7 @@ def delivery_process(truck):
                                 dts = datetime.timedelta(seconds=delivery_time)
                                 time = time + dts
                                 key_value[9] = str(time)
+                                correct_package_time(time)
                                 my_hash.insert(package_id, key_value)
                                 index_for_current_position = duplicate
                                 truck_mileage += shortest_route
@@ -242,6 +245,7 @@ def delivery_process(truck):
                         key_value[8] = "Delivered"
                         key_value[9] = str(time)
                         my_hash.insert(package_id, key_value)
+                        correct_package_time(time)
                 # Removing delivered package for route
                 indexes_of_packages = remove_delivered_package(indexes_of_packages, duplicate)
                 # Updating position
@@ -263,6 +267,7 @@ def delivery_process(truck):
                             dts = datetime.timedelta(seconds=delivery_time)
                             time = time + dts
                             key_value[9] = str(time)
+                            correct_package_time(time)
                             my_hash.insert(key, key_value)
                             indexes_of_packages.remove(first_package)
                             index_for_current_position = first_package
@@ -310,11 +315,25 @@ def find_indices(list, value):
         index for index, item in enumerate(list)
         if item == value
     ]
+
+# Correct Address of Package 9 at 10:20:00
+# Space-time complexity O(n)
+def correct_package_time(time):
+    time_correction = datetime.timedelta(hours=10, minutes=20, seconds=00)
+    global time_count
+    if time >= time_correction and time_count == 0:
+        re = str(my_hash.search(9)).split(',')
+        re[1] = "410 S State St"
+        re[7] = "Address Corrected"
+        re = ', '.join(re)
+        my_hash.insert(9, re)
+        time_count += 1
+
+
 # Starting the delivery process and returning mileage from truck
 total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
 total_mileage += delivery_process(loadTruck3)
-
 
 # User Interface
 # Space-time complexity O(n^2)
