@@ -73,8 +73,8 @@ load_package_data('CSV_FILES/WGUPS_Package_File.csv')
 # truck2 = [3, 18, 36, 38, 13, 14, 15, 16, 17, 19, 20, 30, 31, 33, 34, 35]
 # truck3 = [6, 25, 28, 32, 37, 39, 40, 9]
 
-truck1 = [1, 13, 14, 15, 16, 29, 30, 31, 34, 37, 40, 27, 35, 39]
-truck2 = [3, 36, 38, 6, 25, 28, 32, 33, 20, 19]
+truck1 = [1, 13, 14, 15, 16, 29, 30, 31, 34, 37, 40, 27, 35, 39, 19, 33]
+truck2 = [3, 36, 38, 6, 25, 28, 32, 20]
 truck3 = [2, 4, 5, 7, 8, 9, 10, 11, 12, 17, 18, 21, 22, 23, 24, 26]
 
 # Loading trucks
@@ -354,7 +354,15 @@ def ui():
         time_convert = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
         delivery_times.append(time_convert)
         pack += 1
-
+    # 3, 36, 38, 6, 25, 28, 32, 20
+    print("Hello ", packages[2])
+    print("Hello ", packages[35])
+    print("Hello ", packages[37])
+    print("Hello ", packages[5])
+    print("Hello ", packages[24])
+    print("Hello ", packages[27])
+    print("Hello ", packages[31])
+    print("Hello ", packages[19])
     # Options for the user to choose from
     print("Please choose from the following options:\n"
           "1. Show all package info \n"
