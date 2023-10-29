@@ -69,14 +69,18 @@ def load_package_data(csvFile):
 load_package_data('CSV_FILES/WGUPS_Package_File.csv')
 
 # Designating packages to trucks
-truck1 = [1, 2, 4, 5, 7, 8, 10, 11, 12, 21, 22, 23, 24, 26, 27, 29]
-truck2 = [3, 18, 36, 38, 13, 14, 15, 16, 17, 19, 20, 30, 31, 33, 34, 35]
-truck3 = [6, 25, 28, 32, 37, 39, 40, 9]
+# truck1 = [1, 2, 4, 5, 7, 8, 10, 11, 12, 21, 22, 23, 24, 26, 27, 29]
+# truck2 = [3, 18, 36, 38, 13, 14, 15, 16, 17, 19, 20, 30, 31, 33, 34, 35]
+# truck3 = [6, 25, 28, 32, 37, 39, 40, 9]
+
+truck1 = [1, 13, 14, 15, 16, 29, 30, 31, 34, 37, 40, 27, 35, 39]
+truck2 = [3, 36, 38, 6, 25, 28, 32, 33, 20, 19]
+truck3 = [2, 4, 5, 7, 8, 9, 10, 11, 12, 17, 18, 21, 22, 23, 24, 26]
 
 # Loading trucks
 loadTruck1 = Truck.Truck(16, 18, 1, truck1, 0.0, "4001 South 700 East", datetime.timedelta(hours=8),
                          datetime.timedelta(hours=8))
-loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime.timedelta(hours=8),
+loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime.timedelta(hours=9, minutes=5),
                          datetime.timedelta(hours=8))
 loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=8),
                          datetime.timedelta(hours=8))
@@ -90,7 +94,7 @@ time_count = 0
 # Space-time complexity O(n^2)
 def delivery_process(truck):
     truck_mileage = 0.0
-    time = truck.depart_time
+    depart_time = truck.depart_time
     index_for_current_position = 0
     # global time_count
 
@@ -126,7 +130,6 @@ def delivery_process(truck):
         for a in list_of_all_addresses:
             if index == a:
                 indexes_of_packages.append(list_of_all_addresses.index(index))
-
     # Creating a comparative list
     comparative_list = indexes_of_packages[:]
 
@@ -189,9 +192,9 @@ def delivery_process(truck):
                     key_value[8] = "Delivered"
                     delivery_time = (shortest_route / 18) * 60 * 60
                     dts = datetime.timedelta(seconds=delivery_time)
-                    time = time + dts
-                    key_value[9] = str(time)
-                    correct_package_time(time)
+                    depart_time = depart_time + dts
+                    key_value[9] = str(depart_time)
+                    correct_package_time(depart_time)
                     my_hash.insert(y, key_value)
                     index_for_current_position = collision_on_cleaned_list[0]
                     p = int(collision_on_cleaned_list[0])
@@ -210,9 +213,9 @@ def delivery_process(truck):
                                 key_value[8] = "Delivered"
                                 delivery_time = (shortest_route / 18) * 60 * 60
                                 dts = datetime.timedelta(seconds=delivery_time)
-                                time = time + dts
-                                key_value[9] = str(time)
-                                correct_package_time(time)
+                                depart_time = depart_time + dts
+                                key_value[9] = str(depart_time)
+                                correct_package_time(depart_time)
                                 my_hash.insert(package_id, key_value)
                                 index_for_current_position = duplicate
                                 truck_mileage += shortest_route
@@ -229,7 +232,7 @@ def delivery_process(truck):
                 # Getting time for distance travel
                 delivery_time = (shortest_route / 18) * 60 * 60
                 dts = datetime.timedelta(seconds=delivery_time)
-                time = time + dts
+                depart_time = depart_time + dts
                 indexes = []
                 keys = []
                 for package_id in comparative_list:
@@ -243,9 +246,9 @@ def delivery_process(truck):
                     key_value = my_hash.search(package_id)
                     if key_value[8] == "En route":
                         key_value[8] = "Delivered"
-                        key_value[9] = str(time)
+                        key_value[9] = str(depart_time)
                         my_hash.insert(package_id, key_value)
-                        correct_package_time(time)
+                        correct_package_time(depart_time)
                 # Removing delivered package for route
                 indexes_of_packages = remove_delivered_package(indexes_of_packages, duplicate)
                 # Updating position
@@ -265,9 +268,9 @@ def delivery_process(truck):
                             key_value[8] = "Delivered"
                             delivery_time = (shortest_route / 18) * 60 * 60
                             dts = datetime.timedelta(seconds=delivery_time)
-                            time = time + dts
-                            key_value[9] = str(time)
-                            correct_package_time(time)
+                            depart_time = depart_time + dts
+                            key_value[9] = str(depart_time)
+                            correct_package_time(depart_time)
                             my_hash.insert(key, key_value)
                             indexes_of_packages.remove(first_package)
                             index_for_current_position = first_package
@@ -276,17 +279,17 @@ def delivery_process(truck):
         if len(indexes_of_packages) == 0:
             delivery_time = (mileage_list[0] / 18) * 60 * 60
             dts = datetime.timedelta(seconds=delivery_time)
-            time = time + dts
+            depart_time = depart_time + dts
             truck_mileage += mileage_list[0]
             # Updating final times and mileage
             if truck == loadTruck1:
-                loadTruck1.return_time = time
+                loadTruck1.return_time = depart_time
             if truck == loadTruck2:
-                loadTruck2.return_time = time
+                loadTruck2.return_time = depart_time
                 # Checking which truck has the min time and setting truck 3 depart time
                 loadTruck3.depart_time = min(loadTruck1.return_time, loadTruck2.return_time)
             if truck == loadTruck3:
-                loadTruck3.return_time = time
+                loadTruck3.return_time = depart_time
 
         # Clearing lists
         row_distant_list.clear()
@@ -334,6 +337,7 @@ def correct_package_time(time):
 total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
 total_mileage += delivery_process(loadTruck3)
+print("Total mileage ", total_mileage)
 
 # User Interface
 # Space-time complexity O(n^2)
