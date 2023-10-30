@@ -354,15 +354,7 @@ def ui():
         time_convert = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
         delivery_times.append(time_convert)
         pack += 1
-    # 3, 36, 38, 6, 25, 28, 32, 20
-    print("Hello ", packages[2])
-    print("Hello ", packages[35])
-    print("Hello ", packages[37])
-    print("Hello ", packages[5])
-    print("Hello ", packages[24])
-    print("Hello ", packages[27])
-    print("Hello ", packages[31])
-    print("Hello ", packages[19])
+
     # Options for the user to choose from
     print("Please choose from the following options:\n"
           "1. Show all package info \n"
