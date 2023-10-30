@@ -337,7 +337,6 @@ def correct_package_time(time):
 total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
 total_mileage += delivery_process(loadTruck3)
-print("Total mileage ", total_mileage)
 
 # User Interface
 # Space-time complexity O(n^2)
