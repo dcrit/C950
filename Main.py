@@ -332,7 +332,6 @@ def correct_package_time(time):
         my_hash.insert(9, re)
         time_count += 1
 
-
 # Starting the delivery process and returning mileage from truck
 total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
