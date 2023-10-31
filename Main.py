@@ -343,6 +343,8 @@ def ui():
     packages = []
     delivery_times = []
     pack = 1
+    delivered_packages = []
+    packages_not_delivered = []
     # Adding packages to a list
     # Space-time complexity O(n)
     while pack < 41:
@@ -413,16 +415,20 @@ def ui():
             time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
             # Space-time complexity O(n^2)
             for s in delivery_times:
-                if s <= time:
+                if s < time:
                     for t in loadTruck1.packages:
                         if delivery_times.index(s) == t:
                             print("Delivered on Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
+                            delivered_packages.append(my_hash.search(delivery_times.index(s) + 1))
+                            delivered_packages.insert(1, "YOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
                     for b in loadTruck2.packages:
                         if delivery_times.index(s) == b:
                             print("Delivered on Truck 2: ", my_hash.search(delivery_times.index(s) + 1))
+                            delivered_packages.append(my_hash.search(delivery_times.index(s) + 1))
                     for r in loadTruck3.packages:
                         if delivery_times.index(s) == r:
                             print("Delivered on Truck 3: ", my_hash.search(delivery_times.index(s) + 1))
+                            delivered_packages.append(my_hash.search(delivery_times.index(s) + 1))
                 if s > time:
                     for t in loadTruck1.packages:
                         if delivery_times.index(s) == t:
@@ -430,23 +436,43 @@ def ui():
                             key_id[8] = "En Route"
                             key_id[9] = ""
                             print("En route on Truck 1: ", key_id)
+                            packages_not_delivered.append(key_id)
                     for b in loadTruck2.packages:
                         if delivery_times.index(s) == b:
                             key_id = my_hash.search(delivery_times.index(s) + 1)[:]
                             key_id[8] = "En Route"
                             key_id[9] = ""
                             print("En route on Truck 2: ", key_id)
+                            packages_not_delivered.append(key_id)
+                        if delivery_times.index(s) == b and b == 1:
+                            key_id = my_hash.search(delivery_times.index(s))[:]
+                            key_id[8] = "En Route"
+                            key_id[9] = ""
+                            print("En route on Truck 2: ", key_id)
+                            packages_not_delivered.append(key_id)
+
                     for r in loadTruck3.packages:
                         if delivery_times.index(s) == r and time < loadTruck2.return_time:
                             key_id = my_hash.search(delivery_times.index(s) + 1)[:]
                             key_id[8] = "At Hub"
                             key_id[9] = ""
                             print("At hub on Truck 3: ", key_id)
+                            packages_not_delivered.append(key_id)
                         if delivery_times.index(s) == r and time > loadTruck2.return_time:
                             key_id = my_hash.search(delivery_times.index(s) + 1)[:]
                             key_id[8] = "En Route"
                             key_id[9] = ""
                             print("En Route on Truck 3: ", key_id)
+                            packages_not_delivered.append(key_id)
+            test1 = []
+            test2 = []
+            [test1.append(x) for x in delivered_packages if x not in test1]
+            [test2.append(x) for x in packages_not_delivered if x not in test2]
+            print("Packaegas delivered ", *delivered_packages, sep="\n")
+            print("Lenght ", len(delivered_packages))
+            print("Packages not delieverd ", *packages_not_delivered, sep="\n")
+            print("Lemght ", len(packages_not_delivered))
+
         except ValueError:
             print("Please enter a valid time ")
 
