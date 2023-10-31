@@ -420,7 +420,7 @@ def ui():
                         if delivery_times.index(s) == t:
                             key = [my_hash.search(delivery_times.index(s))]
                             # Working Here !!!!!!!!!!!!!!!!!!
-                            key.insert(10, "YOOOOO")
+                            key.insert(0, "YOOOOO")
 
                             print("Keyyyb ", key)
                             print("Delivered on Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
