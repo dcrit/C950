@@ -421,18 +421,29 @@ def ui():
             (hours, minutes, seconds) = time.split(":")
             time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
             # Space-time complexity O(n^2)
+            print("Delivery Times ", str(delivery_times))
+            sup = []
+            print(str(delivery_times))
             for s in delivery_times:
+
                 if s <= time:
+
+
+
                     for t in loadTruck1.packages:
+
                         if delivery_times.index(s) == t:
-                            print("TTTT ", t)
-                            print("SSSS ", s)
+                            sup.append(str(t))
+                            tw = find_indices(delivery_times, delivery_times.index(s))
+                            print("Herere ", tw)
                             key = list(my_hash.search(delivery_times.index(s) + 1))
                             truck = "Delivered on Truck 1"
                             key.insert(0, truck)
                             # print("Delivered on Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
                             delivered_packages.append(key)
                             truck1.append(key)
+                        if delivery_times.index(s) == t and t > 1:
+                            print("Yooo ", delivery_times.index(s))
 
 
                     for b in loadTruck2.packages:
@@ -535,6 +546,8 @@ def ui():
             print("Length ", len(truck2))
             print("Truck 3 ", *truck3, sep="\n")
             print("Length ", len(truck3))
+            print("Sup ", sup)
+            print("kength ", len(sup))
 
         except ValueError:
             print("Please enter a valid time ")
