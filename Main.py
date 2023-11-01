@@ -418,22 +418,28 @@ def ui():
                 if s < time:
                     for t in loadTruck1.packages:
                         if delivery_times.index(s) == t:
-                            key = list(my_hash.search(delivery_times.index(s)))
+                            key = list(my_hash.search(delivery_times.index(s) + 1))
                             # Working Here !!!!!!!!!!!!!!!!!!
-                            truck = "Truck 1"
+                            truck = "Delivered on Truck 1"
                             key.insert(0, truck)
-                            print("Keyyyb ", key)
-                            print("Delivered on Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
-                            delivered_packages.append(my_hash.search(delivery_times.index(s) + 1))
+
+                            # print("Delivered on Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
+                            delivered_packages.append(key)
 
                     for b in loadTruck2.packages:
                         if delivery_times.index(s) == b:
-                            print("Delivered on Truck 2: ", my_hash.search(delivery_times.index(s) + 1))
-                            delivered_packages.append(my_hash.search(delivery_times.index(s) + 1))
+                            key = list(my_hash.search(delivery_times.index(s) + 1))
+                            truck = "Delivered on Truck 2"
+                            key.insert(0, truck)
+                            #vprint("Delivered on Truck 2: ", my_hash.search(delivery_times.index(s) + 1))
+                            delivered_packages.append(key)
                     for r in loadTruck3.packages:
                         if delivery_times.index(s) == r:
-                            print("Delivered on Truck 3: ", my_hash.search(delivery_times.index(s) + 1))
-                            delivered_packages.append(my_hash.search(delivery_times.index(s) + 1))
+                            key = list(my_hash.search(delivery_times.index(s) + 1))
+                            truck = "Delivered on Truck 3"
+                            key.insert(0, truck)
+                           #  print("Delivered on Truck 3: ", my_hash.search(delivery_times.index(s) + 1))
+                            delivered_packages.append(key)
                 if s > time:
                     for t in loadTruck1.packages:
                         if delivery_times.index(s) == t:
