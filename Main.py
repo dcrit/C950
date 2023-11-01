@@ -443,11 +443,16 @@ def ui():
                 if s > time:
                     for t in loadTruck1.packages:
                         if delivery_times.index(s) == t:
-                            key_id = my_hash.search(delivery_times.index(s) + 1)[:]
-                            key_id[8] = "En Route"
-                            key_id[9] = ""
-                            print("En route on Truck 1: ", key_id)
-                            packages_not_delivered.append(key_id)
+                            key = list(my_hash.search(delivery_times.index(s) + 1))
+                            key.insert(0, "En route on Truck 1")
+                            key[9] = "En Route"
+                            key[10] = ""
+                            packages_not_delivered.append(key)
+                            # key_id = my_hash.search(delivery_times.index(s) + 1)[:]
+                            # key_id[8] = "En Route"
+                            # key_id[9] = ""
+                            # print("En route on Truck 1: ", key_id)
+                            # packages_not_delivered.append(key_id)
                     for b in loadTruck2.packages:
                         if delivery_times.index(s) == b:
                             key_id = my_hash.search(delivery_times.index(s) + 1)[:]
