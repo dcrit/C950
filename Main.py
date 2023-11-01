@@ -423,12 +423,11 @@ def ui():
             # Space-time complexity O(n^2)
             print("Delivery Times ", str(delivery_times))
             sup = []
+
             print(str(delivery_times))
             for s in delivery_times:
 
                 if s <= time:
-
-
 
                     for t in loadTruck1.packages:
 
@@ -448,6 +447,7 @@ def ui():
 
                     for b in loadTruck2.packages:
                         if delivery_times.index(s) == b:
+                            sup.append(str(b))
                             key = list(my_hash.search(delivery_times.index(s) + 1))
                             truck = "Delivered on Truck 2"
                             key.insert(0, truck)
@@ -456,6 +456,7 @@ def ui():
                             truck2.append(key)
                     for r in loadTruck3.packages:
                         if delivery_times.index(s) == r:
+                            sup.append(str(r))
                             key = list(my_hash.search(delivery_times.index(s) + 1))
                             truck = "Delivered on Truck 3"
                             key.insert(0, truck)
@@ -548,6 +549,19 @@ def ui():
             print("Length ", len(truck3))
             print("Sup ", sup)
             print("kength ", len(sup))
+            uniqueList = []
+            duplicateList = []
+            dupy = []
+            # Working here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            for i in delivery_times:
+                if i not in uniqueList:
+                    uniqueList.append(i)
+                elif i not in duplicateList:
+                    duplicateList.append(str(i))
+                    dupy.append(delivery_times.index(i))
+
+            print("Dups ", duplicateList)
+            print("Dup indexes ", dupy)
 
         except ValueError:
             print("Please enter a valid time ")
