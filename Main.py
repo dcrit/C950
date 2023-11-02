@@ -331,6 +331,16 @@ def correct_package_time(time):
         re = ', '.join(re)
         my_hash.insert(9, re)
         time_count += 1
+def Repeat(x):
+    _size = len(x)
+    repeated = []
+    for i in range(_size):
+        k = i + 1
+        for j in range(k, _size):
+            if x[i] == x[j] and x[i] not in repeated:
+                repeated.append(str(x[i]))
+                # print("index ", x.index(i))
+    return repeated
 
 # Starting the delivery process and returning mileage from truck
 total_mileage += delivery_process(loadTruck1)
@@ -423,6 +433,7 @@ def ui():
             # Space-time complexity O(n^2)
             print("Delivery Times ", str(delivery_times))
             sup = []
+
 
             print(str(delivery_times))
             for s in delivery_times:
@@ -547,15 +558,8 @@ def ui():
             print("Length ", len(truck3))
             print("Sup ", sup)
             print("kength ", len(sup))
-            uniqueList = []
-            duplicateList = []
-            dupy = []
-            # Working here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-
-
-
-
+            print("Yoo ", Repeat(delivery_times))
         except ValueError:
             print("Please enter a valid time ")
 
