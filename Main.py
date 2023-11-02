@@ -433,8 +433,6 @@ def ui():
 
                         if delivery_times.index(s) == t:
                             sup.append(str(t))
-                            tw = find_indices(delivery_times, delivery_times.index(s))
-                            print("Herere ", tw)
                             key = list(my_hash.search(delivery_times.index(s) + 1))
                             truck = "Delivered on Truck 1"
                             key.insert(0, truck)
@@ -553,15 +551,10 @@ def ui():
             duplicateList = []
             dupy = []
             # Working here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            for i in delivery_times:
-                if i not in uniqueList:
-                    uniqueList.append(i)
-                elif i not in duplicateList:
-                    duplicateList.append(str(i))
-                    dupy.append(delivery_times.index(i))
 
-            print("Dups ", duplicateList)
-            print("Dup indexes ", dupy)
+
+
+
 
         except ValueError:
             print("Please enter a valid time ")
