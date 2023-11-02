@@ -432,9 +432,7 @@ def ui():
             time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
             # Space-time complexity O(n^2)
             print("Delivery Times ", str(delivery_times))
-            sup = []
 
-            testy = []
             test4 = []
             print(str(delivery_times))
             for s in delivery_times:
@@ -447,25 +445,19 @@ def ui():
                             print("SSS ",  delivery_times.index(s))
                             print("Truck 1 ", t)
                             test4.append(t + 1)
-                            sup.append(str(t))
+                            print("T")
                             key = list(my_hash.search(t))
-                            testy.append(key[0])
                             truck = "Delivered on Truck 1"
                             key.insert(0, truck)
                             # print("Delivered on Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
                             delivered_packages.append(key)
                             truck1.append(key)
-
-
-
                     for b in loadTruck2.packages:
                         if delivery_times.index(s) == b and delivery_times.index(s) != 0:
                             print("SSS ", delivery_times.index(s))
                             print("Truck 2 ", b)
                             test4.append(b + 1)
-                            sup.append(str(b))
                             key = list(my_hash.search(b))
-                            testy.append(key[0])
                             truck = "Delivered on Truck 2"
                             key.insert(0, truck)
                             # print("Delivered on Truck 2: ", my_hash.search(delivery_times.index(s) + 1))
@@ -479,9 +471,7 @@ def ui():
                             print("SSS ", delivery_times.index(s))
                             print("Truck 2 ", r)
                             test4.append(r + 1)
-                            sup.append(str(r))
                             key = list(my_hash.search(r))
-                            testy.append(key[0])
                             truck = "Delivered on Truck 3"
                             key.insert(0, truck)
                             # print("Delivered on Truck 3: ", my_hash.search(delivery_times.index(s) + 1))
@@ -571,11 +561,7 @@ def ui():
             print("Length ", len(truck2))
             print("Truck 3 ", *truck3, sep="\n")
             print("Length ", len(truck3))
-            print("Sup ", sup)
-            print("kength ", len(sup))
 
-            print("Testy ", testy)
-            print("Length ", len(testy))
             print("testy 4 ", test4)
 
         except ValueError:
