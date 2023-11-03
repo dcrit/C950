@@ -319,6 +319,7 @@ def find_indices(list, value):
         if item == value
     ]
 
+
 # Correct Address of Package 9 at 10:20:00
 # Space-time complexity O(n)
 def correct_package_time(time):
@@ -331,6 +332,8 @@ def correct_package_time(time):
         re = ', '.join(re)
         my_hash.insert(9, re)
         time_count += 1
+
+
 def Repeat(x):
     _size = len(x)
     repeated = []
@@ -342,10 +345,12 @@ def Repeat(x):
                 # print("index ", x.index(i))
     return repeated
 
+
 # Starting the delivery process and returning mileage from truck
 total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
 total_mileage += delivery_process(loadTruck3)
+
 
 # User Interface
 # Space-time complexity O(n^2)
@@ -433,9 +438,6 @@ def ui():
             # Space-time complexity O(n^2)
             print("Delivery Times ", str(delivery_times))
 
-            test4 = []
-            nutz = []
-
             uniqueList = []
             duplicateList = []
 
@@ -447,49 +449,46 @@ def ui():
 
             print(duplicateList)
             print(uniqueList)
+            dupy = sorted(set(range(uniqueList[0], uniqueList[-1])) - set(uniqueList))
+            print("dupy ", dupy)
+            t1 = list(loadTruck1.packages)
+            t2 = list(loadTruck2.packages)
+            t3 = list(loadTruck3.packages)
             for s in delivery_times:
-
+                if delivery_times.index(s) > 1:
+                    print("Yoooo ", delivery_times.index(s))
                 if s <= time:
+                    for t in t1:
 
-                    for t in loadTruck1.packages:
 
-                        if delivery_times.index(s) == t:
-                            print("SSS ",  delivery_times.index(s))
-                            print("Truck 1 ", t)
-                            test4.append(t + 1)
-                            print("T")
+                        if delivery_times.index(s) + 1 == t:
+                            print("SSSS ", delivery_times.index(s))
+                            print("TTTT ", t)
                             key = list(my_hash.search(t))
                             truck = "Delivered on Truck 1"
                             key.insert(0, truck)
-                            # print("Delivered on Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
                             delivered_packages.append(key)
                             truck1.append(key)
-                        if delivery_times.index(s) == t and delivery_times.index(s) > 1:
-                            print("print ", delivery_times.index(s))
+                            print("EGEGe ", )
+                            print("List t1", t1)
+                            t1.remove(t)
+                            tu = []
+                            tu.append(delivery_times.index(s) + 1)
+                            print("TUOUU ", tu)
 
-                    for b in loadTruck2.packages:
-                        if delivery_times.index(s) == b and delivery_times.index(s) != 0:
-                            print("SSS ", delivery_times.index(s))
-                            print("Truck 2 ", b)
-                            test4.append(b + 1)
+
+                    for b in t2:
+                        if delivery_times.index(s) + 1 == b:
                             key = list(my_hash.search(b))
                             truck = "Delivered on Truck 2"
                             key.insert(0, truck)
-                            # print("Delivered on Truck 2: ", my_hash.search(delivery_times.index(s) + 1))
                             delivered_packages.append(key)
                             truck2.append(key)
-                        if delivery_times.index(s) == 0 and b == 1:
-                            print("asdasd ", b)
-                            test4.append(b)
-                    for r in loadTruck3.packages:
-                        if delivery_times.index(s) == r:
-                            print("SSS ", delivery_times.index(s))
-                            print("Truck 2 ", r)
-                            test4.append(r + 1)
+                    for r in t3:
+                        if delivery_times.index(s) + 1 == r:
                             key = list(my_hash.search(r))
                             truck = "Delivered on Truck 3"
                             key.insert(0, truck)
-                            # print("Delivered on Truck 3: ", my_hash.search(delivery_times.index(s) + 1))
                             delivered_packages.append(key)
                             truck3.append(key)
                 if s > time:
@@ -500,11 +499,6 @@ def ui():
                             key[9] = "En Route"
                             key[10] = ""
                             packages_not_delivered.append(key)
-                            # key_id = my_hash.search(delivery_times.index(s) + 1)[:]
-                            # key_id[8] = "En Route"
-                            # key_id[9] = ""
-                            # print("En route on Truck 1: ", key_id)
-                            # packages_not_delivered.append(key_id)
                             truck1.append(key)
                     for b in loadTruck2.packages:
                         if delivery_times.index(s) == b:
@@ -513,11 +507,6 @@ def ui():
                             key[9] = "En Route"
                             key[10] = ""
                             packages_not_delivered.append(key)
-                            # key_id = my_hash.search(delivery_times.index(s) + 1)[:]
-                            # key_id[8] = "En Route"
-                            # key_id[9] = ""
-                            # print("En route on Truck 2: ", key_id)
-                            # packages_not_delivered.append(key_id)
                             truck2.append(key)
                         if delivery_times.index(s) == b and b == 1:
                             key = list(my_hash.search(delivery_times.index(s) + 1))
@@ -525,11 +514,6 @@ def ui():
                             key[9] = "En Route"
                             key[10] = ""
                             packages_not_delivered.append(key)
-                            # key_id = my_hash.search(delivery_times.index(s))[:]
-                            # key_id[8] = "En Route"
-                            # key_id[9] = ""
-                            # print("En route on Truck 2: ", key_id)
-                            # packages_not_delivered.append(key_id)
                             truck2.append(key)
 
                     for r in loadTruck3.packages:
@@ -562,24 +546,9 @@ def ui():
                             # print("En Route on Truck 3: ", key_id)
                             # packages_not_delivered.append(key_id)
                             truck3.append(key)
-            test1 = []
-            test2 = []
-            [test1.append(x) for x in delivered_packages if x not in test1]
-            [test2.append(x) for x in packages_not_delivered if x not in test2]
-            print("Packaegas delivered ", *delivered_packages, sep="\n")
-            print("Lenght ", len(delivered_packages))
-            print("Packages not delieverd ", *packages_not_delivered, sep="\n")
-            print("Lemght ", len(packages_not_delivered))
-            print("Truck 1 ", *truck1, sep="\n")
-            print("Length ", len(truck1))
-            print("Truck 2 ", *truck2, sep="\n")
-            print("Length ", len(truck2))
-            print("Truck 3 ", *truck3, sep="\n")
-            print("Length ", len(truck3))
-
-            print("testy 4 ", test4)
-            print("nuts ", sorted(set(range(uniqueList[0], uniqueList[-1])) - set(uniqueList)))
-
+            print("Truck 1", *truck1, sep="\n")
+            print("Truck 2", *truck1, sep="\n")
+            print("Truck 3", *truck1, sep="\n")
         except ValueError:
             print("Please enter a valid time ")
 
