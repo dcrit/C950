@@ -454,9 +454,8 @@ def ui():
             t1 = list(loadTruck1.packages)
             t2 = list(loadTruck2.packages)
             t3 = list(loadTruck3.packages)
+            tu = []
             for s in delivery_times:
-                if delivery_times.index(s) > 1:
-                    print("Yoooo ", delivery_times.index(s))
                 if s <= time:
                     for t in t1:
 
@@ -471,7 +470,7 @@ def ui():
                             print("EGEGe ", )
                             print("List t1", t1)
                             t1.remove(t)
-                            tu = []
+
                             tu.append(delivery_times.index(s) + 1)
                             print("TUOUU ", tu)
 
