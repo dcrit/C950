@@ -456,10 +456,16 @@ def ui():
             t3 = list(loadTruck3.packages)
             tu = []
             pu = []
+            zu = []
+            tracker = 0
             for s in delivery_times:
                 if s <= time:
                     for t in t1:
-                        if delivery_times.index(s) + 1 == t:
+
+                        if t == delivery_times.index(s) + 1:
+                            zu.append(delivery_times.index(s) + 1)
+                            print("Zuu ", zu)
+                            zu.clear()
                             print("SSSS ", delivery_times.index(s))
                             pu.append(delivery_times.index(s))
                             print("PUUUU ", pu)
