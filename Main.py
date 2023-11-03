@@ -460,7 +460,6 @@ def ui():
                 if s <= time:
                     for t in t1:
 
-
                         if delivery_times.index(s) + 1 == t:
                             print("SSSS ", delivery_times.index(s))
                             print("TTTT ", t)
@@ -523,16 +522,7 @@ def ui():
                             key[9] = "En Route"
                             key[10] = ""
                             packages_not_delivered.append(key)
-                            # key = list(my_hash.search(delivery_times.index(s) + 1))
-                            # key.insert(0, "En route on Truck 3")
-                            # key[9] = "En Route"
-                            # key[10] = ""
-                            # packages_not_delivered.append(key)
-                            # key_id = my_hash.search(delivery_times.index(s) + 1)[:]
-                            # key_id[8] = "At Hub"
-                            # key_id[9] = ""
-                            # print("At hub on Truck 3: ", key_id)
-                            # packages_not_delivered.append(key_id)
+
                             truck3.append(key)
                         if delivery_times.index(s) == r and time > loadTruck2.return_time:
                             key = list(my_hash.search(delivery_times.index(s) + 1))
@@ -540,11 +530,7 @@ def ui():
                             key[9] = "En Route"
                             key[10] = ""
                             packages_not_delivered.append(key)
-                            # key_id = my_hash.search(delivery_times.index(s) + 1)[:]
-                            # key_id[8] = "En Route"
-                            # key_id[9] = ""
-                            # print("En Route on Truck 3: ", key_id)
-                            # packages_not_delivered.append(key_id)
+
                             truck3.append(key)
             print("Truck 1", *truck1, sep="\n")
             print("Truck 2", *truck1, sep="\n")
