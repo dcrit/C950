@@ -455,12 +455,14 @@ def ui():
             t2 = list(loadTruck2.packages)
             t3 = list(loadTruck3.packages)
             tu = []
+            pu = []
             for s in delivery_times:
                 if s <= time:
                     for t in t1:
-
                         if delivery_times.index(s) + 1 == t:
                             print("SSSS ", delivery_times.index(s))
+                            pu.append(delivery_times.index(s))
+                            print("PUUUU ", pu)
                             print("TTTT ", t)
                             key = list(my_hash.search(t))
                             truck = "Delivered on Truck 1"
