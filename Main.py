@@ -434,7 +434,19 @@ def ui():
             print("Delivery Times ", str(delivery_times))
 
             test4 = []
-            print(str(delivery_times))
+            nutz = []
+
+            uniqueList = []
+            duplicateList = []
+
+            for i in delivery_times:
+                if i not in uniqueList:
+                    uniqueList.append(delivery_times.index(i) + 1)
+                elif i not in duplicateList:
+                    duplicateList.append(delivery_times.index(i))
+
+            print(duplicateList)
+            print(uniqueList)
             for s in delivery_times:
 
                 if s <= time:
@@ -452,6 +464,9 @@ def ui():
                             # print("Delivered on Truck 1: ", my_hash.search(delivery_times.index(s) + 1))
                             delivered_packages.append(key)
                             truck1.append(key)
+                        if delivery_times.index(s) == t and delivery_times.index(s) > 1:
+                            print("print ", delivery_times.index(s))
+
                     for b in loadTruck2.packages:
                         if delivery_times.index(s) == b and delivery_times.index(s) != 0:
                             print("SSS ", delivery_times.index(s))
@@ -563,6 +578,7 @@ def ui():
             print("Length ", len(truck3))
 
             print("testy 4 ", test4)
+            print("nuts ", sorted(set(range(uniqueList[0], uniqueList[-1])) - set(uniqueList)))
 
         except ValueError:
             print("Please enter a valid time ")
