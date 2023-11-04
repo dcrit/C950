@@ -463,9 +463,7 @@ def ui():
 
             print("FFFFF ", dupy)
             for i in uniqueList:
-                if i == dupy.index(i):
-                    print()
-
+                print()
             print("sdsd ", uniqueList[8])
             tracker = 0
 
