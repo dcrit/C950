@@ -457,11 +457,15 @@ def ui():
             tu = []
             pu = []
             zu = []
+            for t in uniqueList:
+                for a in dupy:
+                    if a == uniqueList.index(t):
+                        print("Dupy ", print(t))
             tracker = 0
+
             for s in delivery_times:
                 if s <= time:
                     for t in t1:
-
                         if t == delivery_times.index(s) + 1:
                             zu.append(delivery_times.index(s) + 1)
                             print("Zuu ", zu)
@@ -481,7 +485,6 @@ def ui():
 
                             tu.append(delivery_times.index(s) + 1)
                             print("TUOUU ", tu)
-
 
                     for b in t2:
                         if delivery_times.index(s) + 1 == b:
