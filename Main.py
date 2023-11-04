@@ -449,7 +449,7 @@ def ui():
 
             print(duplicateList)
             print(uniqueList)
-            dupy = sorted(set(range(uniqueList[0], uniqueList[-1])) - set(uniqueList))
+            dupy = list(sorted(set(range(uniqueList[0], uniqueList[-1])) - set(uniqueList)))
             print("dupy ", dupy)
             t1 = list(loadTruck1.packages)
             t2 = list(loadTruck2.packages)
@@ -457,10 +457,16 @@ def ui():
             tu = []
             pu = []
             zu = []
-            for t in uniqueList:
-                for a in dupy:
-                    if a == uniqueList.index(t):
-                        print("Dupy ", print(t))
+
+            w = []
+            y = []
+
+            print("FFFFF ", dupy)
+            for i in uniqueList:
+                if i == dupy.index(i):
+                    print()
+
+            print("sdsd ", uniqueList[8])
             tracker = 0
 
             for s in delivery_times:
