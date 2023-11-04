@@ -454,54 +454,40 @@ def ui():
             t1 = list(loadTruck1.packages)
             t2 = list(loadTruck2.packages)
             t3 = list(loadTruck3.packages)
-            tu = []
-            pu = []
-            zu = []
-
-            w = []
-            y = []
 
             res_list = [uniqueList[i-1] for i in dupy]
             print("Resrs ", res_list)
-            tracker = 0
 
             for s in delivery_times:
                 if s <= time:
                     for t in t1:
-                        if t == delivery_times.index(s) + 1:
-                            zu.append(delivery_times.index(s) + 1)
-                            print("Zuu ", zu)
-                            zu.clear()
-                            print("SSSS ", delivery_times.index(s))
-                            pu.append(delivery_times.index(s))
-                            print("PUUUU ", pu)
-                            print("TTTT ", t)
+                        if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 not in res_list:
                             key = list(my_hash.search(t))
                             truck = "Delivered on Truck 1"
                             key.insert(0, truck)
                             delivered_packages.append(key)
                             truck1.append(key)
-                            print("EGEGe ", )
-                            print("List t1", t1)
-                            t1.remove(t)
-
-                            tu.append(delivery_times.index(s) + 1)
-                            print("TUOUU ", tu)
+                        if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
+                            print("Here Truck 1  ", delivery_times.index(s) + 1)
 
                     for b in t2:
-                        if delivery_times.index(s) + 1 == b:
+                        if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in res_list:
                             key = list(my_hash.search(b))
                             truck = "Delivered on Truck 2"
                             key.insert(0, truck)
                             delivered_packages.append(key)
                             truck2.append(key)
+                        if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
+                            print("Here Truck 2  ", delivery_times.index(s) + 1)
                     for r in t3:
-                        if delivery_times.index(s) + 1 == r:
+                        if delivery_times.index(s) + 1 == r and delivery_times.index(s) + 1 not in res_list:
                             key = list(my_hash.search(r))
                             truck = "Delivered on Truck 3"
                             key.insert(0, truck)
                             delivered_packages.append(key)
                             truck3.append(key)
+                            if r == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
+                                print("Here Truck 3  ", delivery_times.index(s) + 1)
                 if s > time:
                     for t in loadTruck1.packages:
                         if delivery_times.index(s) == t:
@@ -545,8 +531,8 @@ def ui():
 
                             truck3.append(key)
             print("Truck 1", *truck1, sep="\n")
-            print("Truck 2", *truck1, sep="\n")
-            print("Truck 3", *truck1, sep="\n")
+            print("Truck 2", *truck2, sep="\n")
+            print("Truck 3", *truck3, sep="\n")
         except ValueError:
             print("Please enter a valid time ")
 
