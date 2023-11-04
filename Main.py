@@ -457,6 +457,7 @@ def ui():
 
             res_list = [uniqueList[i-1] for i in dupy]
             print("Resrs ", res_list)
+            tr = []
 
             for s in delivery_times:
                 if s <= time:
@@ -477,6 +478,8 @@ def ui():
                             key.insert(0, truck)
                             delivered_packages.append(key)
                             truck2.append(key)
+                        if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
+                            print("Here Truck 2  ", delivery_times.index(s) + 1)
                         if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
                             print("Here Truck 2  ", delivery_times.index(s) + 1)
                     for r in t3:
