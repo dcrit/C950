@@ -447,8 +447,8 @@ def ui():
                 elif i not in duplicateList:
                     duplicateList.append(delivery_times.index(i))
 
-            print(duplicateList)
-            print(uniqueList)
+            print("Duplicte list ", duplicateList)
+            print("Unique list ", uniqueList)
             dupy = list(sorted(set(range(uniqueList[0], uniqueList[-1])) - set(uniqueList)))
             print("dupy ", dupy)
             t1 = list(loadTruck1.packages)
@@ -461,10 +461,8 @@ def ui():
             w = []
             y = []
 
-            print("FFFFF ", dupy)
-            for i in uniqueList:
-                print()
-            print("sdsd ", uniqueList[8])
+            res_list = [uniqueList[i-1] for i in dupy]
+            print("Resrs ", res_list)
             tracker = 0
 
             for s in delivery_times:
