@@ -355,25 +355,30 @@ total_mileage += delivery_process(loadTruck3)
 # User Interface
 # Space-time complexity O(n^2)
 def ui():
-    packages = []
-    delivery_times = []
-    pack = 1
-    delivered_packages = []
-    packages_not_delivered = []
+
+
     truck1 = []
     truck2 = []
     truck3 = []
 
-    # Adding packages to a list
-    # Space-time complexity O(n)
+    delivery_times = []
+    here = []
+    two = []
+    pack = 1
     while pack < 41:
-        packages.append(my_hash.search(pack))
+        here.append(my_hash.search(pack))
         u = my_hash.search(pack)[9]
-        print("UUUUUUUUUU ", u)
+        # print("UUUUUUUUUU ", u)
+        print("pack ", my_hash.search(pack))
         (hours, minutes, seconds) = u.split(":")
         time_convert = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
-        delivery_times.append(time_convert)
+        two.append(time_convert)
         pack += 1
+    packages = here[:]
+    delivery_times = two[:]
+    # Adding packages to a list
+    # Space-time complexity O(n)
+
 
     # Options for the user to choose from
     print("Please choose from the following options:\n"
@@ -390,19 +395,26 @@ def ui():
         print("Please enter a valid number \n")
     # Prints all the packages
     if user_input == 1:
+        # package_info = []
+        # pack = 1
+        # while pack < 41:
+        #     package_info.append(my_hash.search(pack))
+        #     pack += 1
         print(*packages, sep="\n")
+
     # Prints the total mileage
     if user_input == 2:
         print("Total Mileage: ", total_mileage, "\n")
+
     # Prints delivered package given a time
     if user_input == 3:
         print("Please enter a time using the following format: '8:00:00' ")
         time = str(input("Enter a time: "))
-        for s in packages:
-            if s[9] == time:
-                print("Match = ", s)
-        if time not in packages:
-            print("Nothing found \n")
+        # for s in packages:
+        #     if s[9] == time:
+        #         print("Match = ", s)
+        # if time not in packages:
+        #     print("Nothing found \n")
     # Prints delivered packages between given times
     if user_input == 4:
         print("Please enter a 24 hour start time and end time using the following format: '8:00:00' ")
@@ -455,13 +467,13 @@ def ui():
 
             res_list = [uniqueList[i-1] for i in dupy]
             print("Resrs ", res_list)
-            tr = []
+
 
             for s in delivery_times:
                 if s <= time:
                     for t in t1:
                         if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 not in res_list:
-                            key = list(my_hash.search(t))
+                            key = list(my_hash.search(t))[:]
                             truck = "Delivered on Truck 1"
                             key.insert(0, truck)
                             # delivered_packages.append(key)
@@ -472,7 +484,7 @@ def ui():
                             er = find_indices(uniqueList, t)
                             print("Here Truck 1  ", er)
                             for y in er:
-                                key = my_hash.search(y + 1)
+                                key = my_hash.search(y + 1)[:]
                                 truck = "Delivered on Truck 1"
                                 key.insert(0, truck)
                                 print("Key 3 ", key)
@@ -492,7 +504,7 @@ def ui():
 
                     for b in t2:
                         if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in res_list:
-                            key = list(my_hash.search(b))
+                            key = list(my_hash.search(b))[:]
                             truck = "Delivered on Truck 2"
                             key.insert(0, truck)
                             # delivered_packages.append(key)
@@ -506,7 +518,7 @@ def ui():
 
                     for r in t3:
                         if delivery_times.index(s) + 1 == r and delivery_times.index(s) + 1 not in res_list:
-                            key = list(my_hash.search(r))
+                            key = list(my_hash.search(r))[:]
                             truck = "Delivered on Truck 3"
                             key.insert(0, truck)
                             # delivered_packages.append(key)
@@ -518,7 +530,7 @@ def ui():
                             print("rr ", r)
                             total = 0
                             for y in er:
-                                key = my_hash.search(y + 1)
+                                key = my_hash.search(y + 1)[:]
                                 truck = "Delivered on Truck 3"
                                 key.insert(0, truck)
                                 print("Key 3 ", key)
@@ -600,9 +612,10 @@ def ui():
         except ValueError:
             print("Please enter a valid time ")
 
+    print("Down ", my_hash.search(3))
+
     if user_input == 6:
         sys.exit()
-
     ui()
 
 
