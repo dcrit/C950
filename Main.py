@@ -491,6 +491,7 @@ def ui():
                             delivered_packages.append(key)
                             truck2.append(key)
                             t2.remove(b)
+
                         if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
                             er = find_indices(uniqueList, b)
                             print("Here Truck 2  ", er)
@@ -566,7 +567,9 @@ def ui():
             print("Truck 2 ", len(truck2))
             print("Truck 3", *truck3, sep="\n")
             print("Truck 3 length ", len(truck3))
-            print("ererer ", t1)
+            print("t1 ", t1)
+            print("t2 ", t2)
+            print("t3 ", t3)
         except ValueError:
             print("Please enter a valid time ")
 
