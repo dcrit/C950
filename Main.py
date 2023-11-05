@@ -480,8 +480,6 @@ def ui():
                             truck2.append(key)
                         if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
                             print("Here Truck 2  ", delivery_times.index(s) + 1)
-                        if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
-                            print("Here Truck 2  ", delivery_times.index(s) + 1)
                     for r in t3:
                         if delivery_times.index(s) + 1 == r and delivery_times.index(s) + 1 not in res_list:
                             key = list(my_hash.search(r))
@@ -534,8 +532,11 @@ def ui():
 
                             truck3.append(key)
             print("Truck 1", *truck1, sep="\n")
+            print("Truck 1 length ", len(truck1))
             print("Truck 2", *truck2, sep="\n")
+            print("Truck 2 ", len(truck2))
             print("Truck 3", *truck3, sep="\n")
+            print("Truck 3 length ", len(truck3))
         except ValueError:
             print("Please enter a valid time ")
 
