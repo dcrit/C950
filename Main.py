@@ -468,8 +468,20 @@ def ui():
                             key.insert(0, truck)
                             delivered_packages.append(key)
                             truck1.append(key)
+                            t1.remove(t)
+
                         if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
-                            print("Here Truck 1  ", delivery_times.index(s) + 1)
+                            er = find_indices(uniqueList, t)
+                            print("Here Truck 1  ", er)
+                            # while len(er) > 0:
+                            #     key = my_hash.search(er[0] + 1)
+                            #     truck = "Delivered on Truck 1"
+                            #     key.insert(0, truck)
+                            #     delivered_packages.append(key)
+                            #     truck1.append(key)
+                            #     er.pop(0)
+                            #     t1.remove(t)
+                            #     print("er ", er)
 
                     for b in t2:
                         if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in res_list:
@@ -478,8 +490,12 @@ def ui():
                             key.insert(0, truck)
                             delivered_packages.append(key)
                             truck2.append(key)
+                            t2.remove(b)
                         if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
-                            print("Here Truck 2  ", delivery_times.index(s) + 1)
+                            er = find_indices(uniqueList, b)
+                            print("Here Truck 2  ", er)
+                            print("bb ", b)
+
                     for r in t3:
                         if delivery_times.index(s) + 1 == r and delivery_times.index(s) + 1 not in res_list:
                             key = list(my_hash.search(r))
@@ -487,8 +503,21 @@ def ui():
                             key.insert(0, truck)
                             delivered_packages.append(key)
                             truck3.append(key)
-                            if r == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
-                                print("Here Truck 3  ", delivery_times.index(s) + 1)
+                            # t3.remove(r)
+                        if r == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
+                            er = find_indices(uniqueList, r)
+                            print("Here Truck 3  ", er)
+                            print("rr ", r)
+                            # while len(er) > 0:
+                            #     key = my_hash.search(er[0] + 1)
+                            #     truck = "Delivered on Truck 3"
+                            #     key.insert(0, truck)
+                            #     delivered_packages.append(key)
+                            #     truck1.append(key)
+                            #     er.pop(0)
+                            #     print("er ", er)
+                            #     t3.remove(r)
+
                 if s > time:
                     for t in loadTruck1.packages:
                         if delivery_times.index(s) == t:
@@ -537,6 +566,7 @@ def ui():
             print("Truck 2 ", len(truck2))
             print("Truck 3", *truck3, sep="\n")
             print("Truck 3 length ", len(truck3))
+            print("ererer ", t1)
         except ValueError:
             print("Please enter a valid time ")
 
