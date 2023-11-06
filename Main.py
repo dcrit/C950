@@ -509,7 +509,7 @@ def ui():
                                 total += 1
                                 truck3.append(key)
                                 t3.remove(y + 1)
-
+                # Working here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 if s > time >= datetime.timedelta(hours=int(8), minutes=int(0), seconds=int(0)):
                     for t in t1:
                         if delivery_times.index(s) + 1 == t and delivery_times.index(s) + 1 not in res_list:
