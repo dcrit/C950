@@ -453,12 +453,13 @@ def ui():
                     duplicateList.append(delivery_times.index(i))
 
             dupy = list(sorted(set(range(uniqueList[0], uniqueList[-1])) - set(uniqueList)))
-
+            res_list = [uniqueList[i - 1] for i in dupy]
+            print("Res list ",  res_list)
             t1 = list(loadTruck1.packages)
             t2 = list(loadTruck2.packages)
             t3 = list(loadTruck3.packages)
 
-            res_list = [uniqueList[i-1] for i in dupy]
+
 
             for s in delivery_times:
                 if s <= time:
@@ -467,7 +468,6 @@ def ui():
                             key = list(my_hash.search(t))[:]
                             truck = "Delivered on Truck 1"
                             key.insert(0, truck)
-                            # delivered_packages.append(key)
                             truck1.append(key)
                             t1.remove(t)
 
@@ -477,9 +477,7 @@ def ui():
                                 key = my_hash.search(y + 1)[:]
                                 truck = "Delivered on Truck 1"
                                 key.insert(0, truck)
-                                # delivered_packages.append(key)
                                 truck1.append(key)
-                                # er.remove(y)
                                 t1.remove(y + 1)
 
                     for b in t2:
@@ -510,59 +508,85 @@ def ui():
                                 truck = "Delivered on Truck 3"
                                 key.insert(0, truck)
                                 total += 1
-                                # delivered_packages.append(key)
                                 truck3.append(key)
-                                # er.remove(y)
                                 t3.remove(y + 1)
 
                 if s > time:
-                    for t in loadTruck1.packages:
-                        if delivery_times.index(s) == t:
+                    for t in t1:
+                        if delivery_times.index(s) + 1 == t and delivery_times.index(s) + 1 not in res_list:
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 1")
                             key[9] = "En Route"
                             key[10] = ""
-                            # packages_not_delivered.append(key)
                             truck1.append(key)
-                    for b in loadTruck2.packages:
-                        if delivery_times.index(s) == b:
+                            t1.remove(t)
+                        if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
+                            er = find_indices(uniqueList, t)
+                            for y in er:
+                                key = my_hash.search(y + 1)[:]
+                                truck = "En route Truck 1"
+                                key.insert(0, truck)
+                                truck1.append(key)
+                                t1.remove(y + 1)
+                    for b in t2:
+                        if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in res_list:
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 2")
                             key[9] = "En Route"
                             key[10] = ""
-                            # packages_not_delivered.append(key)
                             truck2.append(key)
-                        if delivery_times.index(s) == b and b == 1:
-                            key = list(my_hash.search(delivery_times.index(s) + 1))[:]
-                            key.insert(0, "En route on Truck 2")
-                            key[9] = "En Route"
-                            key[10] = ""
-                            # packages_not_delivered.append(key)
-                            truck2.append(key)
+                            t2.remove(b)
+                        if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
+                            er = find_indices(uniqueList, b)
+                            for y in er:
+                                key = my_hash.search(y + 1)[:]
+                                truck = "En route Truck 2"
+                                key.insert(0, truck)
+                                truck2.append(key)
+                                t2.remove(y + 1)
 
-                    for r in loadTruck3.packages:
-                        if delivery_times.index(s) == r and time < loadTruck2.return_time:
+                    for r in t3:
+                        if delivery_times.index(s) + 1 == r and time < loadTruck2.return_time and delivery_times.index(s) not in res_list:
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 3")
                             key[9] = "En Route"
                             key[10] = ""
-                            # packages_not_delivered.append(key)
-
                             truck3.append(key)
-                        if delivery_times.index(s) == r and time > loadTruck2.return_time:
+                            t3.remove(r)
+                        if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(s) not in res_list:
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 3")
                             key[9] = "En Route"
                             key[10] = ""
-                            # packages_not_delivered.append(key)
-
                             truck3.append(key)
+                            t3.remove(r)
+                        if delivery_times.index(s) + 1 == r and time < loadTruck2.return_time and delivery_times.index(s) in res_list:
+                            er = find_indices(uniqueList, r)
+                            for y in er:
+                                print("YYYYYY ", y)
+                                key = my_hash.search(y + 1)[:]
+                                truck = "En route Truck 3"
+                                key.insert(0, truck)
+                                truck2.append(key)
+                                t3.remove(y + 1)
+                        if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(s) in res_list:
+                            key = list(my_hash.search(delivery_times.index(s) + 1))[:]
+                            key.insert(0, "En route on Truck 3")
+                            key[9] = "En Route"
+                            key[10] = ""
+                            truck3.append(key)
+                            t3.remove(r)
+
             print("Truck 1", *truck1, sep="\n")
             print("Truck 1 length ", len(truck1))
             print("Truck 2", *truck2, sep="\n")
             print("Truck 2 ", len(truck2))
             print("Truck 3", *truck3, sep="\n")
             print("Truck 3 length ", len(truck3))
+
+            print("t1 ", t1)
+            print("t2 ", t2)
+            print("t3 ", t3)
 
         except ValueError:
             print("Please enter a valid time ")
