@@ -459,8 +459,6 @@ def ui():
             t2 = list(loadTruck2.packages)
             t3 = list(loadTruck3.packages)
 
-
-
             for s in delivery_times:
                 if s <= time:
                     for t in t1:
@@ -494,6 +492,7 @@ def ui():
 
                     for r in t3:
                         if delivery_times.index(s) + 1 == r and delivery_times.index(s) + 1 not in res_list:
+                            print("RRRR 1 ", r)
                             key = list(my_hash.search(r))[:]
                             truck = "Delivered on Truck 3"
                             key.insert(0, truck)
@@ -502,6 +501,7 @@ def ui():
                             t3.remove(r)
                         if r == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
                             er = find_indices(uniqueList, r)
+                            print("RRRR 2 ", r)
                             total = 0
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
@@ -516,11 +516,13 @@ def ui():
                         if delivery_times.index(s) + 1 == t and delivery_times.index(s) + 1 not in res_list:
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 1")
+                            print("RRRR 3 ", r)
                             key[9] = "En Route"
                             key[10] = ""
                             truck1.append(key)
                             t1.remove(t)
                         if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
+                            print("RRRR 4 ", r)
                             er = find_indices(uniqueList, t)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
