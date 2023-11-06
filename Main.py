@@ -531,8 +531,14 @@ def ui():
                     for b in t2:
                         if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in res_list and time < datetime.timedelta(hours=int(9), minutes=int(5), seconds=int(0)):
                             print("Check it")
+                            key = my_hash.search(delivery_times.index(s) + 1)[:]
+                            key.insert(0, "At hub on Truck 2")
+                            key[9] = "At hub"
+                            key[10] = ""
+                            truck2.append(key)
+                            t2.remove(b)
 
-                        if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in res_list:
+                        if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in res_list and time > datetime.timedelta(hours=int(9), minutes=int(5), seconds=int(0)) :
                             print("here ", b)
                             er = find_indices(uniqueList, b)
                             print("ERER t21 ", er)
