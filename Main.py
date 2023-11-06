@@ -407,11 +407,11 @@ def ui():
     if user_input == 3:
         print("Please enter a time using the following format: '8:00:00' ")
         time = str(input("Enter a time: "))
-        # for s in packages:
-        #     if s[9] == time:
-        #         print("Match = ", s)
-        # if time not in packages:
-        #     print("Nothing found \n")
+        for s in packages:
+            if s[9] == time:
+                print("Match = ", s)
+        if time not in packages:
+            print("Nothing found \n")
     # Prints delivered packages between given times
     if user_input == 4:
         print("Please enter a 24 hour start time and end time using the following format: '8:00:00' ")
