@@ -445,8 +445,11 @@ def ui():
         except ValueError:
             print("Enter a valid time \n")
     if user_input == 5:
-        ID = int(input("Enter package ID: "))
-        print(my_hash.search(ID))
+        try:
+            ID = int(input("Enter package ID: "))
+            print(my_hash.search(ID))
+        except ValueError:
+            print("Please enter a valid input \n")
 
     # Prints all package status given a time
     if user_input == 6:
