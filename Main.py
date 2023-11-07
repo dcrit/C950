@@ -392,7 +392,7 @@ def ui():
 
     # Options for the user to choose from
     print("Please choose from the following options:\n"
-          "1. Show all package info \n"
+          "1. Show all delivered package info \n"
           "2. Total Mileage \n"
           "3. Search for a delivered package by time \n"
           "4. Search delivered packages between times \n"
@@ -510,7 +510,6 @@ def ui():
                                 key.insert(0, truck)
                                 truck2.append(key)
                                 t2.remove(y + 1)
-
 
                     for r in t3:
                         if delivery_times.index(s) + 1 == r and delivery_times.index(s) + 1 not in res_list:
