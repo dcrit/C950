@@ -348,17 +348,13 @@ def Repeat(x):
 
 
 def Sort(sub_li):
-    l = len(sub_li)
+    test = []
+    for col in sub_li:
+        test.append(col[1])
+    return test
 
-    for i in range(0, l):
-        for j in range(0, l - i - 1):
-
-            if (sub_li[j][1] > sub_li[j + 1][1]):
-                tempo = sub_li[j]
-                sub_li[j] = sub_li[j + 1]
-                sub_li[j + 1] = tempo
-
-    return sub_li
+def MyFn(a):
+    return a[1]
 
 # Starting the delivery process and returning mileage from truck
 total_mileage += delivery_process(loadTruck1)
@@ -369,8 +365,6 @@ total_mileage += delivery_process(loadTruck3)
 # User Interface
 # Space-time complexity O(n^2)
 def ui():
-
-
     truck1 = []
     truck2 = []
     truck3 = []
@@ -406,7 +400,6 @@ def ui():
         print("Please enter a valid number \n")
     # Prints all the packages
     if user_input == 1:
-
         print(*packages, sep="\n")
 
     # Prints the total mileage
@@ -549,7 +542,9 @@ def ui():
                                 truck1.append(key)
                                 t1.remove(y + 1)
                     for b in t2:
-                        if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in res_list and time < datetime.timedelta(hours=int(9), minutes=int(5), seconds=int(0)):
+                        if delivery_times.index(s) + 1 == b and delivery_times.index(
+                                s) + 1 not in res_list and time < datetime.timedelta(hours=int(9), minutes=int(5),
+                                                                                     seconds=int(0)):
                             key = my_hash.search(delivery_times.index(s) + 1)[:]
                             key.insert(0, "At hub on Truck 2")
                             key[9] = "At hub"
@@ -557,7 +552,9 @@ def ui():
                             truck2.append(key)
                             t2.remove(b)
 
-                        if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list and time > datetime.timedelta(hours=int(9), minutes=int(5), seconds=int(0)):
+                        if b == delivery_times.index(s) + 1 and delivery_times.index(
+                                s) + 1 in res_list and time > datetime.timedelta(hours=int(9), minutes=int(5),
+                                                                                 seconds=int(0)):
                             er = find_indices(uniqueList, b)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
@@ -567,21 +564,24 @@ def ui():
                                 t2.remove(y + 1)
 
                     for r in t3:
-                        if delivery_times.index(s) + 1 == r and time < loadTruck2.return_time and delivery_times.index(s) + 1 not in res_list:
+                        if delivery_times.index(s) + 1 == r and time < loadTruck2.return_time and delivery_times.index(
+                                s) + 1 not in res_list:
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 3")
                             key[9] = "En Route"
                             key[10] = ""
                             truck3.append(key)
                             t3.remove(r)
-                        if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(s) + 1 not in res_list:
+                        if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(
+                                s) + 1 not in res_list:
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 3")
                             key[9] = "En Route"
                             key[10] = ""
                             truck3.append(key)
                             t3.remove(r)
-                        if delivery_times.index(s) + 1 == r and time < loadTruck2.return_time and delivery_times.index(s) + 1 in res_list:
+                        if delivery_times.index(s) + 1 == r and time < loadTruck2.return_time and delivery_times.index(
+                                s) + 1 in res_list:
                             er = find_indices(uniqueList, r)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
@@ -591,7 +591,8 @@ def ui():
                                 key[10] = ""
                                 truck3.append(key)
                                 t3.remove(y + 1)
-                        if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(s) + 1 in res_list:
+                        if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(
+                                s) + 1 in res_list:
                             er = find_indices(uniqueList, r)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
@@ -612,6 +613,7 @@ def ui():
             print("Truck 3", *truck3, sep="\n")
             print("Truck 3 length ", len(truck3))
 
+            # print("Testing ", *sorted([truck3], key=MyFn), sep="\n")
 
             print("t1 ", t1)
             print("t2 ", t2)
