@@ -390,13 +390,12 @@ def ui():
     # Adding packages to a list
     # Space-time complexity O(n)
 
-
     # Options for the user to choose from
     print("Please choose from the following options:\n"
           "1. Show all package info \n"
           "2. Total Mileage \n"
-          "3. Search for a package by time \n"
-          "4. Search packages between times \n"
+          "3. Search for a delivered package by time \n"
+          "4. Search delivered packages between times \n"
           "5. Search all package statuses for a given time \n"
           "6. Exit Program \n")
     user_input = None
@@ -406,11 +405,7 @@ def ui():
         print("Please enter a valid number \n")
     # Prints all the packages
     if user_input == 1:
-        # package_info = []
-        # pack = 1
-        # while pack < 41:
-        #     package_info.append(my_hash.search(pack))
-        #     pack += 1
+
         print(*packages, sep="\n")
 
     # Prints the total mileage
@@ -556,13 +551,6 @@ def ui():
                             truck2.append(key)
                             t2.remove(b)
 
-                        if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in res_list and time > datetime.timedelta(hours=int(9), minutes=int(5), seconds=int(0)):
-                            key = list(my_hash.search(delivery_times.index(s) + 1))[:]
-                            key.insert(0, "En route on Truck 2")
-                            key[9] = "En Route"
-                            key[10] = ""
-                            truck2.append(key)
-                            t2.remove(b)
                         if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list and time > datetime.timedelta(hours=int(9), minutes=int(5), seconds=int(0)):
                             er = find_indices(uniqueList, b)
                             for y in er:
@@ -581,7 +569,6 @@ def ui():
                             truck3.append(key)
                             t3.remove(r)
                         if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(s) + 1 not in res_list:
-                            er = find_indices(uniqueList, r)
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 3")
                             key[9] = "En Route"
@@ -610,11 +597,12 @@ def ui():
                                 t3.remove(y + 1)
                 if s > time < datetime.timedelta(hours=int(8), minutes=int(0), seconds=int(0)):
                     print("WGUPS is closed. Try another time. ")
+                    break
 
             print("Truck 1", *truck1, sep="\n")
             print("Truck 1 length ", len(truck1))
             print("Truck 2", *truck2, sep="\n")
-            print("Truck 2 ", len(truck2))
+            print("Truck 2 length ", len(truck2))
             print("Truck 3", *truck3, sep="\n")
             print("Truck 3 length ", len(truck3))
 
