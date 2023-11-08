@@ -73,8 +73,8 @@ load_package_data('CSV_FILES/WGUPS_Package_File.csv')
 # truck2 = [3, 18, 36, 38, 13, 14, 15, 16, 17, 19, 20, 30, 31, 33, 34, 35]
 # truck3 = [6, 25, 28, 32, 37, 39, 40, 9]
 
-truck1 = [20, 13, 14, 15, 16, 29, 30, 31, 34, 37, 40, 27, 35, 39, 19, 33]
-truck2 = [3, 36, 38, 6, 25, 28, 32, 1]
+truck1 = [13, 14, 15, 16, 19, 20, 27, 29, 30, 31, 33, 34, 35, 37, 39, 40]
+truck2 = [1, 3, 6, 25, 28, 32, 36, 38]
 truck3 = [2, 4, 5, 7, 8, 9, 10, 11, 12, 17, 18, 21, 22, 23, 24, 26]
 
 # Loading trucks
@@ -96,7 +96,6 @@ def delivery_process(truck):
     truck_mileage = 0.0
     depart_time = truck.depart_time
     index_for_current_position = 0
-    # global time_count
 
     # Emtpy lists needed for my delivery process
     column_distant_list = []
@@ -279,18 +278,18 @@ def delivery_process(truck):
         if len(indexes_of_packages) == 0:
             delivery_time = (mileage_list[0] / 18) * 60 * 60
             dts = datetime.timedelta(seconds=delivery_time)
-            depart_time = depart_time + dts
+            return_time = depart_time + dts
             truck_mileage += mileage_list[0]
-            # Updating final times and mileage
+
             if truck == loadTruck1:
-                loadTruck1.return_time = depart_time
-                print("Truck 1 ")
+                loadTruck1.return_time = return_time
             if truck == loadTruck2:
-                loadTruck2.return_time = depart_time
+                loadTruck2.return_time = return_time
                 # Checking which truck has the min time and setting truck 3 depart time
                 loadTruck3.depart_time = min(loadTruck1.return_time, loadTruck2.return_time)
             if truck == loadTruck3:
-                loadTruck3.return_time = depart_time
+                loadTruck3.return_time = return_time
+
 
         # Clearing lists
         row_distant_list.clear()
@@ -346,21 +345,23 @@ def Repeat(x):
                 # print("index ", x.index(i))
     return repeated
 
+# Sorts truck packages in order
+# Space-time complexity is O(n^2)
+def sort(truck_list):
+    package_id = []
+    sorted_list = []
+    # Putting IDs in a list and sorting
+    for col in truck_list:
+        package_id.append(int(col[1]))
+    package_id.sort(reverse=False)
 
-def Sort(sub_li):
-    test = []
-    teo = []
-    for col in sub_li:
-        test.append(int(col[1]))
-    test.sort(reverse=False)
-    print("tttt ", test)
-    for s in test:
-        for t in sub_li:
-            print("TT ", t[1])
+    # Sorting packages and adding to a new list
+    for s in package_id:
+        for t in truck_list:
             if int(t[1]) == s:
-                print("sss ", s)
-                teo.append(t)
-    return teo
+                sorted_list.append(t)
+
+    return sorted_list
 
 def MyFn(a):
     return a[1]
@@ -401,7 +402,8 @@ def ui():
           "4. Search delivered packages between times \n"
           "5. Search delivered package by ID \n"
           "6. Search all package statuses for a given time \n"
-          "7. Exit Program \n")
+          "7. Show trucks depart time and return time \n"
+          "8. Exit Program \n")
     user_input = None
     try:
         user_input = int(input("Input number: "))
@@ -615,25 +617,25 @@ def ui():
                     print("WGUPS is closed. Try another time. ")
                     break
 
-            print("Truck 1", *truck1, sep="\n")
+            print("Truck 1", *sort(truck1), sep="\n")
             print("Truck 1 length ", len(truck1))
-            print("Truck 2", *truck2, sep="\n")
+            print("Truck 1", *sort(truck2), sep="\n")
             print("Truck 2 length ", len(truck2))
-            print("Truck 3", *truck3, sep="\n")
+            print("Truck 1", *sort(truck3), sep="\n")
             print("Truck 3 length ", len(truck3))
 
-            print("Testing ", *sorted(truck3, key=MyFn), sep="\n")
-
-            print("t1 ", t1)
-            print("t2 ", t2)
-            print("t3 ", t3)
-
-            print("Test ", *Sort(truck3), sep="\n")
 
         except ValueError:
             print("Please enter a valid time ")
-
     if user_input == 7:
+        print("Truck 1 Depart Time ", loadTruck1.depart_time)
+        print("Truck 1 Return Time ", loadTruck1.return_time)
+        print("Truck 2 Depart Time ", loadTruck2.depart_time)
+        print("Truck 2 Return Time ", loadTruck2.return_time)
+        print("Truck 3 Depart Time ", loadTruck3.depart_time)
+        print("Truck 3 Return Time ", loadTruck3.return_time)
+
+    if user_input == 8:
         sys.exit()
     ui()
 
