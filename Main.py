@@ -582,7 +582,7 @@ def ui():
                                 s) + 1 not in collision_list:
                             print("Here 1")
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
-                            key.insert(0, "At on Truck 3")
+                            key.insert(0, "At hub on Truck 3")
                             key[9] = "At hub"
                             key[10] = ""
                             truck3.append(key)
@@ -603,9 +603,9 @@ def ui():
                             print("Here 3")
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
-                                truck = "En route on Truck 3"
+                                truck = "At hub on Truck 3"
                                 key.insert(0, truck)
-                                key[9] = "En Route"
+                                key[9] = "At hub"
                                 key[10] = ""
                                 truck3.append(key)
                                 t3.remove(y + 1)
