@@ -349,9 +349,18 @@ def Repeat(x):
 
 def Sort(sub_li):
     test = []
+    teo = []
     for col in sub_li:
-        test.append(col[1])
-    return test
+        test.append(int(col[1]))
+    test.sort(reverse=False)
+    print("tttt ", test)
+    for s in test:
+        for t in sub_li:
+            print("TT ", t[1])
+            if int(t[1]) == s:
+                print("sss ", s)
+                teo.append(t)
+    return teo
 
 def MyFn(a):
     return a[1]
@@ -613,13 +622,13 @@ def ui():
             print("Truck 3", *truck3, sep="\n")
             print("Truck 3 length ", len(truck3))
 
-            # print("Testing ", *sorted([truck3], key=MyFn), sep="\n")
+            print("Testing ", *sorted(truck3, key=MyFn), sep="\n")
 
             print("t1 ", t1)
             print("t2 ", t2)
             print("t3 ", t3)
 
-            # print("Test ", *Sort(truck3), sep="\n")
+            print("Test ", *Sort(truck3), sep="\n")
 
         except ValueError:
             print("Please enter a valid time ")
