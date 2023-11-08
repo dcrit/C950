@@ -624,7 +624,6 @@ def ui():
             print("Truck 1", *sort(truck3), sep="\n")
             print("Truck 3 length ", len(truck3))
 
-
         except ValueError:
             print("Please enter a valid time ")
     if user_input == 7:
