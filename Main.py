@@ -290,7 +290,6 @@ def delivery_process(truck):
             if truck == loadTruck3:
                 loadTruck3.return_time = return_time
 
-
         # Clearing lists
         row_distant_list.clear()
         column_distant_list.clear()
@@ -345,6 +344,7 @@ def Repeat(x):
                 # print("index ", x.index(i))
     return repeated
 
+
 # Sorts truck packages in order
 # Space-time complexity is O(n^2)
 def sort(truck_list):
@@ -363,8 +363,10 @@ def sort(truck_list):
 
     return sorted_list
 
+
 def MyFn(a):
     return a[1]
+
 
 # Starting the delivery process and returning mileage from truck
 total_mileage += delivery_process(loadTruck1)
@@ -463,34 +465,42 @@ def ui():
             (hours, minutes, seconds) = time.split(":")
             time = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
 
-            uniqueList = []
-            duplicateList = []
-
+            # Creates a list that reflects the indexes of collisions
+            # Space-time complexity O(n)
+            unique_list = []
             for i in delivery_times:
-                if i not in uniqueList:
-                    uniqueList.append(delivery_times.index(i) + 1)
-                elif i not in duplicateList:
-                    duplicateList.append(delivery_times.index(i))
+                if i not in unique_list:
+                    unique_list.append(delivery_times.index(i) + 1)
 
-            dupy = list(sorted(set(range(uniqueList[0], uniqueList[-1])) - set(uniqueList)))
-            res_list = [uniqueList[i - 1] for i in dupy]
+            # Finds indexes of collisions
+            # Space-time complexity O(n)
+            collisions = sorted(set(range(unique_list[0], unique_list[-1])) - set(unique_list))
 
-            t1 = list(loadTruck1.packages)
-            t2 = list(loadTruck2.packages)
-            t3 = list(loadTruck3.packages)
+            # Putting collisions in a list to check against
+            # Space-time complexity O(n)
+            collision_list = [unique_list[i - 1] for i in collisions]
 
+            # Creating copies of truck packages
+            t1 = loadTruck1.packages[:]
+            t2 = loadTruck2.packages[:]
+            t3 = loadTruck3.packages[:]
+
+            # Sorting packages and showing statuses based on time entered from the user
+            # Space-time complexity
             for s in delivery_times:
+                # IF time less than the user's input, packages status are changed to delivered
                 if s <= time:
                     for t in t1:
-                        if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 not in res_list:
+                        # If no
+                        if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 not in collision_list:
                             key = list(my_hash.search(t))[:]
                             truck = "Delivered on Truck 1"
                             key.insert(0, truck)
                             truck1.append(key)
                             t1.remove(t)
-
-                        if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
-                            er = find_indices(uniqueList, t)
+                        # Checks for
+                        if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in collision_list:
+                            er = find_indices(unique_list, t)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "Delivered on Truck 1"
@@ -499,15 +509,15 @@ def ui():
                                 t1.remove(y + 1)
 
                     for b in t2:
-                        if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in res_list:
+                        if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in collision_list:
                             key = list(my_hash.search(b))[:]
                             truck = "Delivered on Truck 2"
                             key.insert(0, truck)
                             truck2.append(key)
                             t2.remove(b)
 
-                        if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
-                            er = find_indices(uniqueList, b)
+                        if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in collision_list:
+                            er = find_indices(unique_list, b)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "Delivered on Truck 2"
@@ -516,14 +526,14 @@ def ui():
                                 t2.remove(y + 1)
 
                     for r in t3:
-                        if delivery_times.index(s) + 1 == r and delivery_times.index(s) + 1 not in res_list:
+                        if delivery_times.index(s) + 1 == r and delivery_times.index(s) + 1 not in collision_list:
                             key = list(my_hash.search(r))[:]
                             truck = "Delivered on Truck 3"
                             key.insert(0, truck)
                             truck3.append(key)
                             t3.remove(r)
-                        if r == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
-                            er = find_indices(uniqueList, r)
+                        if r == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in collision_list:
+                            er = find_indices(unique_list, r)
                             total = 0
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
@@ -532,18 +542,18 @@ def ui():
                                 total += 1
                                 truck3.append(key)
                                 t3.remove(y + 1)
-                # Working here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
                 if s > time >= datetime.timedelta(hours=int(8), minutes=int(0), seconds=int(0)):
                     for t in t1:
-                        if delivery_times.index(s) + 1 == t and delivery_times.index(s) + 1 not in res_list:
+                        if delivery_times.index(s) + 1 == t and delivery_times.index(s) + 1 not in collision_list:
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 1")
                             key[9] = "En Route"
                             key[10] = ""
                             truck1.append(key)
                             t1.remove(t)
-                        if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in res_list:
-                            er = find_indices(uniqueList, t)
+                        if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in collision_list:
+                            er = find_indices(unique_list, t)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "En route Truck 1"
@@ -553,9 +563,7 @@ def ui():
                                 truck1.append(key)
                                 t1.remove(y + 1)
                     for b in t2:
-                        if delivery_times.index(s) + 1 == b and delivery_times.index(
-                                s) + 1 not in res_list and time < datetime.timedelta(hours=int(9), minutes=int(5),
-                                                                                     seconds=int(0)):
+                        if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in collision_list:
                             key = my_hash.search(delivery_times.index(s) + 1)[:]
                             key.insert(0, "At hub on Truck 2")
                             key[9] = "At hub"
@@ -563,10 +571,8 @@ def ui():
                             truck2.append(key)
                             t2.remove(b)
 
-                        if b == delivery_times.index(s) + 1 and delivery_times.index(
-                                s) + 1 in res_list and time > datetime.timedelta(hours=int(9), minutes=int(5),
-                                                                                 seconds=int(0)):
-                            er = find_indices(uniqueList, b)
+                        if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in collision_list:
+                            er = find_indices(unique_list, b)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "En route Truck 2"
@@ -576,7 +582,7 @@ def ui():
 
                     for r in t3:
                         if delivery_times.index(s) + 1 == r and time < loadTruck2.return_time and delivery_times.index(
-                                s) + 1 not in res_list:
+                                s) + 1 not in collision_list:
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 3")
                             key[9] = "En Route"
@@ -584,16 +590,18 @@ def ui():
                             truck3.append(key)
                             t3.remove(r)
                         if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(
-                                s) + 1 not in res_list:
+                                s) + 1 not in collision_list:
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 3")
                             key[9] = "En Route"
                             key[10] = ""
                             truck3.append(key)
                             t3.remove(r)
+                            print("1")
                         if delivery_times.index(s) + 1 == r and time < loadTruck2.return_time and delivery_times.index(
-                                s) + 1 in res_list:
-                            er = find_indices(uniqueList, r)
+                                s) + 1 in collision_list:
+                            er = find_indices(unique_list, r)
+                            print("2")
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "En route on Truck 3"
@@ -602,9 +610,11 @@ def ui():
                                 key[10] = ""
                                 truck3.append(key)
                                 t3.remove(y + 1)
+
                         if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(
-                                s) + 1 in res_list:
-                            er = find_indices(uniqueList, r)
+                                s) + 1 in collision_list:
+                            er = find_indices(unique_list, r)
+                            print("3")
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "En route on Truck 3"
@@ -619,9 +629,9 @@ def ui():
 
             print("Truck 1", *sort(truck1), sep="\n")
             print("Truck 1 length ", len(truck1))
-            print("Truck 1", *sort(truck2), sep="\n")
+            print("Truck 2", *sort(truck2), sep="\n")
             print("Truck 2 length ", len(truck2))
-            print("Truck 1", *sort(truck3), sep="\n")
+            print("Truck 3", *sort(truck3), sep="\n")
             print("Truck 3 length ", len(truck3))
 
         except ValueError:
@@ -629,10 +639,13 @@ def ui():
     if user_input == 7:
         print("Truck 1 Depart Time ", loadTruck1.depart_time)
         print("Truck 1 Return Time ", loadTruck1.return_time)
+        print("Truck 1 Packages ", loadTruck1.packages, "\n")
         print("Truck 2 Depart Time ", loadTruck2.depart_time)
         print("Truck 2 Return Time ", loadTruck2.return_time)
+        print("Truck 2 Packages ", loadTruck2.packages, "\n")
         print("Truck 3 Depart Time ", loadTruck3.depart_time)
         print("Truck 3 Return Time ", loadTruck3.return_time)
+        print("Truck 3 Packages ", loadTruck3.packages, "\n")
 
     if user_input == 8:
         sys.exit()
