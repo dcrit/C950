@@ -364,9 +364,6 @@ def sort(truck_list):
     return sorted_list
 
 
-def MyFn(a):
-    return a[1]
-
 
 # Starting the delivery process and returning mileage from truck
 total_mileage += delivery_process(loadTruck1)
@@ -583,14 +580,16 @@ def ui():
                     for r in t3:
                         if delivery_times.index(s) + 1 == r and time < loadTruck2.return_time and delivery_times.index(
                                 s) + 1 not in collision_list:
+                            print("Here 1")
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
-                            key.insert(0, "En route on Truck 3")
-                            key[9] = "En Route"
+                            key.insert(0, "At on Truck 3")
+                            key[9] = "At hub"
                             key[10] = ""
                             truck3.append(key)
                             t3.remove(r)
                         if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(
                                 s) + 1 not in collision_list:
+                            print("Here 2")
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 3")
                             key[9] = "En Route"
@@ -601,7 +600,7 @@ def ui():
                         if delivery_times.index(s) + 1 == r and time < loadTruck2.return_time and delivery_times.index(
                                 s) + 1 in collision_list:
                             er = find_indices(unique_list, r)
-                            print("2")
+                            print("Here 3")
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "En route on Truck 3"
@@ -614,7 +613,7 @@ def ui():
                         if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(
                                 s) + 1 in collision_list:
                             er = find_indices(unique_list, r)
-                            print("3")
+                            print("Here 4")
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "En route on Truck 3"
@@ -623,7 +622,7 @@ def ui():
                                 key[10] = ""
                                 truck3.append(key)
                                 t3.remove(y + 1)
-                if s > time < datetime.timedelta(hours=int(8), minutes=int(0), seconds=int(0)):
+                if time < datetime.timedelta(hours=int(8), minutes=int(0), seconds=int(0)):
                     print("WGUPS is closed. Try another time. ")
                     break
 
