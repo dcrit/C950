@@ -74,15 +74,15 @@ load_package_data('CSV_FILES/WGUPS_Package_File.csv')
 # truck3 = [6, 25, 28, 32, 37, 39, 40, 9]
 
 truck1 = [13, 14, 15, 16, 19, 20, 27, 29, 30, 31, 33, 34, 35, 37, 39, 40]
-truck2 = [1, 3, 6, 25, 28, 32, 36, 38]
-truck3 = [2, 4, 5, 7, 8, 9, 10, 11, 12, 17, 18, 21, 22, 23, 24, 26]
+truck2 = [1, 3, 6, 18, 25, 28, 32, 36, 38]
+truck3 = [2, 4, 5, 7, 8, 9, 10, 11, 12, 17, 21, 22, 23, 24, 26]
 
 # Loading trucks
 loadTruck1 = Truck.Truck(16, 18, 1, truck1, 0.0, "4001 South 700 East", datetime.timedelta(hours=8),
                          datetime.timedelta(hours=8))
 loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime.timedelta(hours=9, minutes=5),
                          datetime.timedelta(hours=8))
-loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=8),
+loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=9, minutes=34, seconds=40),
                          datetime.timedelta(hours=8))
 
 # Total mileage variable
@@ -332,19 +332,6 @@ def correct_package_time(time):
         my_hash.insert(9, re)
         time_count += 1
 
-
-def Repeat(x):
-    _size = len(x)
-    repeated = []
-    for i in range(_size):
-        k = i + 1
-        for j in range(k, _size):
-            if x[i] == x[j] and x[i] not in repeated:
-                repeated.append(str(x[i]))
-                # print("index ", x.index(i))
-    return repeated
-
-
 # Sorts truck packages in order
 # Space-time complexity is O(n^2)
 def sort(truck_list):
@@ -447,6 +434,7 @@ def ui():
                       "Please choose different times. \n")
         except ValueError:
             print("Enter a valid time \n")
+    # Search delivered packages by ID
     if user_input == 5:
         try:
             ID = int(input("Enter package ID: "))
@@ -483,19 +471,20 @@ def ui():
             t3 = loadTruck3.packages[:]
 
             # Sorting packages and showing statuses based on time entered from the user
-            # Space-time complexity
+            # Space-time complexity O(n^2)
             for s in delivery_times:
                 # IF time less than the user's input, packages status are changed to delivered
                 if s <= time:
+                    # Searching truck 1
                     for t in t1:
-                        # If no
+                        # If no collisions update package status for truck 1
                         if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 not in collision_list:
                             key = list(my_hash.search(t))[:]
                             truck = "Delivered on Truck 1"
                             key.insert(0, truck)
                             truck1.append(key)
                             t1.remove(t)
-                        # Checks for
+                        # If there are collisions, update package based on order received for truck 1
                         if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in collision_list:
                             er = find_indices(unique_list, t)
                             for y in er:
@@ -504,15 +493,16 @@ def ui():
                                 key.insert(0, truck)
                                 truck1.append(key)
                                 t1.remove(y + 1)
-
+                    # Searching truck 2
                     for b in t2:
+                        # If no collisions update package status for truck 2
                         if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in collision_list:
                             key = list(my_hash.search(b))[:]
                             truck = "Delivered on Truck 2"
                             key.insert(0, truck)
                             truck2.append(key)
                             t2.remove(b)
-
+                        # If there are collisions, update package based on order received for truck 2
                         if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in collision_list:
                             er = find_indices(unique_list, b)
                             for y in er:
@@ -521,14 +511,16 @@ def ui():
                                 key.insert(0, truck)
                                 truck2.append(key)
                                 t2.remove(y + 1)
-
+                    # Searching truck 3
                     for r in t3:
+                        # If no collisions update package status for truck 3
                         if delivery_times.index(s) + 1 == r and delivery_times.index(s) + 1 not in collision_list:
                             key = list(my_hash.search(r))[:]
                             truck = "Delivered on Truck 3"
                             key.insert(0, truck)
                             truck3.append(key)
                             t3.remove(r)
+                        # If there are collisions, update package based on order received for truck 3
                         if r == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in collision_list:
                             er = find_indices(unique_list, r)
                             total = 0
@@ -539,9 +531,11 @@ def ui():
                                 total += 1
                                 truck3.append(key)
                                 t3.remove(y + 1)
-
+                # If user input is greater than, update packages
                 if s > time >= datetime.timedelta(hours=int(8), minutes=int(0), seconds=int(0)):
+                    # Searching Truck 1
                     for t in t1:
+                        # If no collisions update package status for truck 1
                         if delivery_times.index(s) + 1 == t and delivery_times.index(s) + 1 not in collision_list:
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 1")
@@ -549,6 +543,7 @@ def ui():
                             key[10] = ""
                             truck1.append(key)
                             t1.remove(t)
+                        # If there are collisions, update package based on order received for truck 3
                         if t == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in collision_list:
                             er = find_indices(unique_list, t)
                             for y in er:
@@ -559,16 +554,21 @@ def ui():
                                 key[10] = ""
                                 truck1.append(key)
                                 t1.remove(y + 1)
+                    # Searching Truck 2
                     for b in t2:
-                        if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 not in collision_list:
+                        # If no collisions update package status for truck 2
+                        if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 and \
+                                time < loadTruck2.depart_time not in collision_list:
                             key = my_hash.search(delivery_times.index(s) + 1)[:]
                             key.insert(0, "At hub on Truck 2")
                             key[9] = "At hub"
                             key[10] = ""
                             truck2.append(key)
                             t2.remove(b)
-
-                        if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in collision_list:
+                        # If there are collisions, update package based on order received for truck 2
+                        if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 and \
+                                time >= loadTruck2.depart_time in collision_list:
+                            print("Here 2")
                             er = find_indices(unique_list, b)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
@@ -576,31 +576,49 @@ def ui():
                                 key.insert(0, truck)
                                 truck2.append(key)
                                 t2.remove(y + 1)
-
+                        # If no collisions update package status for truck 2
+                        if delivery_times.index(s) + 1 == b and delivery_times.index(
+                            s) + 1 and time >= loadTruck2.depart_time not in collision_list:
+                            key = my_hash.search(delivery_times.index(s) + 1)[:]
+                            key.insert(0, "En route Truck 2")
+                            key[9] = "En route"
+                            key[10] = ""
+                            truck2.append(key)
+                            t2.remove(b)
+                        # If there are collisions, update package based on order received for truck 2
+                        if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 and \
+                                time < loadTruck2.depart_time in collision_list:
+                            er = find_indices(unique_list, b)
+                            for y in er:
+                                key = my_hash.search(y + 1)[:]
+                                truck = "At hub Truck 2"
+                                key.insert(0, truck)
+                                truck2.append(key)
+                                t2.remove(y + 1)
+                    # Searching Truck 3
                     for r in t3:
-                        if delivery_times.index(s) + 1 == r and time < loadTruck2.return_time and delivery_times.index(
+                        # If no collisions update package status for truck 3
+                        if delivery_times.index(s) + 1 == r and time < loadTruck3.depart_time and delivery_times.index(
                                 s) + 1 not in collision_list:
-                            print("Here 1")
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "At hub on Truck 3")
                             key[9] = "At hub"
                             key[10] = ""
                             truck3.append(key)
                             t3.remove(r)
-                        if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(
+                        # If no collisions update package status for truck 3
+                        if delivery_times.index(s) + 1 == r and time >= loadTruck3.depart_time and delivery_times.index(
                                 s) + 1 not in collision_list:
-                            print("Here 2")
                             key = list(my_hash.search(delivery_times.index(s) + 1))[:]
                             key.insert(0, "En route on Truck 3")
                             key[9] = "En Route"
                             key[10] = ""
                             truck3.append(key)
                             t3.remove(r)
-                            print("1")
-                        if delivery_times.index(s) + 1 == r and time < loadTruck2.return_time and delivery_times.index(
+                        # If there are collisions, update package based on order received for truck 3
+                        if delivery_times.index(s) + 1 == r and time < loadTruck3.depart_time and delivery_times.index(
                                 s) + 1 in collision_list:
                             er = find_indices(unique_list, r)
-                            print("Here 3")
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "At hub on Truck 3"
@@ -610,10 +628,10 @@ def ui():
                                 truck3.append(key)
                                 t3.remove(y + 1)
 
-                        if delivery_times.index(s) + 1 == r and time > loadTruck2.return_time and delivery_times.index(
+                        # If there are collisions, update package based on order received for truck 3
+                        if delivery_times.index(s) + 1 == r and time >= loadTruck3.depart_time and delivery_times.index(
                                 s) + 1 in collision_list:
                             er = find_indices(unique_list, r)
-                            print("Here 4")
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "En route on Truck 3"
@@ -622,19 +640,19 @@ def ui():
                                 key[10] = ""
                                 truck3.append(key)
                                 t3.remove(y + 1)
+                # Tells the user put time that is valid
                 if time < datetime.timedelta(hours=int(8), minutes=int(0), seconds=int(0)):
                     print("WGUPS is closed. Try another time. ")
                     break
-
+            # Print statuses
             print("Truck 1", *sort(truck1), sep="\n")
-            print("Truck 1 length ", len(truck1))
             print("Truck 2", *sort(truck2), sep="\n")
-            print("Truck 2 length ", len(truck2))
             print("Truck 3", *sort(truck3), sep="\n")
-            print("Truck 3 length ", len(truck3))
+
 
         except ValueError:
             print("Please enter a valid time ")
+    # Shows truck time and packages
     if user_input == 7:
         print("Truck 1 Depart Time ", loadTruck1.depart_time)
         print("Truck 1 Return Time ", loadTruck1.return_time)
@@ -649,6 +667,4 @@ def ui():
     if user_input == 8:
         sys.exit()
     ui()
-
-
 ui()
