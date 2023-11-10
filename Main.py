@@ -350,8 +350,6 @@ def sort(truck_list):
 
     return sorted_list
 
-
-
 # Starting the delivery process and returning mileage from truck
 total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
@@ -365,18 +363,17 @@ def ui():
     truck2 = []
     truck3 = []
 
-    here = []
-    two = []
+    packages = []
+    delivery_times = []
     pack = 1
     while pack < 41:
-        here.append(my_hash.search(pack))
+        packages.append(my_hash.search(pack))
         u = my_hash.search(pack)[9]
         (hours, minutes, seconds) = u.split(":")
         time_convert = datetime.timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
-        two.append(time_convert)
+        delivery_times.append(time_convert)
         pack += 1
-    packages = here[:]
-    delivery_times = two[:]
+
     # Adding packages to a list
     # Space-time complexity O(n)
 
