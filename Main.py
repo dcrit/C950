@@ -74,8 +74,8 @@ load_package_data('CSV_FILES/WGUPS_Package_File.csv')
 # truck3 = [6, 25, 28, 32, 37, 39, 40, 9]
 
 truck1 = [13, 14, 15, 16, 19, 20, 27, 29, 30, 31, 33, 34, 35, 37, 39, 40]
-truck2 = [1, 3, 6, 18, 25, 28, 32, 36, 38]
-truck3 = [2, 4, 5, 7, 8, 9, 10, 11, 12, 17, 21, 22, 23, 24, 26]
+truck2 = [1, 3, 6, 18, 25, 28, 32, 36, 38, 9]
+truck3 = [2, 4, 5, 7, 8, 10, 11, 12, 17, 21, 22, 23, 24, 26]
 
 # Loading trucks
 loadTruck1 = Truck.Truck(16, 18, 1, truck1, 0.0, "4001 South 700 East", datetime.timedelta(hours=8),
@@ -106,6 +106,8 @@ def delivery_process(truck):
     cleaned_list = []
     mileage_list = []
 
+
+
     # Adding all addresses to a list
     # Space-time complexity O(1)
     for col in address_list():
@@ -115,13 +117,22 @@ def delivery_process(truck):
     # Space-time complexity O(1)
     for packageID in truck.packages:
         # Adding Keys to a list
-        package_keys.append(packageID)
-        # Adding all delivery addresses to a list
-        mileage = str(my_hash.search(packageID))
-        package = mileage.split(", ")
-        package[8] = "En route"
-        my_hash.insert(packageID, package)
-        list_of_delivery_addresses.append(package[1])
+        if packageID != 9:
+            package_keys.append(packageID)
+            print(packageID)
+            # Adding all delivery addresses to a list
+            mileage = str(my_hash.search(packageID))
+            package = mileage.split(", ")
+            package[8] = "En route"
+            my_hash.insert(packageID, package)
+            list_of_delivery_addresses.append(package[1])
+        # Updating package 9
+        if packageID == 9:
+            key = str(my_hash.search(9))
+            package = key.split(", ")
+            package[8] = "En route"
+            my_hash.insert(packageID, package)
+
 
     # Getting indexes of packages being delivered
     # Space-time complexity O(n^2)
@@ -188,16 +199,25 @@ def delivery_process(truck):
                 key_value = my_hash.search(y)
                 # Checking status of package and updating
                 if key_value[8] == "En route":
-                    key_value[8] = "Delivered"
                     delivery_time = (shortest_route / 18) * 60 * 60
                     dts = datetime.timedelta(seconds=delivery_time)
                     depart_time = depart_time + dts
                     key_value[9] = str(depart_time)
-                    correct_package_time(depart_time)
+                    # correct_package_time(depart_time)
                     my_hash.insert(y, key_value)
                     index_for_current_position = collision_on_cleaned_list[0]
                     p = int(collision_on_cleaned_list[0])
                     indexes_of_packages.remove(p)
+                    print("Depart time 1 ", depart_time)
+                    if depart_time >= datetime.timedelta(hours=10, minutes=20, seconds=0):
+                        key = my_hash.search(9)
+                        key[1] = "410 S State St"
+                        key[7] = "Address Corrected"
+                        print("my key ", key)
+                        print("indexes of packages ", indexes_of_packages)
+                        print("Greater 1", depart_time)
+                        print("key ", key_value)
+
             # Handles collisions values on clean list and updates packages
             # Space-time complexity O(n^2)
             if mileage == shortest_route and collision_on_route == 1 and len(
@@ -208,17 +228,43 @@ def delivery_process(truck):
                         if package_id == duplicate:
                             package_id = package_keys[comparative_list.index(package_id)]
                             key_value = my_hash.search(package_id)
+
                             if key_value[8] == "En route":
                                 key_value[8] = "Delivered"
                                 delivery_time = (shortest_route / 18) * 60 * 60
                                 dts = datetime.timedelta(seconds=delivery_time)
                                 depart_time = depart_time + dts
                                 key_value[9] = str(depart_time)
-                                correct_package_time(depart_time)
+                                # correct_package_time(depart_time)
                                 my_hash.insert(package_id, key_value)
+                                print("DFGSDFGASDFG ", index_for_current_position)
                                 index_for_current_position = duplicate
                                 truck_mileage += shortest_route
                                 indexes_of_packages.remove(duplicate)
+                                print("Depart time 2 ", depart_time)
+                            if depart_time >= datetime.timedelta(hours=10, minutes=20, seconds=0 and len(indexes_of_packages) == 0):
+
+                                print("Greater 2", depart_time)
+                                print("shortest route ", shortest_route)
+                                print("GGGGG ", indexes_of_packages)
+                                print("id ", key_value[0])
+                                print("Index postin ", index_for_current_position)
+                                print("Cleaned List ", cleaned_list)
+                                print("key ", key_value)
+                                package_9_list = []
+                                package_9_row = csv_distance[index_for_current_position]
+                                print("Row 9 ", package_9_row)
+                                package_9_col = []
+                                for column in csv_distance:
+                                    package_9_col.append(column[index_for_current_position])
+                                package_9_col.remove('0')
+                                print("package 9 col ", package_9_col)
+                                package_9_row.extend(package_9_col)
+                                for cell in package_9_col:
+                                    if cell != "":
+                                        package_9_list.append(float(cell))
+                                print("Package 9 list ", package_9_list)
+
 
             # Handles collisions on route and updates package
             # Space-time complexity O(n)
@@ -247,7 +293,10 @@ def delivery_process(truck):
                         key_value[8] = "Delivered"
                         key_value[9] = str(depart_time)
                         my_hash.insert(package_id, key_value)
-                        correct_package_time(depart_time)
+                        print("Depart time 3 ", depart_time)
+                    if depart_time >= datetime.timedelta(hours=10, minutes=20, seconds=0):
+                        print("Greater 3", depart_time)
+
                 # Removing delivered package for route
                 indexes_of_packages = remove_delivered_package(indexes_of_packages, duplicate)
                 # Updating position
@@ -269,13 +318,17 @@ def delivery_process(truck):
                             dts = datetime.timedelta(seconds=delivery_time)
                             depart_time = depart_time + dts
                             key_value[9] = str(depart_time)
-                            correct_package_time(depart_time)
+                            # correct_package_time(depart_time)
                             my_hash.insert(key, key_value)
                             indexes_of_packages.remove(first_package)
                             index_for_current_position = first_package
+                            print("Depart time 4 ", depart_time)
+                            if depart_time >= datetime.timedelta(hours=10, minutes=20, seconds=0):
+                                print("Greater 4", depart_time)
 
         # Returning to hub on last delivery
         if len(indexes_of_packages) == 0:
+            print("Clrssdfsd lidy ", cleaned_list)
             delivery_time = (mileage_list[0] / 18) * 60 * 60
             dts = datetime.timedelta(seconds=delivery_time)
             return_time = depart_time + dts
@@ -309,7 +362,6 @@ def remove_delivered_package(list, item):
             res.append(t)
     return res
 
-
 # Finding indices of a value in a list
 # Space-time complexity O(n)
 def find_indices(list, value):
@@ -321,16 +373,16 @@ def find_indices(list, value):
 
 # Correct Address of Package 9 at 10:20:00
 # Space-time complexity O(n)
-def correct_package_time(time):
-    time_correction = datetime.timedelta(hours=10, minutes=20, seconds=00)
-    global time_count
-    if time >= time_correction and time_count == 0:
-        re = str(my_hash.search(9)).split(',')
-        re[1] = "410 S State St"
-        re[7] = "Address Corrected"
-        re = ', '.join(re)
-        my_hash.insert(9, re)
-        time_count += 1
+# def correct_package_time(time):
+#     time_correction = datetime.timedelta(hours=10, minutes=20, seconds=00)
+#     global time_count
+#     if time >= time_correction and time_count == 0:
+#         re = str(my_hash.search(9)).split(',')
+#         re[1] = "410 S State St"
+#         re[7] = "Address Corrected"
+#         re = ', '.join(re)
+#         my_hash.insert(9, re)
+#         time_count += 1
 
 # Sorts truck packages in order
 # Space-time complexity is O(n^2)
@@ -351,9 +403,9 @@ def sort(truck_list):
     return sorted_list
 
 # Starting the delivery process and returning mileage from truck
-total_mileage += delivery_process(loadTruck1)
+# total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
-total_mileage += delivery_process(loadTruck3)
+# total_mileage += delivery_process(loadTruck3)
 
 
 # User Interface
