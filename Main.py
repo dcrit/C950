@@ -82,7 +82,8 @@ loadTruck1 = Truck.Truck(16, 18, 1, truck1, 0.0, "4001 South 700 East", datetime
                          datetime.timedelta(hours=8))
 loadTruck2 = Truck.Truck(16, 18, 2, truck2, 0.0, "4001 South 700 East", datetime.timedelta(hours=9, minutes=5),
                          datetime.timedelta(hours=8))
-loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East", datetime.timedelta(hours=9, minutes=34, seconds=40),
+loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East",
+                         datetime.timedelta(hours=9, minutes=34, seconds=40),
                          datetime.timedelta(hours=8))
 
 # Total mileage variable
@@ -96,6 +97,7 @@ def delivery_process(truck):
     truck_mileage = 0.0
     depart_time = truck.depart_time
     index_for_current_position = 0
+    package_9_bool = False
 
     # Emtpy lists needed for my delivery process
     column_distant_list = []
@@ -105,8 +107,6 @@ def delivery_process(truck):
     indexes_of_packages = []
     cleaned_list = []
     mileage_list = []
-
-
 
     # Adding all addresses to a list
     # Space-time complexity O(1)
@@ -132,7 +132,7 @@ def delivery_process(truck):
             package = key.split(", ")
             package[8] = "En route"
             my_hash.insert(packageID, package)
-
+            package_9_bool = True
 
     # Getting indexes of packages being delivered
     # Space-time complexity O(n^2)
@@ -237,34 +237,13 @@ def delivery_process(truck):
                                 key_value[9] = str(depart_time)
                                 # correct_package_time(depart_time)
                                 my_hash.insert(package_id, key_value)
-                                print("DFGSDFGASDFG ", index_for_current_position)
                                 index_for_current_position = duplicate
                                 truck_mileage += shortest_route
                                 indexes_of_packages.remove(duplicate)
                                 print("Depart time 2 ", depart_time)
-                            if depart_time >= datetime.timedelta(hours=10, minutes=20, seconds=0 and len(indexes_of_packages) == 0):
-
-                                print("Greater 2", depart_time)
-                                print("shortest route ", shortest_route)
-                                print("GGGGG ", indexes_of_packages)
-                                print("id ", key_value[0])
+                            if depart_time >= datetime.timedelta(hours=10, minutes=20,
+                                                                 seconds=0 and len(indexes_of_packages) == 0):
                                 print("Index postin ", index_for_current_position)
-                                print("Cleaned List ", cleaned_list)
-                                print("key ", key_value)
-                                package_9_list = []
-                                package_9_row = csv_distance[index_for_current_position]
-                                print("Row 9 ", package_9_row)
-                                package_9_col = []
-                                for column in csv_distance:
-                                    package_9_col.append(column[index_for_current_position])
-                                package_9_col.remove('0')
-                                print("package 9 col ", package_9_col)
-                                package_9_row.extend(package_9_col)
-                                for cell in package_9_col:
-                                    if cell != "":
-                                        package_9_list.append(float(cell))
-                                print("Package 9 list ", package_9_list)
-
 
             # Handles collisions on route and updates package
             # Space-time complexity O(n)
@@ -325,10 +304,42 @@ def delivery_process(truck):
                             print("Depart time 4 ", depart_time)
                             if depart_time >= datetime.timedelta(hours=10, minutes=20, seconds=0):
                                 print("Greater 4", depart_time)
+        # Workiong here!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if len(indexes_of_packages) == 0 and package_9_bool:
+
+            package_9_list = []
+            package_9_row = csv_distance[index_for_current_position]
+            package_9_col = []
+            for column in csv_distance:
+                package_9_col.append(column[index_for_current_position])
+            package_9_col.remove('0')
+            package_9_row.extend(package_9_col)
+
+            print("package 9 col ", package_9_col)
+
+            for cell in package_9_row:
+                if cell != "":
+                    package_9_list.append(float(cell))
+            print("Package 9 list ", package_9_list)
+            print("Package 9 list ", len(package_9_list))
+            print("Mileage to 9 ", package_9_list[19])
+            key_value = my_hash.search(9)
+            print("YOOOO ", key_value)
+            if key_value[8] == "En route":
+                key_value[8] = "Delivered"
+                delivery_time = (shortest_route / 18) * 60 * 60
+                dts = datetime.timedelta(seconds=delivery_time)
+                depart_time = depart_time + dts
+                key_value[9] = str(depart_time)
+                # correct_package_time(depart_time)
+                my_hash.insert(key, key_value)
+                indexes_of_packages.remove(first_package)
+                index_for_current_position = first_package
+
+            package_9_bool = False
 
         # Returning to hub on last delivery
-        if len(indexes_of_packages) == 0:
-            print("Clrssdfsd lidy ", cleaned_list)
+        if len(indexes_of_packages) == 0 and package_9_bool == False:
             delivery_time = (mileage_list[0] / 18) * 60 * 60
             dts = datetime.timedelta(seconds=delivery_time)
             return_time = depart_time + dts
@@ -361,6 +372,7 @@ def remove_delivered_package(list, item):
         if t != item:
             res.append(t)
     return res
+
 
 # Finding indices of a value in a list
 # Space-time complexity O(n)
@@ -402,9 +414,12 @@ def sort(truck_list):
 
     return sorted_list
 
+
 # Starting the delivery process and returning mileage from truck
 # total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
+
+
 # total_mileage += delivery_process(loadTruck3)
 
 
@@ -627,7 +642,7 @@ def ui():
                                 t2.remove(y + 1)
                         # If no collisions update package status for truck 2
                         if delivery_times.index(s) + 1 == b and delivery_times.index(
-                            s) + 1 and time >= loadTruck2.depart_time not in collision_list:
+                                s) + 1 and time >= loadTruck2.depart_time not in collision_list:
                             key = my_hash.search(delivery_times.index(s) + 1)[:]
                             key.insert(0, "En route Truck 2")
                             key[9] = "En route"
@@ -716,4 +731,6 @@ def ui():
     if user_input == 8:
         sys.exit()
     ui()
+
+
 ui()
