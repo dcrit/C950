@@ -68,13 +68,9 @@ def load_package_data(csvFile):
 # Reading CSV Package file with load package method
 load_package_data('CSV_FILES/WGUPS_Package_File.csv')
 
-# Designating packages to trucks
-# truck1 = [1, 2, 4, 5, 7, 8, 10, 11, 12, 21, 22, 23, 24, 26, 27, 29]
-# truck2 = [3, 18, 36, 38, 13, 14, 15, 16, 17, 19, 20, 30, 31, 33, 34, 35]
-# truck3 = [6, 25, 28, 32, 37, 39, 40, 9]
-
+# Manually loading trucks
 truck1 = [13, 14, 15, 16, 19, 20, 27, 29, 30, 31, 33, 34, 35, 37, 39, 40]
-truck2 = [1, 3, 6, 18, 25, 28, 32, 36, 38, 9]
+truck2 = [1, 3, 6, 9, 18, 25, 28, 32, 36, 38]
 truck3 = [2, 4, 5, 7, 8, 10, 11, 12, 17, 21, 22, 23, 24, 26]
 
 # Loading trucks
@@ -88,7 +84,6 @@ loadTruck3 = Truck.Truck(16, 18, 3, truck3, 0.0, "4001 South 700 East",
 
 # Total mileage variable
 total_mileage = 0.0
-time_count = 0
 
 
 # Delivery Process method
@@ -119,14 +114,13 @@ def delivery_process(truck):
         # Adding Keys to a list
         if packageID != 9:
             package_keys.append(packageID)
-            print(packageID)
             # Adding all delivery addresses to a list
             mileage = str(my_hash.search(packageID))
             package = mileage.split(", ")
             package[8] = "En route"
             my_hash.insert(packageID, package)
             list_of_delivery_addresses.append(package[1])
-        # Updating package 9
+        # Updating the incorrect package
         if packageID == 9:
             key = str(my_hash.search(9))
             package = key.split(", ")
@@ -203,20 +197,16 @@ def delivery_process(truck):
                     dts = datetime.timedelta(seconds=delivery_time)
                     depart_time = depart_time + dts
                     key_value[9] = str(depart_time)
-                    # correct_package_time(depart_time)
                     my_hash.insert(y, key_value)
                     index_for_current_position = collision_on_cleaned_list[0]
                     p = int(collision_on_cleaned_list[0])
                     indexes_of_packages.remove(p)
-                    print("Depart time 1 ", depart_time)
+                    # Once time is equal too or greater than 10:20, package 9 is corrected
                     if depart_time >= datetime.timedelta(hours=10, minutes=20, seconds=0):
                         key = my_hash.search(9)
                         key[1] = "410 S State St"
                         key[7] = "Address Corrected"
-                        print("my key ", key)
-                        print("indexes of packages ", indexes_of_packages)
-                        print("Greater 1", depart_time)
-                        print("key ", key_value)
+                        my_hash.insert(9, key)
 
             # Handles collisions values on clean list and updates packages
             # Space-time complexity O(n^2)
@@ -228,7 +218,6 @@ def delivery_process(truck):
                         if package_id == duplicate:
                             package_id = package_keys[comparative_list.index(package_id)]
                             key_value = my_hash.search(package_id)
-
                             if key_value[8] == "En route":
                                 key_value[8] = "Delivered"
                                 delivery_time = (shortest_route / 18) * 60 * 60
@@ -240,10 +229,6 @@ def delivery_process(truck):
                                 index_for_current_position = duplicate
                                 truck_mileage += shortest_route
                                 indexes_of_packages.remove(duplicate)
-                                print("Depart time 2 ", depart_time)
-                            if depart_time >= datetime.timedelta(hours=10, minutes=20,
-                                                                 seconds=0 and len(indexes_of_packages) == 0):
-                                print("Index postin ", index_for_current_position)
 
             # Handles collisions on route and updates package
             # Space-time complexity O(n)
@@ -272,9 +257,6 @@ def delivery_process(truck):
                         key_value[8] = "Delivered"
                         key_value[9] = str(depart_time)
                         my_hash.insert(package_id, key_value)
-                        print("Depart time 3 ", depart_time)
-                    if depart_time >= datetime.timedelta(hours=10, minutes=20, seconds=0):
-                        print("Greater 3", depart_time)
 
                 # Removing delivered package for route
                 indexes_of_packages = remove_delivered_package(indexes_of_packages, duplicate)
@@ -301,10 +283,9 @@ def delivery_process(truck):
                             my_hash.insert(key, key_value)
                             indexes_of_packages.remove(first_package)
                             index_for_current_position = first_package
-                            print("Depart time 4 ", depart_time)
-                            if depart_time >= datetime.timedelta(hours=10, minutes=20, seconds=0):
-                                print("Greater 4", depart_time)
-        # Workiong here!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        # Delivering package 9 to it's correct address
+        # Space-time complexity O(n)
         if len(indexes_of_packages) == 0 and package_9_bool:
 
             package_9_list = []
@@ -314,28 +295,19 @@ def delivery_process(truck):
                 package_9_col.append(column[index_for_current_position])
             package_9_col.remove('0')
             package_9_row.extend(package_9_col)
-
-            print("package 9 col ", package_9_col)
-
             for cell in package_9_row:
                 if cell != "":
                     package_9_list.append(float(cell))
-            print("Package 9 list ", package_9_list)
-            print("Package 9 list ", len(package_9_list))
-            print("Mileage to 9 ", package_9_list[19])
             key_value = my_hash.search(9)
-            print("YOOOO ", key_value)
             if key_value[8] == "En route":
                 key_value[8] = "Delivered"
                 delivery_time = (shortest_route / 18) * 60 * 60
                 dts = datetime.timedelta(seconds=delivery_time)
                 depart_time = depart_time + dts
                 key_value[9] = str(depart_time)
-                # correct_package_time(depart_time)
-                my_hash.insert(key, key_value)
-                indexes_of_packages.remove(first_package)
-                index_for_current_position = first_package
-
+                my_hash.insert(9, key_value)
+                truck_mileage += package_9_list[9]
+            mileage_list = package_9_list
             package_9_bool = False
 
         # Returning to hub on last delivery
@@ -383,19 +355,6 @@ def find_indices(list, value):
     ]
 
 
-# Correct Address of Package 9 at 10:20:00
-# Space-time complexity O(n)
-# def correct_package_time(time):
-#     time_correction = datetime.timedelta(hours=10, minutes=20, seconds=00)
-#     global time_count
-#     if time >= time_correction and time_count == 0:
-#         re = str(my_hash.search(9)).split(',')
-#         re[1] = "410 S State St"
-#         re[7] = "Address Corrected"
-#         re = ', '.join(re)
-#         my_hash.insert(9, re)
-#         time_count += 1
-
 # Sorts truck packages in order
 # Space-time complexity is O(n^2)
 def sort(truck_list):
@@ -416,11 +375,9 @@ def sort(truck_list):
 
 
 # Starting the delivery process and returning mileage from truck
-# total_mileage += delivery_process(loadTruck1)
+total_mileage += delivery_process(loadTruck1)
 total_mileage += delivery_process(loadTruck2)
-
-
-# total_mileage += delivery_process(loadTruck3)
+total_mileage += delivery_process(loadTruck3)
 
 
 # User Interface
@@ -566,9 +523,11 @@ def ui():
                             key.insert(0, truck)
                             truck2.append(key)
                             t2.remove(b)
+                            print("here 1 ", b)
                         # If there are collisions, update package based on order received for truck 2
                         if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in collision_list:
                             er = find_indices(unique_list, b)
+                            print("here 2 ", er)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "Delivered on Truck 2"
@@ -623,17 +582,28 @@ def ui():
                         # If no collisions update package status for truck 2
                         if delivery_times.index(s) + 1 == b and delivery_times.index(s) + 1 and \
                                 time < loadTruck2.depart_time not in collision_list:
-                            key = my_hash.search(delivery_times.index(s) + 1)[:]
-                            key.insert(0, "At hub on Truck 2")
-                            key[9] = "At hub"
-                            key[10] = ""
-                            truck2.append(key)
+                            if b != 9:
+                                key = my_hash.search(delivery_times.index(s) + 1)[:]
+                                key.insert(0, "At hub on Truck 2")
+                                key[9] = "At hub"
+                                key[10] = ""
+                                truck2.append(key)
+                            if b == 9:
+                                key = my_hash.search(9)[:]
+                                key.insert(0, "At hub on Truck 2")
+                                key[2] = "300 State St"
+                                key[8] = "*Wrong address listed"
+                                key[9] = "At Hub"
+                                key[10] = ""
+                                truck2.append(key)
+                                print("Here 3 ", key)
                             t2.remove(b)
+
                         # If there are collisions, update package based on order received for truck 2
                         if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 and \
                                 time >= loadTruck2.depart_time in collision_list:
-                            print("Here 2")
                             er = find_indices(unique_list, b)
+                            print("Here 2 ", er)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "En route Truck 2"
@@ -643,22 +613,47 @@ def ui():
                         # If no collisions update package status for truck 2
                         if delivery_times.index(s) + 1 == b and delivery_times.index(
                                 s) + 1 and time >= loadTruck2.depart_time not in collision_list:
-                            key = my_hash.search(delivery_times.index(s) + 1)[:]
-                            key.insert(0, "En route Truck 2")
-                            key[9] = "En route"
-                            key[10] = ""
-                            truck2.append(key)
+                            if b != 9:
+                                key = my_hash.search(delivery_times.index(s) + 1)[:]
+                                key.insert(0, "En route on Truck 2")
+                                key[9] = "En route"
+                                key[10] = ""
+                                truck2.append(key)
+                            if b == 9 and time < datetime.timedelta(hours=int(10), minutes=int(20), seconds=int(0)):
+                                key = my_hash.search(9)[:]
+                                key.insert(0, "En route on Truck 2")
+                                key[2] = "300 State St"
+                                key[8] = "*Wrong address listed"
+                                key[9] = "En Route"
+                                key[10] = ""
+                                print("Key ", key)
+                                truck2.append(key)
+                                print("Here 3 ", my_hash.search(b))
+                            if b == 9 and time >= datetime.timedelta(hours=int(10), minutes=int(20), seconds=int(0)):
+                                key = my_hash.search(9)[:]
+                                key.insert(0, "En route on Truck 2")
+                                key[2] = "410 S State St"
+                                key[8] = "Address corrected"
+                                key[9] = "En Route"
+                                key[10] = ""
+                                print("Key ", key)
+                                truck2.append(key)
+                                print("Here 3 ", my_hash.search(b))
+
                             t2.remove(b)
+
                         # If there are collisions, update package based on order received for truck 2
                         if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 and \
                                 time < loadTruck2.depart_time in collision_list:
                             er = find_indices(unique_list, b)
+                            print("Here 4 ", er)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "At hub Truck 2"
                                 key.insert(0, truck)
                                 truck2.append(key)
                                 t2.remove(y + 1)
+                                print("YOYOYOY ", y)
                     # Searching Truck 3
                     for r in t3:
                         # If no collisions update package status for truck 3
@@ -712,8 +707,6 @@ def ui():
             print("Truck 1", *sort(truck1), sep="\n")
             print("Truck 2", *sort(truck2), sep="\n")
             print("Truck 3", *sort(truck3), sep="\n")
-
-
         except ValueError:
             print("Please enter a valid time ")
     # Shows truck time and packages
