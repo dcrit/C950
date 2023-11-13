@@ -503,6 +503,7 @@ def ui():
                             key = list(my_hash.search(t))[:]
                             truck = "Delivered on Truck 1"
                             key.insert(0, truck)
+                            key[9] = "Delivered"
                             truck1.append(key)
                             t1.remove(t)
                         # If there are collisions, update package based on order received for truck 1
@@ -512,6 +513,7 @@ def ui():
                                 key = my_hash.search(y + 1)[:]
                                 truck = "Delivered on Truck 1"
                                 key.insert(0, truck)
+                                key[9] = "Delivered"
                                 truck1.append(key)
                                 t1.remove(y + 1)
                     # Searching truck 2
@@ -521,17 +523,17 @@ def ui():
                             key = list(my_hash.search(b))[:]
                             truck = "Delivered on Truck 2"
                             key.insert(0, truck)
+                            key[9] = "Delivered"
                             truck2.append(key)
                             t2.remove(b)
-                            print("here 1 ", b)
                         # If there are collisions, update package based on order received for truck 2
                         if b == delivery_times.index(s) + 1 and delivery_times.index(s) + 1 in collision_list:
                             er = find_indices(unique_list, b)
-                            print("here 2 ", er)
                             for y in er:
                                 key = my_hash.search(y + 1)[:]
                                 truck = "Delivered on Truck 2"
                                 key.insert(0, truck)
+                                key[9] = "Delivered"
                                 truck2.append(key)
                                 t2.remove(y + 1)
                     # Searching truck 3
@@ -541,6 +543,7 @@ def ui():
                             key = list(my_hash.search(r))[:]
                             truck = "Delivered on Truck 3"
                             key.insert(0, truck)
+                            key[9] = "Delivered"
                             truck3.append(key)
                             t3.remove(r)
                         # If there are collisions, update package based on order received for truck 3
@@ -551,7 +554,7 @@ def ui():
                                 key = my_hash.search(y + 1)[:]
                                 truck = "Delivered on Truck 3"
                                 key.insert(0, truck)
-                                total += 1
+                                key[9] = "Delivered"
                                 truck3.append(key)
                                 t3.remove(y + 1)
                 # If user input is greater than, update packages
